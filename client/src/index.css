@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --color-gold-50: #fbf8ee;
+  --color-gold-100: #f5eed3;
+  --color-gold-200: #ebdca7;
+  --color-gold-300: #dfc374;
+  --color-gold-400: #d4af37;
+  --color-gold-500: #c59b27;
+  --color-gold-600: #a77c1d;
+  --color-gold-700: #855e1b;
+
+  --color-sangria-50: #fdf2f4;
+  --color-sangria-100: #fbe5e8;
+  --color-sangria-500: #d64765;
+  --color-sangria-600: #b21236;
+  --color-sangria-700: #931a25;
+  --color-sangria-800: #7a121d;
+  --color-sangria-900: #520912;
+
+  --color-dark-900: #0d0c0c;
+  --color-dark-850: #121110;
+  --color-dark-800: #191817;
+  --color-dark-750: #22201e;
+  --color-dark-700: #2d2a27;
+
+  --color-cream-50: #fdfcf9;
+  --color-cream-100: #fbf9f5;
+  --color-cream-200: #f5f0e6;
+  --color-cream-300: #ece4d5;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background-color: #0d0c0c;
+  color: #f5f0e6;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #121110;
+}
+::-webkit-scrollbar-thumb {
+  background: #2d2a27;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c59b27;
+}
+
+/* Smooth selection */
+::selection {
+  background-color: #b21236;
+  color: #ffffff;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(25, 24, 23, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.glass-nav {
+  background: rgba(13, 12, 12, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+/* Reduced-motion accessibility support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
