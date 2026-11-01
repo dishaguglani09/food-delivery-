@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Reusable Empty State Component
+// The Indian Rasoi — Reusable Empty State Component
 // Used across empty orders, empty filters, empty cart, etc.
 // ============================================================================
 

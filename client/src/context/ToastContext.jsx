@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Toast Notification Context
+// The Indian Rasoi — Toast Notification Context
 // Provides polished feedback across all customer touchpoints
 // ============================================================================
 

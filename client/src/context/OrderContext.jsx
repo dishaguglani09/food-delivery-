@@ -131,7 +131,7 @@ export const OrderProvider = ({ children }) => {
   const { showToast } = useToast();
   const [orders, setOrders] = useState(() => {
     try {
-      const stored = localStorage.getItem('indian_rasoi_orders') || localStorage.getItem('casa_topaz_orders');
+      const stored = localStorage.getItem('indian_rasoi_orders');
       return stored ? JSON.parse(stored) : INITIAL_SAMPLE_ORDERS;
     } catch {
       return INITIAL_SAMPLE_ORDERS;
@@ -150,7 +150,7 @@ export const OrderProvider = ({ children }) => {
   // Load authenticated customer's real orders from backend on mount
   useEffect(() => {
     const fetchUserOrders = async () => {
-      const token = localStorage.getItem('indian_rasoi_token') || localStorage.getItem('casa_topaz_token');
+      const token = localStorage.getItem('indian_rasoi_token');
       if (!token) return;
       try {
         const backendOrders = await orderService.getMyOrders();

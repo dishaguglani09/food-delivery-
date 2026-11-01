@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Home Page View
+// The Indian Rasoi — Home Page View
 // Assembles all signature sections into an atmospheric, seamless culinary journey.
 // ============================================================================
 

@@ -16,10 +16,10 @@ const createAdmin = async () => {
   if (!mongoUri || mongoUri.includes('<username>') || mongoUri.includes('<password>')) {
     console.error(`
 ========================================================================
-[CASA TÒPAZ Admin Script] ⚠️ Cannot connect: MONGODB_URI is not set.
+[The Indian Rasoi Admin Script] ⚠️ Cannot connect: MONGODB_URI is not set.
 ========================================================================
 Please configure your MongoDB Atlas connection string in server/.env:
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/casa_topaz?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/the_indian_rasoi?retryWrites=true&w=majority
 ========================================================================
 `);
     process.exit(1);

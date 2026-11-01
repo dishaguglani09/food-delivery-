@@ -173,7 +173,7 @@ export default function ContactSection() {
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="e.g. Alexandre Dubois"
+                        placeholder="e.g. Rohan Verma"
                         className="w-full px-4 py-3 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 transition-colors"
                       />
                     </div>
@@ -187,7 +187,7 @@ export default function ContactSection() {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="name@example.ch"
+                        placeholder="name@example.com"
                         className="w-full px-4 py-3 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 transition-colors"
                       />
                     </div>
@@ -202,7 +202,7 @@ export default function ContactSection() {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+41 79 123 45 67"
+                        placeholder="+91 98765 43210"
                         className="w-full px-4 py-3 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 transition-colors"
                       />
                     </div>
@@ -217,7 +217,7 @@ export default function ContactSection() {
                         className="w-full px-4 py-3 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400 transition-colors cursor-pointer"
                       >
                         <option value="General Inquiry / Table Booking">General Inquiry / Table Booking</option>
-                        <option value="Private Event & Tapas Catering">Private Event & Tapas Catering</option>
+                        <option value="Private Event & Rasoi Catering">Private Event & Rasoi Catering</option>
                         <option value="Wine Cellar Allocation & Vintages">Wine Cellar Allocation & Vintages</option>
                         <option value="Allergens & Dietary Requirements">Allergens & Dietary Requirements</option>
                       </select>

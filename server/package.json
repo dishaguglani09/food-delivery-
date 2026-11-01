@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "CASA TÒPAZ — Backend API Service",
+  "description": "The Indian Rasoi — Backend API Service",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

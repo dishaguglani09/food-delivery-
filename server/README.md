@@ -1,6 +1,6 @@
-# CASA TÒPAZ — Backend API Service
+# The Indian Rasoi — Backend API Service
 
-Haute Gastronomie & Tapas d'Auteur REST API powered by **Express.js** and **MongoDB (Mongoose)**.
+Authentic Indian Cuisine & Royal Biryanis REST API powered by **Express.js** and **MongoDB (Mongoose)**.
 
 ---
 
@@ -25,7 +25,7 @@ cp .env.example .env
 | Variable | Required | Description | Example |
 | :--- | :---: | :--- | :--- |
 | `PORT` | No | Port on which the API listens (defaults to `5000`) | `5000` |
-| `MONGODB_URI` | **Yes** | MongoDB Atlas or local connection string | `mongodb+srv://<user>:<password>@cluster0.mongodb.net/casa_topaz?retryWrites=true&w=majority` |
+| `MONGODB_URI` | **Yes** | MongoDB Atlas or local connection string | `mongodb+srv://<user>:<password>@cluster0.mongodb.net/the_indian_rasoi?retryWrites=true&w=majority` |
 | `JWT_SECRET` | **Yes** | Secret key for signing customer and admin tokens | `your_secret_jwt_key_here` |
 | `CLIENT_URL` | No | Frontend URL for CORS whitelisting | `http://localhost:5173` |
 | `NODE_ENV` | No | Environment mode (`development` or `production`) | `development` |
@@ -41,7 +41,7 @@ To connect the application to MongoDB Atlas:
 3. **Configure Database Access**:
    - In Atlas, navigate to **Security** → **Database Access**.
    - Click **Add New Database User**.
-   - Choose **Password Authentication**, enter a username (e.g. `topaz_admin`) and a secure password.
+   - Choose **Password Authentication**, enter a username (e.g. `rasoi_admin`) and a secure password.
    - Assign the user the **Read and write to any database** privilege.
 4. **Configure Network Access**:
    - Navigate to **Security** → **Network Access**.
@@ -51,7 +51,7 @@ To connect the application to MongoDB Atlas:
    - In your cluster overview, click **Connect** → **Drivers**.
    - Select **Node.js** and copy the URI format:
      ```
-     mongodb+srv://<username>:<password>@cluster0.mongodb.net/casa_topaz?retryWrites=true&w=majority
+     mongodb+srv://<username>:<password>@cluster0.mongodb.net/the_indian_rasoi?retryWrites=true&w=majority
      ```
    - Paste it into `server/.env` replacing `<username>` and `<password>` with your database user credentials.
 
@@ -85,22 +85,22 @@ GET http://localhost:5000/api/health
 ## 🍽️ Database Seeding Scripts
 
 ### 1. Seed Menu Items (`seedFoods.js`)
-Populates the database with 15 signature gourmet tapas, cazuelas, bellota charcuterie, and curated wines with valid high-resolution food imagery:
+Populates the database with 31 authentic Indian dishes across all 7 culinary categories (North Indian, South Indian, Street Food, Breads, Rice & Biryani, Desserts, Beverages) with verified high-resolution food imagery:
 
 ```bash
 npm run seed
 ```
 
 ### 2. Create Administrator & Demo Customer (`createAdmin.js`)
-Creates the default Head Chef administrator and demo gourmet club member:
+Creates the default Master Chef administrator and demo Shahi Club member:
 
 ```bash
 npm run create-admin
 ```
 
 **Created Accounts:**
-- **Admin**: `admin@casatopaz.ch` / `AdminPassword2026!`
-- **Customer**: `elena.rostova@gastronomie.ch` / `Customer2026!`
+- **Admin**: `admin@theindianrasoi.com` / `AdminPassword2026!`
+- **Customer**: `priya.sharma@indianrasoi.com` / `Priya2026!`
 
 ---
 
@@ -134,9 +134,9 @@ npm run create-admin
 **Food Query Parameters Supported:**
 - `page`: Page number (default: `1`)
 - `limit`: Items per page (default: `12`, or `all`)
-- `category`: Category name (`Pinchos & Tapas`, `Cazuelas & Plats Chauds`, etc.)
+- `category`: Category name (`North Indian`, `South Indian`, `Street Food`, `Breads`, `Rice & Biryani`, `Desserts`, `Beverages`)
 - `vegetarian`: Boolean (`true` to filter vegetarian items)
-- `search`: Keyword matching across dish title, Spanish name, description, and ingredients
+- `search`: Keyword matching across dish title, Hindi name, description, and ingredients
 - `sort`: `price-asc`, `price-desc`, `rating`, `name`
 
 ### 🛒 Orders (`/api/orders`)
@@ -164,4 +164,3 @@ npm run create-admin
 
 - **Food Records**: Includes `name`, `description`, `price`, `image`, `category`, `isVegetarian`, `isAvailable`, and `isFeatured`.
 - **Order Records**: Freezes product name and unit-price snapshots at checkout, delivery address snapshot, subtotal, delivery fee, packaging fee, total, payment method, payment status, order status, and timestamps.
-

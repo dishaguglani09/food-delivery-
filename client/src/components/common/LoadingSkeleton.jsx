@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Loading Skeletons
+// The Indian Rasoi — Loading Skeletons
 // Elegant dark shimmering skeletons for cards, menu grids, and banners.
 // ============================================================================
 

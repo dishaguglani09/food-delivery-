@@ -15,7 +15,7 @@ const registerUser = async (req, res, next) => {
         _id: newId,
         name,
         email: email.toLowerCase(),
-        phone: phone || '+41 79 123 45 67',
+        phone: phone || '+91 98765 43210',
         role: 'customer',
         addresses: []
       };
@@ -42,7 +42,7 @@ const registerUser = async (req, res, next) => {
       name,
       email: email.toLowerCase(),
       password,
-      phone: phone || '+41 79 123 45 67',
+      phone: phone || '+91 98765 43210',
       role: 'customer',
       addresses: []
     });
@@ -73,7 +73,7 @@ const loginUser = async (req, res, next) => {
 
     if (!isDbConnected()) {
       const lower = email.toLowerCase();
-      if ((lower === 'admin@theindianrasoi.com' || lower === 'admin@casatopaz.ch') && password === 'AdminPassword2026!') {
+      if (lower === 'admin@theindianrasoi.com' && password === 'AdminPassword2026!') {
         const adminId = 'usr_admin_rajesh';
         const userObj = {
           _id: adminId,
@@ -92,7 +92,7 @@ const loginUser = async (req, res, next) => {
           user: userObj
         });
       }
-      if ((lower === 'priya.sharma@indianrasoi.com' || lower === 'elena.rostova@gastronomie.ch') && (password === 'Customer2026!' || password === 'Priya2026!')) {
+      if (lower === 'priya.sharma@indianrasoi.com' && (password === 'Customer2026!' || password === 'Priya2026!')) {
         const custId = 'usr_rasoi_priya';
         const userObj = {
           _id: custId,
@@ -250,7 +250,7 @@ const addDeliveryAddress = async (req, res, next) => {
       street,
       city,
       postalCode,
-      country: country || 'Switzerland',
+      country: country || 'India',
       isDefault: isDefault || user.addresses.length === 0
     });
 

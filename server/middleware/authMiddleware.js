@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Authentication & Role Middleware
+// The Indian Rasoi — Authentication & Role Middleware
 // Validates JWT bearer tokens and protects customer/admin routes.
 // ============================================================================
 
@@ -18,7 +18,7 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET || 'casa_topaz_jwt_secret_dev_key_2026_fine_dining'
+        process.env.JWT_SECRET || 'the_indian_rasoi_jwt_secret_dev_key_2026_royal_dining'
       );
 
       if (!isDbConnected()) {
@@ -82,7 +82,7 @@ const optionalProtect = async (req, res, next) => {
       const token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET || 'casa_topaz_jwt_secret_dev_key_2026_fine_dining'
+        process.env.JWT_SECRET || 'the_indian_rasoi_jwt_secret_dev_key_2026_royal_dining'
       );
 
       if (!isDbConnected()) {

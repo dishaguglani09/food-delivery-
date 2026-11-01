@@ -100,12 +100,12 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     timestamp: new Date().toISOString(),
     uptime: Math.floor(process.uptime()),
-    server: 'CASA TÒPAZ Gourmet API',
+    server: 'The Indian Rasoi Gourmet API',
     database: {
       connected: db.isConnected,
       state: db.state,
       host: db.host || 'Not connected',
-      name: db.name || 'casa_topaz',
+      name: db.name || 'the_indian_rasoi',
       instructions: db.isConnected
         ? 'MongoDB Atlas is active and operational.'
         : 'MongoDB is not connected. Configure MONGODB_URI in server/.env with your MongoDB Atlas connection string.'
@@ -124,8 +124,8 @@ app.use(notFound);
 app.use(errorHandler);
 
 const server = app.listen(PORT, () => {
-  console.log(`[CASA TÒPAZ Server] Running on http://localhost:${PORT}`);
-  console.log(`[CASA TÒPAZ Server] Healthcheck available at http://localhost:${PORT}/api/health`);
+  console.log(`[The Indian Rasoi Server] Running on http://localhost:${PORT}`);
+  console.log(`[The Indian Rasoi Server] Healthcheck available at http://localhost:${PORT}/api/health`);
 });
 
 module.exports = app;

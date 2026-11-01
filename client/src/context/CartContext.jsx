@@ -17,7 +17,7 @@ export const CartProvider = ({ children }) => {
   const { showToast } = useToast();
   const [items, setItems] = useState(() => {
     try {
-      const stored = localStorage.getItem('indian_rasoi_cart') || localStorage.getItem('casa_topaz_cart');
+      const stored = localStorage.getItem('indian_rasoi_cart');
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed)) {
@@ -106,7 +106,6 @@ export const CartProvider = ({ children }) => {
     setDiscountPercent(0);
     setFixedDiscount(0);
     localStorage.removeItem('indian_rasoi_cart');
-    localStorage.removeItem('casa_topaz_cart');
   };
 
   // Prepares safe checkout payload containing only product IDs and sanitized quantities
@@ -120,19 +119,19 @@ export const CartProvider = ({ children }) => {
 
   const applyPromo = (code) => {
     const cleanCode = (code || '').trim().toUpperCase();
-    if (cleanCode === 'RASOI10' || cleanCode === 'TOPAZ10') {
+    if (cleanCode === 'RASOI10') {
       setDiscountPercent(10);
       setFixedDiscount(0);
       setAppliedPromo({ code: cleanCode, label: '10% Royal Dining Privilege' });
       showToast('Privilege code RASOI10 applied: 10% off your entire order!', 'success');
       return true;
-    } else if (cleanCode === 'DESI15' || cleanCode === 'BELLOTA15') {
+    } else if (cleanCode === 'DESI15') {
       setDiscountPercent(15);
       setFixedDiscount(0);
       setAppliedPromo({ code: cleanCode, label: '15% Desi Feast Privilege' });
       showToast('Privilege code DESI15 applied: 15% off!', 'success');
       return true;
-    } else if (cleanCode === 'BHOJAN50' || cleanCode === 'TERROIR5') {
+    } else if (cleanCode === 'BHOJAN50') {
       setDiscountPercent(0);
       setFixedDiscount(50);
       setAppliedPromo({ code: cleanCode, label: '₹50 Shahi Courtesy' });

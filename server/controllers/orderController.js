@@ -136,11 +136,11 @@ const createOrder = async (req, res, next) => {
     let discount = 0;
     if (promoCode) {
       const cleanCode = promoCode.toUpperCase().trim();
-      if (cleanCode === 'RASOI10' || cleanCode === 'TOPAZ10') {
+      if (cleanCode === 'RASOI10') {
         discount = Number((calculatedSubtotal * 0.10).toFixed(2));
-      } else if (cleanCode === 'DESI15' || cleanCode === 'BELLOTA15') {
+      } else if (cleanCode === 'DESI15') {
         discount = Number((calculatedSubtotal * 0.15).toFixed(2));
-      } else if (cleanCode === 'BHOJAN50' || cleanCode === 'TERROIR5') {
+      } else if (cleanCode === 'BHOJAN50') {
         discount = 50.00;
       }
     }
@@ -186,7 +186,7 @@ const createOrder = async (req, res, next) => {
         {
           status: 'Confirmed',
           timestamp: new Date(),
-          note: 'Your order has been received by CASA TÒPAZ culinary atelier.'
+          note: 'Your order has been received by The Indian Rasoi royal kitchen.'
         }
       ]
     };

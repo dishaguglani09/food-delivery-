@@ -36,14 +36,14 @@ export const AuthProvider = ({ children }) => {
   const { showToast } = useToast();
   const [user, setUser] = useState(() => {
     try {
-      const stored = localStorage.getItem('indian_rasoi_user') || localStorage.getItem('casa_topaz_user');
+      const stored = localStorage.getItem('indian_rasoi_user');
       return stored ? JSON.parse(stored) : DEFAULT_DEMO_USER;
     } catch {
       return DEFAULT_DEMO_USER;
     }
   });
 
-  const [token, setToken] = useState(() => localStorage.getItem('indian_rasoi_token') || localStorage.getItem('casa_topaz_token') || 'demo_jwt_token_aura');
+  const [token, setToken] = useState(() => localStorage.getItem('indian_rasoi_token') || 'demo_jwt_token_aura');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('indian_rasoi_user', JSON.stringify(user));
     } else {
       localStorage.removeItem('indian_rasoi_user');
-      localStorage.removeItem('casa_topaz_user');
     }
   }, [user]);
 
@@ -60,7 +59,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('indian_rasoi_token', token);
     } else {
       localStorage.removeItem('indian_rasoi_token');
-      localStorage.removeItem('casa_topaz_token');
     }
   }, [token]);
 
@@ -89,8 +87,8 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(true);
     try {
       // Try backend authentication with demo account
-      const data = await authService.login('priya.sharma@indianrasoi.com', 'Customer2026!').catch(() =>
-        authService.login('elena.rostova@gastronomie.ch', 'Customer2026!')
+      const data = await authService.login('priya.sharma@indianrasoi.com', 'Priya2026!').catch(() =>
+        authService.login('priya.sharma@indianrasoi.com', 'Customer2026!')
       );
       const authenticatedUser = data.user || data.data;
       setUser(authenticatedUser);
@@ -134,8 +132,6 @@ export const AuthProvider = ({ children }) => {
     setToken('');
     localStorage.removeItem('indian_rasoi_user');
     localStorage.removeItem('indian_rasoi_token');
-    localStorage.removeItem('casa_topaz_user');
-    localStorage.removeItem('casa_topaz_token');
     showToast('You have been signed out successfully.', 'info');
   };
 

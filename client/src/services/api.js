@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Native Fetch API Client
+// The Indian Rasoi — Native Fetch API Client
 // Standard Fetch-based API client powered by VITE_API_URL.
 // Communicates with Express/MongoDB backend with JWT authorization
 // and centralized error propagation using standard browser JavaScript.
@@ -15,7 +15,7 @@ const API_BASE_URL = rawBaseUrl
  * Core HTTP request handler using standard native fetch
  */
 async function request(endpoint, options = {}) {
-  const token = localStorage.getItem('casa_topaz_token');
+  const token = localStorage.getItem('indian_rasoi_token');
   const headers = {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),

@@ -163,12 +163,12 @@ const orderSchema = new mongoose.Schema({
   },
   deliverySchedule: {
     type: String,
-    default: 'Immédiat (~35 min)'
+    default: 'Standard Delivery (30–40 min)'
   },
   courier: {
-    name: { type: String, default: 'Mateo De La Vega' },
-    phone: { type: String, default: '+41 78 440 22 19' },
-    transport: { type: String, default: 'Thermal Sealed Cargo E-Bike (Zero Emission)' },
+    name: { type: String, default: 'Rahul Sharma' },
+    phone: { type: String, default: '+91 98111 22334' },
+    transport: { type: String, default: 'Thermal Insulated Royal Express Bike' },
     rating: { type: Number, default: 4.98 }
   },
   statusHistory: [orderStatusHistorySchema]

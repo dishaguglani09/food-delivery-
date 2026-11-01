@@ -83,7 +83,7 @@ export default function AuthPage() {
         <div className="md:col-span-5 relative bg-stone-900 min-h-[300px] md:min-h-full flex flex-col justify-between p-8 overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80"
-            alt="CASA TÒPAZ Ambience"
+            alt="The Indian Rasoi Ambience"
             className="absolute inset-0 w-full h-full object-cover filter brightness-50"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />

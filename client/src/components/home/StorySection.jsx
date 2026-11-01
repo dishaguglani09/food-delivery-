@@ -21,7 +21,7 @@ export default function StorySection() {
               <div className="rounded-3xl overflow-hidden border border-amber-950/60 shadow-2xl bg-stone-900 aspect-[4/5] sm:aspect-[3/4]">
                 <img
                   src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80"
-                  alt="L'Atelier Culinaire CASA TÒPAZ"
+                  alt="Royal Kitchen at The Indian Rasoi"
                   className="w-full h-full object-cover filter brightness-90"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
@@ -31,7 +31,7 @@ export default function StorySection() {
               <div className="hidden sm:block absolute -bottom-10 -right-8 w-3/5 rounded-2xl overflow-hidden border-2 border-amber-500/40 shadow-2xl bg-stone-900 aspect-[4/3]">
                 <img
                   src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80"
-                  alt="Cave d'Auteur et Vins de Terroir"
+                  alt="Authentic Spices and Clay Tandoor Craft"
                   className="w-full h-full object-cover"
                 />
               </div>

@@ -6,7 +6,7 @@ const addressSchema = new mongoose.Schema({
   street: { type: String, required: true },
   city: { type: String, required: true },
   postalCode: { type: String, required: true },
-  country: { type: String, default: 'Switzerland' },
+  country: { type: String, default: 'India' },
   isDefault: { type: Boolean, default: false }
 }, { timestamps: true });
 
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     trim: true,
-    default: '+41 79 000 00 00'
+    default: '+91 98765 43210'
   },
   role: {
     type: String,
