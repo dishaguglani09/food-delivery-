@@ -1,7 +1,7 @@
 // ============================================================================
-// CASA TÒPAZ — Complete Luxury Restaurant Footer
-// Brand narrative, opening hours, delivery radius, cellar notes,
-// newsletter subscription, and culinary guarantees.
+// The Indian Rasoi — Complete Restaurant Footer
+// Brand narrative, opening hours, delivery radius, culinary notes,
+// newsletter subscription, and authentic quality guarantees.
 // ============================================================================
 
 import { useState } from 'react';
@@ -29,7 +29,7 @@ export default function Footer() {
       return;
     }
     setSubscribed(true);
-    showToast('Welcome to the CASA TÒPAZ Privilege Club! Your invitation is on its way.', 'success');
+    showToast('Welcome to The Indian Rasoi Privilege Circle! Your invitation is on its way.', 'success');
     setNewsletterEmail('');
   };
 
@@ -45,13 +45,13 @@ export default function Footer() {
             <div className="lg:col-span-7 space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-serif">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Club Privilège Tòpaz</span>
+                <span>Rasoi Privilege Circle</span>
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl text-white font-medium">
-                Private Tastings, Rare Vintages & Culinary Gatherings
+                Royal Feasts, Fragrant Biryanis & Heirloom Delicacies
               </h3>
               <p className="text-sm text-stone-400 max-w-xl leading-relaxed">
-                Join our exclusive circle. Receive priority allocations of 100% Bellota Ibérico cured meats and sommelier wine pairings.
+                Join our exclusive culinary circle. Receive priority allocations of slow-cooked dum biryanis, chef specials, and festival feasts.
               </p>
             </div>
 
@@ -91,19 +91,19 @@ export default function Footer() {
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-amber-950/60 border border-amber-500/40 flex items-center justify-center text-amber-300 font-serif font-bold text-xl">
-                T
+                IR
               </div>
               <div>
                 <span className="font-serif text-2xl font-bold tracking-widest text-[#fbf9f5] uppercase">
-                  Casa Tòpaz
+                  The Indian Rasoi
                 </span>
                 <span className="block text-[9px] uppercase tracking-[0.25em] text-amber-500/90 font-medium">
-                  Gourmet Tapas & Fine Wines
+                  Authentic Indian Flavors & Royal Biryanis
                 </span>
               </div>
             </Link>
             <p className="text-sm text-stone-400 leading-relaxed max-w-sm">
-              The poetic marriage of ardent Iberian flavors and Swiss alpine precision. Freshly seared pinchos, piping-hot earthenware cazuelas, and cellar reserve wines delivered to your door.
+              The authentic celebration of royal Awadhi and Punjabi culinary heritage. Hand-ground heirloom spices, charcoal-tandoor rotis, and slow-simmered handi curries delivered piping hot to your table.
             </p>
             <div className="flex items-center gap-3 pt-2 text-stone-400">
               <a
@@ -128,7 +128,7 @@ export default function Footer() {
                   <path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.688 5H18V0h-3.808C10.596 0 9 1.583 9 4.615V8z"/>
                 </svg>
               </a>
-              <span className="text-xs text-stone-500 ml-2 font-mono">#CasaTopazBiel</span>
+              <span className="text-xs text-stone-500 ml-2 font-mono">#TheIndianRasoi</span>
             </div>
           </div>
 
@@ -173,28 +173,28 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-stone-400">
               <li>
-                <Link to="/menu?category=Pinchos & Tapas" className="hover:text-amber-300 transition-colors">
-                  Valais AOP Raclette Pinchos
+                <Link to="/menu?category=North Indian" className="hover:text-amber-300 transition-colors">
+                  Butter Chicken & Dal Makhani
                 </Link>
               </li>
               <li>
-                <Link to="/menu?category=Cazuelas & Plats Chauds" className="hover:text-amber-300 transition-colors">
-                  Prawn & Chorizo Cazuelas
+                <Link to="/menu?category=Rice %26 Biryani" className="hover:text-amber-300 transition-colors">
+                  Hyderabadi Dum Biryani
                 </Link>
               </li>
               <li>
-                <Link to="/menu?category=Charcuterie & Fromages" className="hover:text-amber-300 transition-colors">
-                  100% Bellota Ibérico Ham
+                <Link to="/menu?category=South Indian" className="hover:text-amber-300 transition-colors">
+                  Crispy Masala Dosa & Sambhar
                 </Link>
               </li>
               <li>
-                <Link to="/menu?category=Postres & Douceurs" className="hover:text-amber-300 transition-colors">
-                  Basque Burnt Cheesecake
+                <Link to="/menu?category=Breads" className="hover:text-amber-300 transition-colors">
+                  Garlic Naan & Tandoori Roti
                 </Link>
               </li>
               <li>
-                <Link to="/menu?category=Vinos & Cocktails" className="hover:text-amber-300 transition-colors">
-                  House Sangria & Rioja Gran Reserva
+                <Link to="/menu?category=Desserts" className="hover:text-amber-300 transition-colors">
+                  Gulab Jamun & Rasmalai
                 </Link>
               </li>
             </ul>
@@ -208,28 +208,24 @@ export default function Footer() {
             <div className="space-y-2.5 text-xs sm:text-sm text-stone-400">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                <span>Rue du Pont 14, 2502 Biel/Bienne, Switzerland</span>
+                <span>Block B, Connaught Place, New Delhi, Delhi 110001, India</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>+41 32 322 45 80</span>
+                <span>+91 98765 43210</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>concierge@bar-topas.ch</span>
+                <span>contact@theindianrasoi.com</span>
               </div>
               <div className="pt-2 border-t border-stone-800/60 text-stone-400 text-xs space-y-1">
                 <div className="flex justify-between">
-                  <span className="text-stone-300 font-medium">Tuesday — Thursday:</span>
-                  <span>17:00 - 23:30</span>
+                  <span className="text-stone-300 font-medium">Monday — Friday:</span>
+                  <span>11:30 - 23:00</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-stone-300 font-medium">Friday — Saturday:</span>
-                  <span>17:00 - 00:30</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-stone-300 font-medium">Sunday:</span>
-                  <span>16:30 - 22:30</span>
+                  <span className="text-stone-300 font-medium">Saturday — Sunday:</span>
+                  <span>11:30 - 23:30</span>
                 </div>
               </div>
             </div>
@@ -239,17 +235,17 @@ export default function Footer() {
         {/* Bottom Bar: Copyright & Guarantees */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
           <div className="flex flex-wrap items-center gap-4">
-            <span>© {new Date().getFullYear()} CASA TÒPAZ. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} The Indian Rasoi. All rights reserved.</span>
             <span>·</span>
-            <span>Inspired by the lifestyle of Bar Tòpaz</span>
+            <span>Authentic Indian Gastronomy & Royal Kitchens</span>
             <span>·</span>
-            <span className="text-amber-500/70">Recyclable thermal earthenware cocotte packaging</span>
+            <span className="text-amber-500/70">Insulated thermal & spill-proof packaging</span>
           </div>
 
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-              Secure 256-bit SSL (TWINT, Visa, Mastercard, Apple Pay, COD)
+              Secure 256-bit SSL (UPI, Debit/Credit Cards, Net Banking, COD)
             </span>
           </div>
         </div>

@@ -1,7 +1,7 @@
 // ============================================================================
-// CASA TÒPAZ — Food Mongoose Model
-// Strict adherence to menu specification:
-// - name, description, price, image, category, vegetarian status,
+// THE INDIAN RASOI — Food Mongoose Model
+// Strict adherence to Indian restaurant menu specification:
+// - name, hindiName, description, price, image, category, vegetarian status,
 //   availability, and featured status.
 // ============================================================================
 
@@ -13,6 +13,11 @@ const foodSchema = new mongoose.Schema({
     required: [true, 'Please provide dish name'],
     trim: true,
     maxlength: [100, 'Name cannot exceed 100 characters']
+  },
+  hindiName: {
+    type: String,
+    trim: true,
+    default: ''
   },
   spanishName: {
     type: String,
@@ -33,11 +38,13 @@ const foodSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please specify category'],
     enum: [
-      'Pinchos & Tapas',
-      'Cazuelas & Plats Chauds',
-      'Charcuterie & Fromages',
-      'Postres & Douceurs',
-      'Vinos & Cocktails'
+      'North Indian',
+      'South Indian',
+      'Street Food',
+      'Breads',
+      'Rice & Biryani',
+      'Desserts',
+      'Beverages'
     ]
   },
   image: {
@@ -47,7 +54,7 @@ const foodSchema = new mongoose.Schema({
   isVegetarian: {
     type: Boolean,
     required: true,
-    default: false
+    default: true
   },
   isAvailable: {
     type: Boolean,
@@ -70,11 +77,11 @@ const foodSchema = new mongoose.Schema({
     type: Number,
     min: 0,
     max: 3,
-    default: 0
+    default: 1
   },
   dietary: [{
     type: String,
-    enum: ['Vegetarian', 'Vegan', 'Gluten-Free', 'Chef Special', 'Organic', 'AOP Certified', 'Spicy']
+    enum: ['Vegetarian', 'Vegan', 'Gluten-Free', 'Chef Special', 'Organic', 'Spicy', 'Jain Option', 'Dairy-Free', 'Halal']
   }],
   winePairing: {
     type: String,
@@ -126,6 +133,7 @@ foodSchema.pre('save', function (next) {
 // Create text index for search queries
 foodSchema.index({
   name: 'text',
+  hindiName: 'text',
   spanishName: 'text',
   description: 'text',
   ingredients: 'text'

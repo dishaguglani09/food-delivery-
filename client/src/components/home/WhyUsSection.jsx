@@ -1,7 +1,7 @@
 // ============================================================================
-// CASA TÒPAZ — Why Choose Us / Culinary Philosophy
-// Highlights of artisanal craftsmanship, thermal earthenware delivery,
-// grand cru sommelier pairings, and sustainable values.
+// The Indian Rasoi — Why Choose Us / Culinary Philosophy
+// Highlights of authentic craftsmanship, charcoal clay tandoor,
+// pure cow ghee, and hot insulated packaging.
 // ============================================================================
 
 import { 
@@ -17,31 +17,31 @@ export default function WhyUsSection() {
   const pillars = [
     {
       icon: Flame,
-      title: 'Piping-Hot Cocotte Delivery',
-      subtitle: 'Thermal earthenware cookware',
-      description: 'Your hot cazuelas and pinchos are not delivered in soggy cardboard. We deliver in artisan terracotta cocottes preheated to 140°C that retain the sizzle, juices, and aroma right to your table.',
-      badge: 'Thermal Cookware'
+      title: 'Charcoal Tandoor & Dum Cooking',
+      subtitle: 'Heirloom clay oven traditions',
+      description: 'Our dishes are crafted using traditional clay tandoors and slow-simmered handis that infuse authentic smoky flavors, velvety textures, and deep spice aromatics right to your dining table.',
+      badge: 'Royal Handi & Tandoor'
     },
     {
       icon: ShieldCheck,
-      title: 'Certified Terroir & 100% Bellota',
-      subtitle: 'Jabugo & Valais AOP origins',
-      description: 'We never compromise on provenance: knife-carved charcuterie from free-range pigs fed exclusively on acorns, and raw milk alpine cheeses with protected AOP status.',
-      badge: 'Artisan Terroir'
+      title: 'Pure Desi Ghee & Fresh Spices',
+      subtitle: 'Zero artificial preservatives',
+      description: 'We never compromise on purity: stone-ground spices, whole green cardamom, saffron strands, and 100% pure cow ghee with no artificial food colors or synthetic flavor enhancers.',
+      badge: '100% Pure & Fresh'
     },
     {
       icon: Wine,
-      title: 'Signature Sommelier Cellar',
-      subtitle: 'Rare vintages & bespoke pairings',
-      description: 'Every dish features an astute sommelier pairing: library vintages of Rioja Gran Reserva, crisp alpine Petite Arvine, and our 48-hour macerated citrus house sangria.',
-      badge: 'Certified Sommelier'
+      title: 'Artisanal Chai & Lassi Cellar',
+      subtitle: 'Traditional beverages & coolers',
+      description: 'Every meal features authentic refreshments: slow-brewed Kullad Masala Chai with ginger and cardamom, Alphonso mango lassi, and cooling sweet churned yogurt drinks.',
+      badge: 'Desi Rasoi Beverages'
     },
     {
       icon: Leaf,
-      title: 'Zero Plastic & Electric Couriers',
-      subtitle: 'Swiss eco-responsibility',
-      description: 'All containers are recyclable or refundable earthenware. Our delivery brigade operates exclusively on whisper-quiet, zero-emission thermal cargo e-bikes.',
-      badge: '100% Eco-Circular'
+      title: 'Insulated Hot Food Dispatch',
+      subtitle: 'Fresh & spill-proof packaging',
+      description: 'All curries, gravies, and biryanis are delivered in sealed, insulated, leak-proof food-grade containers so your naans stay crisp and curries arrive steaming hot.',
+      badge: 'Thermal Preservation'
     }
   ];
 
@@ -55,10 +55,10 @@ export default function WhyUsSection() {
             <span>Our Uncompromising Standards</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-            Why Choose Casa Tòpaz?
+            Why Choose The Indian Rasoi?
           </h2>
           <p className="text-sm sm:text-base text-stone-400 font-sans leading-relaxed">
-            Redefining fine dining delivery: the refinement of a grand restaurant and the soul of an Iberian taberna, at your door in 35 minutes.
+            Redefining Indian dining delivery: the royal heritage of Awadhi and Punjabi kitchens, delivered steaming hot to your doorstep in 30 minutes.
           </p>
         </div>
 

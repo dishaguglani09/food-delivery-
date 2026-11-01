@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Customer Order History Page
+// The Indian Rasoi — Customer Order History Page
 // View all past and active culinary orders, status indicators,
 // itemized receipts, and instant re-order actions.
 // ============================================================================
@@ -45,7 +45,7 @@ export default function OrdersPage() {
       case 'Preparing':
       case 'Kitchen Preparing':
         return {
-          label: 'Cooking in Cazuela',
+          label: 'Cooking in Royal Rasoi',
           bg: 'bg-orange-950/60 text-orange-300 border-orange-500/40',
           dot: 'bg-orange-400 animate-pulse'
         };
@@ -82,7 +82,7 @@ export default function OrdersPage() {
         <EmptyState
           icon={Package}
           title="No Orders Found"
-          description="You haven't placed an order with CASA TÒPAZ yet. Explore our curated selection of Iberian tapas and slow-cooked cazuelas."
+          description="You haven't placed an order with The Indian Rasoi yet. Explore our curated selection of authentic curries, tandoori breads, and fragrant biryanis."
           actionLabel="Explore Menu"
           actionLink="/menu"
         />
@@ -154,7 +154,7 @@ export default function OrdersPage() {
                       })}
                     </span>
                     <span className="font-serif font-bold text-amber-300 text-base">
-                      CHF {order.pricing?.total?.toFixed(2) || '0.00'}
+                      ₹{order.pricing?.total?.toFixed(0) || '0'}
                     </span>
                   </div>
                 </div>

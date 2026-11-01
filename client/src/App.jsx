@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Main Application Router & Shell
+// The Indian Rasoi — Main Application Router & Shell
 // High performance, code-split routes with luxury aesthetic
 // and global context providers.
 // ============================================================================
@@ -43,10 +43,10 @@ function PageLoading() {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center bg-[#0d0c0c] text-stone-200">
       <div className="w-14 h-14 rounded-full bg-amber-950/60 border border-amber-500/40 flex items-center justify-center text-amber-300 font-serif font-bold text-2xl animate-pulse">
-        T
+        IR
       </div>
       <span className="font-serif italic text-amber-400/90 text-sm mt-3 tracking-widest uppercase">
-        CASA TÒPAZ
+        The Indian Rasoi
       </span>
     </div>
   );

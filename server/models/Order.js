@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Order Mongoose Model
+// The Indian Rasoi — Order Mongoose Model
 // Strict adherence to order specification:
 // - product name and unit-price snapshots
 // - quantities
@@ -61,7 +61,7 @@ const deliveryAddressSnapshotSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    default: 'Switzerland'
+    default: 'India'
   },
   deliveryNotes: {
     type: String,
@@ -124,7 +124,7 @@ const orderSchema = new mongoose.Schema({
   },
   packagingFee: {
     type: Number,
-    default: 2.50
+    default: 20.00
   },
   discount: {
     type: Number,
@@ -141,7 +141,7 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: {
     type: String,
     required: [true, 'Payment method is required'],
-    default: 'twint'
+    default: 'cash'
   },
   paymentStatus: {
     type: String,

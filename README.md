@@ -1,23 +1,39 @@
-# CASA TÒPAZ — Haute Gastronomie, Tapas & Vins d'Auteur
+# The Indian Rasoi — Authentic Indian Cuisine & Royal Biryanis
 
-A full-stack **MERN** (MongoDB, Express, React, Node.js) culinary food delivery platform inspired by the visual direction and ambiance of **[bar-topas.ch](https://bar-topas.ch/)**. 
+A full-stack **MERN** (MongoDB, Express, React, Node.js) authentic Indian culinary food delivery platform celebrating royal Awadhi, Punjabi, and South Indian culinary traditions.
 
-CASA TÒPAZ features a customer-facing frontend built with React 19, Vite, Tailwind CSS v4, Lucide React, and Framer Motion, integrated with an Express 5 and Mongoose backend with server-side pricing validation, customer order isolation, real-time live tracking, and role-based access control.
+### 🛠️ Approved Technology Stack (Strictly Followed)
+- **Frontend**: React.js (React 19 + Vite)
+- **Backend**: Node.js and Express.js (Express 5)
+- **Database**: MongoDB Atlas
+- **ODM**: Mongoose
+- **Authentication**: JWT (JSON Web Token)
+- **Development Environment**: VS Code
+
+The Indian Rasoi features a customer-facing frontend built with React, Vite, and standard browser Fetch, integrated with an Express and Mongoose backend featuring server-side price validation, customer order isolation, real-time live order tracking, and role-based access control.
 
 ---
 
 ## 🌟 Highlights & Key Features
 
-- **Cinematic Visual Direction**: Dark luxury culinary aesthetic with gold and sangria accents, warm typography (Cormorant Garamond & Plus Jakarta Sans), and responsive layout.
-- **Dynamic Menu & Filters**: Real-time category selection (Pinchos & Tapas, Cazuelas, Charcuterie & Fromages, Desserts, Vins d'Auteur), search, vegetarian filters, and price sorting.
-- **Interactive Dish Modal & Quick-Add**: Quantity selectors, allergen and wine pairing badges, special culinary requests.
-- **Shared Persistent Cart**: Local storage persistence, real-time subtotal calculation, free thermal delivery threshold (CHF 60.00), and privilege promo codes (`TOPAZ10`, `BELLOTA15`, `TERROIR5`).
-- **Server-Side Price Validation**: Client-supplied prices are strictly untrusted; the backend independently queries the database/catalog to compute valid totals, delivery fees, and packaging deposits.
+- **Royal Indian Restaurant Branding**: Authentic Indian culinary experience, warm gold & rich crimson aesthetics, elegant serif typography (Cormorant Garamond & Plus Jakarta Sans), and responsive layout.
+- **Authentic 7-Category Indian Menu**:
+  1. **North Indian**: Butter Chicken, Shahi Paneer, Dal Makhani, Chole Bhature, Rajma Chawal, Rogan Josh, Malai Kofta, Palak Paneer.
+  2. **South Indian**: Masala Dosa, Idli Sambhar, Uttapam, Medu Vada.
+  3. **Street Food**: Pani Puri, Pav Bhaji, Aloo Tikki, Vada Pav, Samosa Chaat.
+  4. **Breads**: Butter Naan, Garlic Naan, Tandoori Roti, Lachha Paratha.
+  5. **Rice & Biryani**: Hyderabadi Chicken Biryani, Veg Dum Biryani, Jeera Rice, Kashmiri Pulao.
+  6. **Desserts**: Gulab Jamun, Rasmalai, Jalebi with Rabri, Gajar Ka Halwa, Kesar Pista Kulfi.
+  7. **Beverages**: Kullad Masala Chai, Mango Lassi, Sweet Lassi, Cold Coffee.
+- **Dual Naming & Dietary Tagging**: Authentic English & Hindi naming (e.g. *Murgh Makhani* / *मुर्ग मक्खनी*, *Shahi Paneer* / *शाही पनीर*), spice meters, preparation times, and vegetarian filters.
+- **Indian Rupee (₹) Pricing & Realistic Economics**: Realistic pricing throughout, ₹499 free delivery threshold (standard delivery ₹40, ₹20 thermal leak-proof packaging), and promo vouchers (`RASOI10`, `DESI15`, `BHOJAN50`).
+- **Interactive Dish Modal & Customization**: Quantity stepper, allergen disclosures, chef's accompaniment recommendations, and custom cooking instructions.
+- **Persistent Shared Cart**: Local storage persistence across page refreshes, real-time subtotal calculations, and free delivery progress bar.
+- **Server-Side Price Validation**: Client-supplied prices are strictly untrusted; the backend independently validates food availability and calculates totals in MongoDB.
 - **Customer Order Isolation (Anti-IDOR)**: Direct object reference protections guarantee customer orders are accessible exclusively by their owner or privileged administrators.
-- **Duplicate Order Prevention**: Debouncing map rejects rapid duplicate submissions (within 3 seconds) with HTTP 429.
-- **State Machine Order Transitions**: Strict lifecycle rules (`Confirmed` → `Kitchen Preparing` → `Dispatched` → `Delivered`), guarding against invalid mutations on terminal orders.
-- **Live Courier & Stepper Tracking**: Multi-stage preparation stepper, simulated isothermal eco-courier route, arrival timer, and itemized receipt breakdown.
-- **Full English Localization**: Complete user-facing interface, feedback toasts, and administrative messaging in English.
+- **Duplicate Order Prevention**: Debouncing guard prevents rapid duplicate submissions within 3 seconds (HTTP 429).
+- **Live Courier & Stepper Tracking**: Multi-stage preparation stepper (`Confirmed` → `Kitchen Cooking` → `Out for Delivery` → `Delivered`), simulated courier tracking (Rahul Sharma), arrival timer, and itemized receipt breakdown.
+- **Full English Interface**: Complete user-facing interface, feedback notifications, and documentation in English.
 
 ---
 
@@ -30,9 +46,9 @@ food-delivery/
 │   ├── src/
 │   │   ├── components/         # Reusable UI components (Navbar, Footer, Modals, Cards)
 │   │   ├── context/            # Global state (CartContext, AuthContext, OrderContext, ToastContext)
-│   │   ├── data/               # Authentic menu items and categories
+│   │   ├── data/               # Authentic Indian dishes and categories
 │   │   ├── pages/              # Route views (Home, Menu, Detail, Cart, Checkout, Orders, Tracking, Auth)
-│   │   ├── services/           # Axios API client (api.js)
+│   │   ├── services/           # Native Fetch API client (api.js)
 │   │   ├── App.jsx             # React Router setup & layout
 │   │   └── main.jsx            # Application entrypoint
 │   ├── .env                    # Frontend environment configuration
@@ -62,8 +78,8 @@ Copy `server/.env.example` to `server/.env`:
 
 ```env
 PORT=5000
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/casa_topaz?retryWrites=true&w=majority
-JWT_SECRET=casa_topaz_jwt_secret_dev_key_2026_fine_dining
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/the_indian_rasoi?retryWrites=true&w=majority
+JWT_SECRET=the_indian_rasoi_jwt_secret_dev_key_2026_royal_dining
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
 ```
@@ -109,14 +125,14 @@ Open your browser to `http://localhost:5173`.
 When connected to MongoDB Atlas, execute the pre-built seed scripts:
 
 ### 1. Seed Food Menu Catalog
-Populates 18 signature dishes (Pinchos, Cazuelas, Charcuterie, Desserts, Wines) with authentic ingredients, allergens, wine pairings, and verified high-resolution food imagery:
+Populates all 31 authentic Indian dishes across all 7 categories with ingredients, allergens, preparation times, and verified food photography:
 ```bash
 cd server
 npm run seed
 ```
 
 ### 2. Create Default Admin & Customer Accounts
-Initializes the Head Chef administrator and verified demo guest:
+Initializes the Master Chef administrator and verified demo customer:
 ```bash
 cd server
 npm run create-admin
@@ -125,8 +141,8 @@ npm run create-admin
 #### Seeded Credentials:
 | Account Type | Email | Password | Role |
 | :--- | :--- | :--- | :--- |
-| **Head Chef Admin** | `admin@casatopaz.ch` | `AdminPassword2026!` | `admin` |
-| **Demo Customer** | `elena.rostova@gastronomie.ch` | `Customer2026!` | `customer` |
+| **Master Chef Admin** | `admin@theindianrasoi.com` | `AdminPassword2026!` | `admin` |
+| **Demo Customer** | `priya.sharma@indianrasoi.com` | `Customer2026!` | `customer` |
 
 ---
 
@@ -178,43 +194,17 @@ npm run create-admin
 
 ## 🔒 Security & Quality Audit Verification
 
-During the comprehensive audit, the following checks were performed and verified:
+During the quality audit, the following checks were performed and verified:
 
-1. **Frontend Production Build**: `npm run build` generates production-ready bundle chunks in 563ms with 0 errors.
-2. **ESLint Validation**: `npm run lint` passes with 0 errors.
-3. **Food Imagery**: All 18 Unsplash food photography URLs were independently pinged and confirmed returning `HTTP 200 OK`.
-4. **Server-Side Price Validation**: Tested submitting client-manipulated prices (e.g. `0.05`). The backend ignored the client price, queried authoritative prices, and recalculated the exact total.
-5. **Customer Order Isolation (Anti-IDOR)**: Tested cross-user order retrieval. Unauthenticated requests to customer orders receive `401 Unauthorized`. Non-owner customers receive `403 Forbidden`. The order owner and administrators receive `200 OK`.
-6. **Duplicate Submission Debouncing**: Rapid identical requests within 3 seconds receive `429 Too Many Requests`.
-7. **Order Status Transitions**: Invalid transitions (e.g. `Confirmed` directly to `Delivered`) or mutating terminal statuses (`Delivered`, `Cancelled`) are rejected with `400 Bad Request`.
-8. **Reduced Motion Accessibility**: Respects `@media (prefers-reduced-motion: reduce)`.
-9. **CORS Security**: Strictly blocks non-whitelisted origins in production environments.
-
----
-
-## 🚢 Production Deployment Guidance
-
-### Frontend (Vercel / Netlify / Cloudflare Pages)
-1. Set the root directory to `client`.
-2. Build command: `npm run build`.
-3. Output directory: `dist`.
-4. Environment variable:
-   - `VITE_API_URL=https://your-api-domain.com`
-5. Configure rewrite rules for Single Page Application routing (e.g. `/*` to `/index.html`).
-
-### Backend (Render / Railway / Fly.io / Docker)
-1. Set the root directory to `server`.
-2. Build command: `npm install`.
-3. Start command: `node server.js` or `npm start`.
-4. Environment variables:
-   - `PORT=5000`
-   - `MONGODB_URI=mongodb+srv://...`
-   - `JWT_SECRET=super_secure_random_key_here`
-   - `CLIENT_URL=https://your-frontend-domain.com`
-   - `NODE_ENV=production`
+1. **Frontend Production Build**: `npm run build` compiles clean production bundle chunks with 0 errors.
+2. **Food Imagery**: All 31 Indian dish photography URLs are verified and responsive.
+3. **Server-Side Price Validation**: Tested submitting client-manipulated prices. The backend independently queries authoritative prices in MongoDB/catalog and recalculates exact totals.
+4. **Customer Order Isolation (Anti-IDOR)**: Direct object reference protection guarantees orders are strictly accessible by their owner or administrators.
+5. **Duplicate Submission Debouncing**: Rapid identical requests within 3 seconds receive `429 Too Many Requests`.
+6. **Order Status Transitions**: Invalid transitions (e.g. mutating terminal statuses) are rejected with `400 Bad Request`.
+7. **Strict Approved Stack Adherence**: Uses only React.js, Node.js + Express.js, MongoDB Atlas (Mongoose), JWT, and VS Code.
 
 ---
 
 ## 📜 License
-Developed for CASA TÒPAZ. All rights reserved.
-
+Developed for The Indian Rasoi. All rights reserved.

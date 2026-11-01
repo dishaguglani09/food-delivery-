@@ -1,7 +1,7 @@
 // ============================================================================
-// CASA TÒPAZ — Contact & Location Section
-// Location in Biel/Bienne, contact coordinates, opening hours,
-// and interactive inquiry / private dining request form.
+// The Indian Rasoi — Contact & Location Section
+// Location in Connaught Place, contact coordinates, opening hours,
+// and interactive inquiry / catering request form.
 // ============================================================================
 
 import { useState } from 'react';
@@ -39,7 +39,7 @@ export default function ContactSection() {
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
-      showToast('Your inquiry has been successfully sent to the CASA TÒPAZ concierge.', 'success');
+      showToast('Your inquiry has been successfully sent to The Indian Rasoi concierge.', 'success');
       setFormData({
         name: '',
         email: '',
@@ -72,10 +72,10 @@ export default function ContactSection() {
           <div className="lg:col-span-5 space-y-8">
             <div className="p-8 rounded-3xl bg-[#141211] border border-amber-950/40 space-y-6 shadow-xl">
               <h3 className="font-serif text-2xl font-bold text-white">
-                CASA TÒPAZ · Biel/Bienne
+                The Indian Rasoi · Connaught Place
               </h3>
               <p className="text-xs sm:text-sm text-stone-400 leading-relaxed">
-                Located in the historic center of Biel/Bienne, our culinary atelier prepares each order fresh to the minute in adherence to authentic Iberian traditions.
+                Located near Connaught Place in central New Delhi, our royal kitchen prepares each order fresh to the minute using heirloom spice blends and traditional tandoor techniques.
               </p>
 
               <div className="space-y-4 pt-2 text-xs sm:text-sm text-stone-300">
@@ -84,8 +84,8 @@ export default function ContactSection() {
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <strong className="block text-white">Atelier Address</strong>
-                    <span>Rue du Pont 14, 2502 Biel/Bienne, Switzerland</span>
+                    <strong className="block text-white">Kitchen Address</strong>
+                    <span>Block B, Connaught Place, New Delhi, Delhi 110001, India</span>
                   </div>
                 </div>
 
@@ -95,7 +95,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <strong className="block text-white">Direct Line</strong>
-                    <span>+41 32 322 45 80 (Guest Relations & Orders)</span>
+                    <span>+91 98765 43210 (Guest Relations & Orders)</span>
                   </div>
                 </div>
 
@@ -105,7 +105,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <strong className="block text-white">Digital Concierge</strong>
-                    <span>concierge@bar-topas.ch</span>
+                    <span>namaste@theindianrasoi.com</span>
                   </div>
                 </div>
               </div>
@@ -118,19 +118,15 @@ export default function ContactSection() {
                 </div>
                 <div className="text-xs text-stone-400 space-y-1">
                   <div className="flex justify-between py-1 border-b border-stone-850">
-                    <span className="text-stone-300">Tuesday — Thursday</span>
-                    <span className="font-mono text-stone-400">17:00 - 23:30</span>
+                    <span className="text-stone-300">Monday — Friday</span>
+                    <span className="font-mono text-stone-400">11:30 - 23:00</span>
                   </div>
                   <div className="flex justify-between py-1 border-b border-stone-850">
-                    <span className="text-stone-300">Friday — Saturday</span>
-                    <span className="font-mono text-stone-400">17:00 - 00:30</span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-stone-300">Sunday</span>
-                    <span className="font-mono text-stone-400">16:30 - 22:30</span>
+                    <span className="text-stone-300">Saturday — Sunday</span>
+                    <span className="font-mono text-stone-400">11:30 - 23:30</span>
                   </div>
                   <p className="text-[11px] text-stone-500 italic pt-1">
-                    Closed on Mondays for produce arrival and cellar curation.
+                    Open 7 days a week for lunch, afternoon tea, and royal dinner service.
                   </p>
                 </div>
               </div>
@@ -156,7 +152,7 @@ export default function ContactSection() {
                   </div>
                   <h4 className="font-serif text-2xl text-white">Message Delivered</h4>
                   <p className="text-xs sm:text-sm text-stone-300 max-w-md mx-auto">
-                    Thank you for contacting CASA TÒPAZ. Our maître d'hôtel will reply within two business hours.
+                    Thank you for contacting The Indian Rasoi. Our hospitality team will reply within two business hours.
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}

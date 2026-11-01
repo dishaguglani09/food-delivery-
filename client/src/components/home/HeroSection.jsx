@@ -1,6 +1,6 @@
 // ============================================================================
-// CASA TÒPAZ — Cinematic Hero Section
-// High-definition food photography, atmospheric Iberian-Swiss mood,
+// The Indian Rasoi — Cinematic Hero Section
+// High-definition Indian food photography, royal Mughlai atmosphere,
 // floating culinary privilege badges, and working Explore Menu CTA.
 // ============================================================================
 
@@ -13,8 +13,8 @@ export default function HeroSection() {
       {/* Background Cinematic Ambience */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=2000&q=85"
-          alt="CASA TÒPAZ Gourmet Tapas Ambience"
+          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=85"
+          alt="The Indian Rasoi Royal Ambience"
           className="w-full h-full object-cover object-center opacity-25 scale-105 filter brightness-75"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0d0c0c] via-[#0d0c0c]/80 to-[#0d0c0c]/60" />
@@ -28,22 +28,22 @@ export default function HeroSection() {
             {/* Top Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-serif tracking-wider shadow-lg">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Haute Iberian Gastronomy & Swiss Alpine Terroir</span>
+              <span>Authentic Culinary Heritage & Royal Tandoor</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08]">
-              The Art of Living & <br />
+              The Heritage of Royal Flavors & <br />
               <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent">
-                Gastronomic Tapas
+                Authentic Indian Rasoi
               </span>
             </h1>
 
             {/* Description */}
             <p className="text-stone-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-sans leading-relaxed">
-              Experience the ardent elegance of Seville's bodegas united with the purity of Swiss alpine terroir. 
-              Golden toasted Raclette AOP pinchos, simmered Rioja wine cazuelas, 100% Bellota cured ham, 
-              and rare vintage wines delivered directly to your table at ideal tasting temperatures.
+              Experience the timeless recipes of Delhi, Awadh, and Punjab united with slow-cooked dum traditions and fresh hand-ground spices. 
+              Velvety Butter Chicken, fragrant Hyderabadi Dum Biryani, crisp tandoori garlic naans, 
+              and artisanal street delights delivered piping hot to your table.
             </p>
 
             {/* Interactive CTAs */}
@@ -67,16 +67,16 @@ export default function HeroSection() {
             {/* Value Guarantees Row */}
             <div className="pt-6 border-t border-stone-800/80 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 text-left">
               <div className="space-y-0.5">
-                <span className="font-serif text-lg sm:text-xl font-bold text-amber-300 block">35 min</span>
-                <span className="text-[11px] sm:text-xs text-stone-400">Thermal cocotte delivery</span>
+                <span className="font-serif text-lg sm:text-xl font-bold text-amber-300 block">30 min</span>
+                <span className="text-[11px] sm:text-xs text-stone-400">Insulated thermal delivery</span>
               </div>
               <div className="space-y-0.5 border-l border-stone-800 pl-4">
-                <span className="font-serif text-lg sm:text-xl font-bold text-amber-300 block">100% Bellota</span>
-                <span className="text-[11px] sm:text-xs text-stone-400">Jabugo Gran Reserva</span>
+                <span className="font-serif text-lg sm:text-xl font-bold text-amber-300 block">Pure Desi Ghee</span>
+                <span className="text-[11px] sm:text-xs text-stone-400">Hand-ground spices</span>
               </div>
               <div className="space-y-0.5 border-l border-stone-800 pl-4">
                 <span className="font-serif text-lg sm:text-xl font-bold text-amber-300 block">4.95 ★</span>
-                <span className="text-[11px] sm:text-xs text-stone-400">+1,200 delighted guests</span>
+                <span className="text-[11px] sm:text-xs text-stone-400">+5,000 delighted diners</span>
               </div>
             </div>
           </div>
@@ -87,8 +87,8 @@ export default function HeroSection() {
               {/* Outer Decorative Frame */}
               <div className="relative rounded-3xl overflow-hidden border border-amber-500/30 shadow-2xl bg-stone-900 group">
                 <img
-                  src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1200&q=80"
-                  alt="Plat Signature Le Suisse Raclette AOP"
+                  src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=1200&q=80"
+                  alt="Murgh Makhani Butter Chicken Signature"
                   className="w-full aspect-[4/5] object-cover transition-transform duration-1000 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -100,18 +100,18 @@ export default function HeroSection() {
                       Signature Dish Spotlight
                     </span>
                     <span className="font-serif text-base font-bold text-amber-300">
-                      CHF 13.50
+                      ₹380
                     </span>
                   </div>
                   <h3 className="font-serif text-lg font-bold text-white">
-                    Le Suisse — Pincho à la Raclette AOP
+                    Murgh Makhani (Butter Chicken) — मुर्ग मक्खनी
                   </h3>
                   <p className="text-xs text-stone-300 leading-snug">
-                    Golden toasted sourdough brioche, molten Valais Raclette AOP, caramelized pearl onion, and smoked Pimentón de la Vera.
+                    Tender boneless tandoori chicken simmered in a velvety tomato & cashew nut gravy, finished with fresh cream, kasuri methi, and pure butter.
                   </p>
                   <div className="pt-1 flex items-center justify-between text-[11px] text-stone-400">
                     <span className="flex items-center gap-1 text-emerald-400">
-                      <Flame className="w-3.5 h-3.5" /> Hot & Ready to Serve
+                      <Flame className="w-3.5 h-3.5" /> Steaming & Fresh to Serve
                     </span>
                     <Link
                       to="/menu"
@@ -129,8 +129,8 @@ export default function HeroSection() {
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-white">Gault & Millau Recommended</p>
-                  <p className="text-[11px] text-stone-400 font-serif">Gastronomic Guide 2026</p>
+                  <p className="text-xs font-semibold text-white">Culinary Heritage Winner</p>
+                  <p className="text-[11px] text-stone-400 font-serif">Best Indian Kitchen 2026</p>
                 </div>
               </div>
 
@@ -140,8 +140,8 @@ export default function HeroSection() {
                   <ShieldCheck className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-white">Eco Thermal Cookware</p>
-                  <p className="text-[10px] text-stone-400">Sealed earthenware cocottes</p>
+                  <p className="text-xs font-medium text-white">Thermal Insulated Packaging</p>
+                  <p className="text-[10px] text-stone-400">Leak-proof handi containers</p>
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 // ============================================================================
-// CASA TÒPAZ — Live Order Tracking Page
-// Multi-stage preparation stepper, simulated electric cargo courier,
+// The Indian Rasoi — Live Order Tracking Page
+// Multi-stage preparation stepper, simulated delivery courier,
 // countdown arrival timer, and itemized receipt breakdown.
 // ============================================================================
 
@@ -76,21 +76,21 @@ export default function OrderTrackingPage() {
       step: 1,
       title: 'Order Confirmed',
       time: '18:15',
-      desc: 'Received and validated by the CASA TÒPAZ maître d’hôtel',
+      desc: 'Received and validated by The Indian Rasoi kitchen team',
       icon: CheckCircle2
     },
     {
       step: 2,
       title: 'Kitchen Cooking',
       time: '18:22',
-      desc: 'Simmering cazuelas and plating pinchos fresh to order',
+      desc: 'Simmering handis and baking fresh tandoori breads to order',
       icon: ChefHat
     },
     {
       step: 3,
       title: 'Out for Delivery',
       time: '18:38',
-      desc: 'Sealed in thermal stoneware with our eco-courier',
+      desc: 'Sealed in thermal packaging with our delivery courier',
       icon: Bike
     },
     {
@@ -256,21 +256,21 @@ export default function OrderTrackingPage() {
               <div className="flex items-center justify-between border-b border-stone-850 pb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-2xl bg-amber-950/60 border border-amber-500/40 flex items-center justify-center text-amber-400 font-serif font-bold text-lg">
-                    M
+                    R
                   </div>
                   <div>
                     <h3 className="font-serif text-lg font-bold text-white">
-                      {order.courier?.name || 'Mateo De La Vega'}
+                      {order.courier?.name || 'Rahul Sharma'}
                     </h3>
                     <p className="text-xs text-stone-400 flex items-center gap-1.5">
                       <Bike className="w-3.5 h-3.5 text-amber-400" />
-                      <span>{order.courier?.transport || 'Zero-Emission Isothermal Cargo Bike'}</span>
+                      <span>{order.courier?.transport || 'Thermal Insulated Delivery Bike'}</span>
                     </p>
                   </div>
                 </div>
 
                 <a
-                  href={`tel:${order.courier?.phone || '+41784402219'}`}
+                  href={`tel:${order.courier?.phone || '+919811122334'}`}
                   className="px-4 py-2 rounded-xl bg-amber-600/20 hover:bg-amber-600/30 border border-amber-500/30 text-amber-300 text-xs font-medium transition-colors flex items-center gap-1.5"
                 >
                   <Phone className="w-3.5 h-3.5" />
@@ -279,7 +279,7 @@ export default function OrderTrackingPage() {
               </div>
 
               <div className="flex items-center justify-between text-xs text-stone-400 pt-1">
-                <span>Current location: <strong className="text-stone-200">{order.courier?.currentLocation || 'Place Centrale, 600m'}</strong></span>
+                <span>Current location: <strong className="text-stone-200">{order.courier?.currentLocation || 'Connaught Place Outer Circle, 500m'}</strong></span>
                 <span className="text-amber-400 font-medium">Guest rating: ★ {order.courier?.rating || '4.98'}</span>
               </div>
             </div>
@@ -308,8 +308,8 @@ export default function OrderTrackingPage() {
                     <div className="w-10 h-10 rounded-full bg-amber-950 border border-amber-500 flex items-center justify-center text-amber-300 shadow-lg">
                       <Flame className="w-5 h-5 text-amber-400" />
                     </div>
-                    <span className="font-serif text-xs font-bold text-white">Casa Tòpaz</span>
-                    <span className="text-[10px] text-stone-400">Rue du Pont 14</span>
+                    <span className="font-serif text-xs font-bold text-white">The Indian Rasoi</span>
+                    <span className="text-[10px] text-stone-400">Connaught Place</span>
                   </div>
 
                   {/* Animated Path */}
@@ -375,7 +375,7 @@ export default function OrderTrackingPage() {
                       </div>
                     </div>
                     <span className="font-serif font-bold text-stone-300 shrink-0">
-                      CHF {(item.price * item.quantity).toFixed(2)}
+                      ₹{(item.price * item.quantity).toFixed(0)}
                     </span>
                   </div>
                 ))}
@@ -385,25 +385,25 @@ export default function OrderTrackingPage() {
               <div className="space-y-2 text-xs text-stone-400 border-t border-stone-850 pt-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-stone-200">CHF {order.pricing?.subtotal?.toFixed(2)}</span>
+                  <span className="text-stone-200">₹{order.pricing?.subtotal?.toFixed(0)}</span>
                 </div>
                 {order.pricing?.discount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Privilege discount</span>
-                    <span>- CHF {order.pricing?.discount?.toFixed(2)}</span>
+                    <span>- ₹{order.pricing?.discount?.toFixed(0)}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>Artisanal delivery</span>
-                  <span>{order.pricing?.deliveryFee === 0 ? <strong className="text-emerald-400">Complimentary</strong> : `CHF ${order.pricing?.deliveryFee?.toFixed(2)}`}</span>
+                  <span>Courier delivery</span>
+                  <span>{order.pricing?.deliveryFee === 0 ? <strong className="text-emerald-400">Complimentary</strong> : `₹${order.pricing?.deliveryFee?.toFixed(0)}`}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Eco-earthenware cazuela deposit</span>
-                  <span>CHF {order.pricing?.packagingFee?.toFixed(2) || '2.50'}</span>
+                  <span>Thermal packaging fee</span>
+                  <span>₹{order.pricing?.packagingFee?.toFixed(0) || '20'}</span>
                 </div>
                 <div className="flex justify-between text-base font-serif font-bold text-white pt-3 border-t border-stone-800">
                   <span>Total Paid</span>
-                  <span className="text-amber-300 text-lg">CHF {order.pricing?.total?.toFixed(2)}</span>
+                  <span className="text-amber-300 text-lg">₹{order.pricing?.total?.toFixed(0)}</span>
                 </div>
               </div>
 

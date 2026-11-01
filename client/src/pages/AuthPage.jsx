@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Authentication Page (Login & Register)
+// The Indian Rasoi — Authentication Page (Login & Register)
 // Luxury split-screen layout with guest demo access, validation,
 // and session persistence.
 // ============================================================================
@@ -102,13 +102,13 @@ export default function AuthPage() {
           {/* Middle / Bottom Narrative */}
           <div className="relative z-10 space-y-3 pt-12">
             <div className="w-10 h-10 rounded-full bg-amber-950/80 border border-amber-500/40 flex items-center justify-center text-amber-300 font-serif font-bold text-xl">
-              T
+              IR
             </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-tight">
-              CASA TÒPAZ
+              The Indian Rasoi
             </h2>
             <p className="text-xs text-stone-300 leading-relaxed font-sans">
-              Join the Tòpaz Privilege Club to save delivery addresses, access dining history, and enjoy exclusive member allocations.
+              Join The Indian Rasoi Privilege Club to save delivery addresses, access royal dining history, and enjoy exclusive member creations.
             </p>
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function AuthPage() {
                 Privilege Demo Account
               </span>
               <p className="text-[11px] text-stone-400">
-                Elena Rostova · Grand Cru Club
+                Priya Sharma · Rasoi Club Member
               </p>
             </div>
             <button
@@ -175,7 +175,7 @@ export default function AuthPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g., Clara Renaud"
+                    placeholder="e.g., Priya Sharma"
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                   />
                 </div>
@@ -193,7 +193,7 @@ export default function AuthPage() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="name@example.ch"
+                  placeholder="priya.sharma@example.com"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                 />
               </div>
@@ -210,7 +210,7 @@ export default function AuthPage() {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+41 79 000 00 00"
+                    placeholder="+91 98765 43210"
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                   />
                 </div>
@@ -269,7 +269,7 @@ export default function AuthPage() {
               disabled={isLoading}
               className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-white font-medium text-sm transition-all shadow-xl shadow-amber-950/50 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-6"
             >
-              <span>{isRegister ? 'Join Club Tòpaz' : 'Sign In to My Account'}</span>
+              <span>{isRegister ? 'Join Rasoi Club' : 'Sign In to My Account'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>

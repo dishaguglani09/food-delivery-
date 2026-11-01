@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Testimonials Section
+// The Indian Rasoi — Testimonials Section
 // Clearly identified sample guest & critic reviews for initial UI phase.
 // ============================================================================
 
@@ -26,7 +26,7 @@ export default function TestimonialsSection() {
           </div>
 
           <p className="text-sm text-stone-400 font-sans leading-relaxed">
-            What culinary columnists, sommeliers, and tapas aficionados say about our dining delivery and cellar pairings.
+            What food critics, royal cuisine enthusiasts, and home diners say about our slow-simmered curries and tandoori delivery.
           </p>
         </div>
 

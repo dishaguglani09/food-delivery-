@@ -1,6 +1,6 @@
 // ============================================================================
-// CASA TÒPAZ — Dish Detail & Customization Modal
-// Complete culinary view with ingredients, allergens, wine pairing,
+// The Indian Rasoi — Dish Detail & Customization Modal
+// Complete culinary view with ingredients, allergens, beverage pairing,
 // dietary certifications, and special chef instructions.
 // ============================================================================
 
@@ -68,7 +68,7 @@ export default function FoodDetailModal({ food, onClose }) {
             {/* Price Badge on Mobile */}
             <div className="absolute bottom-4 left-4 md:hidden">
               <span className="font-serif text-2xl font-bold text-amber-300 drop-shadow">
-                CHF {food.price.toFixed(2)}
+                ₹{food.price}
               </span>
             </div>
           </div>
@@ -91,14 +91,14 @@ export default function FoodDetailModal({ food, onClose }) {
                 ))}
               </div>
 
-              {/* Title & Authentic Spanish Subtitle */}
+              {/* Title & Authentic Hindi Subtitle */}
               <div>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-tight">
                   {food.name}
                 </h2>
-                {food.spanishName && (
+                {(food.hindiName || food.spanishName) && (
                   <p className="font-serif italic text-amber-400/90 text-sm mt-1">
-                    « {food.spanishName} »
+                    « {food.hindiName || food.spanishName} »
                   </p>
                 )}
               </div>
@@ -134,18 +134,18 @@ export default function FoodDetailModal({ food, onClose }) {
                 {food.description}
               </p>
 
-              {/* Sommelier Wine Pairing Card */}
-              {food.winePairing && (
+              {/* Beverage / Pairing Card */}
+              {(food.winePairing || food.beveragePairing) && (
                 <div className="rounded-2xl bg-amber-950/20 border border-amber-500/20 p-3.5 flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-amber-900/40 border border-amber-500/30 flex items-center justify-center text-amber-300 shrink-0 mt-0.5">
                     <Wine className="w-4 h-4" />
                   </div>
                   <div>
                     <h4 className="text-xs font-serif uppercase tracking-wider text-amber-300 font-semibold">
-                      Sommelier Wine Recommendation
+                      Chef's Pairing Recommendation
                     </h4>
                     <p className="text-xs text-stone-300 italic mt-0.5">
-                      {food.winePairing}
+                      {food.winePairing || food.beveragePairing}
                     </p>
                   </div>
                 </div>
@@ -176,7 +176,7 @@ export default function FoodDetailModal({ food, onClose }) {
                 <textarea
                   value={specialInstructions}
                   onChange={(e) => setSpecialInstructions(e.target.value)}
-                  placeholder="e.g. Extra golden toasted bread on the side, sauce separate..."
+                  placeholder="e.g. Extra butter, less spicy, mint chutney on the side..."
                   rows={2}
                   className="w-full px-3.5 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-400 transition-colors resize-none"
                 />
@@ -189,7 +189,7 @@ export default function FoodDetailModal({ food, onClose }) {
               <div className="hidden md:flex flex-col">
                 <span className="text-[10px] uppercase tracking-wider text-stone-500">Total</span>
                 <span className="font-serif text-2xl font-bold text-amber-300">
-                  CHF {(food.price * quantity).toFixed(2)}
+                  ₹{food.price * quantity}
                 </span>
               </div>
 
@@ -234,7 +234,7 @@ export default function FoodDetailModal({ food, onClose }) {
                 ) : (
                   <>
                     <ShoppingBag className="w-4 h-4" />
-                    <span>Add to Order · CHF {(food.price * quantity).toFixed(2)}</span>
+                    <span>Add to Order · ₹{food.price * quantity}</span>
                   </>
                 )}
               </button>

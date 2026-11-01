@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Dedicated Cart Page
+// The Indian Rasoi — Dedicated Cart Page
 // Full table view of dishes, quantities, packaging calculation,
 // discount vouchers, and checkout navigation.
 // ============================================================================
@@ -55,8 +55,8 @@ export default function CartPage() {
         <EmptyState
           icon={ShoppingBag}
           title="Your basket is currently empty"
-          description="You haven’t added any Iberian tapas or alpine dishes to your order yet."
-          actionLabel="Explore Gastronomic Menu"
+          description="You haven’t added any Indian curries, tandoori breads, or biryanis to your order yet."
+          actionLabel="Explore Indian Menu"
           actionLink="/menu"
         />
       </div>
@@ -100,7 +100,7 @@ export default function CartPage() {
               <div className="flex items-center justify-between text-xs sm:text-sm">
                 <span className="text-stone-200 flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-amber-400" />
-                  Add <strong className="text-amber-300">CHF {amountUntilFreeDelivery.toFixed(2)}</strong> more for complimentary delivery
+                  Add <strong className="text-amber-300">₹{amountUntilFreeDelivery.toFixed(0)}</strong> more for complimentary delivery
                 </span>
                 <span className="font-mono text-stone-400 text-xs">
                   {Math.round(freeDeliveryProgress)}% reached
@@ -145,13 +145,13 @@ export default function CartPage() {
                       <h3 className="font-serif text-base sm:text-lg font-bold text-white truncate">
                         {item.food.name}
                       </h3>
-                      {item.food.spanishName && (
+                      {(item.food.hindiName || item.food.spanishName) && (
                         <p className="font-serif italic text-xs text-amber-500/80 truncate">
-                          {item.food.spanishName}
+                          {item.food.hindiName || item.food.spanishName}
                         </p>
                       )}
                       <p className="text-xs text-amber-300 font-mono mt-1">
-                        CHF {item.food.price.toFixed(2)} each
+                        ₹{item.food.price} each
                       </p>
                       {item.specialInstructions && (
                         <p className="text-[11px] text-stone-400 italic line-clamp-1 mt-0.5">
@@ -187,7 +187,7 @@ export default function CartPage() {
                     {/* Subtotal */}
                     <div className="text-right min-w-[80px]">
                       <span className="font-serif text-base sm:text-lg font-bold text-amber-300">
-                        CHF {(item.food.price * item.quantity).toFixed(2)}
+                        ₹{(item.food.price * item.quantity).toFixed(0)}
                       </span>
                     </div>
 
@@ -205,11 +205,11 @@ export default function CartPage() {
               ))}
             </div>
 
-            {/* Note on thermal earthenware packaging */}
+            {/* Note on thermal packaging */}
             <div className="p-4 rounded-2xl bg-stone-950/60 border border-stone-850 flex items-start gap-3 text-xs text-stone-400">
               <Flame className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
               <p>
-                <strong>Casa Tòpaz Thermal Guarantee:</strong> All hot dishes are delivered in preheated artisan terracotta cocottes inside isothermal bells. The CHF 2.50 container deposit is credited upon container return or during your next order.
+                <strong>The Indian Rasoi Freshness Guarantee:</strong> All hot dishes are delivered in thermal insulated containers and sealed packaging. The ₹20 packaging fee ensures leak-proof thermal protection during transit.
               </p>
             </div>
           </div>
@@ -245,7 +245,7 @@ export default function CartPage() {
                       type="text"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
-                      placeholder="e.g. TOPAZ10 or BELLOTA15"
+                      placeholder="e.g. RASOI10 or DESI15"
                       className="flex-1 px-3 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs text-stone-200 placeholder-stone-500 uppercase focus:outline-none focus:border-amber-400"
                     />
                     <button
@@ -257,7 +257,7 @@ export default function CartPage() {
                   </form>
                 )}
                 <p className="text-[11px] text-stone-500">
-                  Available demo codes: <code className="text-amber-400">TOPAZ10</code> (10%) or <code className="text-amber-400">BELLOTA15</code> (15%)
+                  Available promo codes: <code className="text-amber-400">RASOI10</code> (10%) or <code className="text-amber-400">DESI15</code> (15%)
                 </p>
               </div>
 
@@ -265,35 +265,35 @@ export default function CartPage() {
               <div className="space-y-2.5 text-xs sm:text-sm text-stone-400 border-t border-stone-850 pt-4">
                 <div className="flex justify-between">
                   <span>Subtotal ({itemCount} {itemCount === 1 ? 'item' : 'items'})</span>
-                  <span className="text-stone-200">CHF {subtotal.toFixed(2)}</span>
+                  <span className="text-stone-200">₹{subtotal.toFixed(0)}</span>
                 </div>
 
                 {totalDiscount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Privilege discount</span>
-                    <span>- CHF {totalDiscount.toFixed(2)}</span>
+                    <span>- ₹{totalDiscount.toFixed(0)}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between">
-                  <span>Thermal delivery (~35 min)</span>
+                  <span>Courier delivery (~30-40 min)</span>
                   <span>
                     {deliveryFee === 0 ? (
                       <strong className="text-emerald-400 font-semibold">Complimentary</strong>
                     ) : (
-                      `CHF ${deliveryFee.toFixed(2)}`
+                      `₹${deliveryFee.toFixed(0)}`
                     )}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span>Reusable thermal cocotte deposit</span>
-                  <span>CHF {packagingFee.toFixed(2)}</span>
+                  <span>Thermal packaging fee</span>
+                  <span>₹{packagingFee.toFixed(0)}</span>
                 </div>
 
                 <div className="flex justify-between text-base sm:text-lg font-serif font-bold text-white pt-4 border-t border-stone-800">
                   <span>Total Amount</span>
-                  <span className="text-amber-300 text-xl">CHF {total.toFixed(2)}</span>
+                  <span className="text-amber-300 text-xl">₹{total.toFixed(0)}</span>
                 </div>
               </div>
 
@@ -308,7 +308,7 @@ export default function CartPage() {
 
               <div className="flex items-center justify-center gap-2 text-xs text-stone-500 pt-1">
                 <ShieldCheck className="w-4 h-4 text-amber-500" />
-                <span>256-bit SSL encrypted · TWINT, Cards & Cash on Delivery</span>
+                <span>256-bit SSL encrypted · UPI, Cards & Cash on Delivery</span>
               </div>
             </div>
           </div>

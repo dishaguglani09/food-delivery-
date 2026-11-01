@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Food Controller
+// The Indian Rasoi — Food Controller
 // Implements:
 // - Pagination, search, category filtering, vegetarian filtering, sorting
 // - Resilient fallback to sample menu data when database is being configured.
@@ -56,6 +56,7 @@ const getFoods = async (req, res, next) => {
           (f) =>
             f.name.toLowerCase().includes(q) ||
             f.description.toLowerCase().includes(q) ||
+            (f.hindiName && f.hindiName.toLowerCase().includes(q)) ||
             (f.spanishName && f.spanishName.toLowerCase().includes(q)) ||
             f.ingredients?.some((ing) => ing.toLowerCase().includes(q))
         );
@@ -118,6 +119,7 @@ const getFoods = async (req, res, next) => {
       const searchRegex = new RegExp(search.trim(), 'i');
       const searchConditions = [
         { name: searchRegex },
+        { hindiName: searchRegex },
         { spanishName: searchRegex },
         { description: searchRegex },
         { ingredients: searchRegex },
@@ -236,11 +238,13 @@ const getFoodById = async (req, res, next) => {
 const getCategories = async (req, res, next) => {
   try {
     const categoryNames = [
-      'Pinchos & Tapas',
-      'Cazuelas & Plats Chauds',
-      'Charcuterie & Fromages',
-      'Postres & Douceurs',
-      'Vinos & Cocktails'
+      'North Indian',
+      'South Indian',
+      'Street Food',
+      'Breads',
+      'Rice & Biryani',
+      'Desserts',
+      'Beverages'
     ];
 
     if (!isDbConnected()) {

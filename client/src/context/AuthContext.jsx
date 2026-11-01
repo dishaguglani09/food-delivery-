@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Authentication Context
+// THE INDIAN RASOI — Authentication Context
 // Integrates with Express /api/auth endpoints for login and registration.
 // Stores JWT in localStorage and handles session persistence.
 // ============================================================================
@@ -11,22 +11,23 @@ import { useToast } from './ToastContext';
 const AuthContext = createContext(null);
 
 const DEFAULT_DEMO_USER = {
-  _id: 'usr_topaz_elena',
-  name: 'Elena Rostova',
-  email: 'elena.rostova@gastronomie.ch',
-  phone: '+41 79 482 19 88',
+  _id: 'usr_rasoi_priya',
+  name: 'Priya Sharma',
+  email: 'priya.sharma@indianrasoi.com',
+  phone: '+91 98765 43210',
   role: 'customer',
-  memberTier: 'Club Tòpaz Grand Cru',
+  memberTier: 'The Indian Rasoi Shahi Club',
   addresses: [
     {
       _id: 'addr-1',
-      label: 'Home Penthouse',
-      street: 'Rue du Lac 24',
-      building: 'Résidence Belle-Vue, Apt 4B',
-      city: 'Biel/Bienne',
-      postalCode: '2502',
+      label: 'Home Residency',
+      street: 'Flat 402, Royal Palms Apartments',
+      building: 'Tower B, Connaught Place',
+      city: 'New Delhi',
+      postalCode: '110001',
+      country: 'India',
       isDefault: true,
-      deliveryNotes: 'Ring bell 4B or leave with concierge Mateo.'
+      deliveryNotes: 'Ring bell 402 or leave with security at main gate.'
     }
   ]
 };
@@ -35,28 +36,30 @@ export const AuthProvider = ({ children }) => {
   const { showToast } = useToast();
   const [user, setUser] = useState(() => {
     try {
-      const stored = localStorage.getItem('casa_topaz_user');
+      const stored = localStorage.getItem('indian_rasoi_user') || localStorage.getItem('casa_topaz_user');
       return stored ? JSON.parse(stored) : DEFAULT_DEMO_USER;
     } catch {
       return DEFAULT_DEMO_USER;
     }
   });
 
-  const [token, setToken] = useState(() => localStorage.getItem('casa_topaz_token') || 'demo_jwt_token_aura');
+  const [token, setToken] = useState(() => localStorage.getItem('indian_rasoi_token') || localStorage.getItem('casa_topaz_token') || 'demo_jwt_token_aura');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem('casa_topaz_user', JSON.stringify(user));
+      localStorage.setItem('indian_rasoi_user', JSON.stringify(user));
     } else {
+      localStorage.removeItem('indian_rasoi_user');
       localStorage.removeItem('casa_topaz_user');
     }
   }, [user]);
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem('casa_topaz_token', token);
+      localStorage.setItem('indian_rasoi_token', token);
     } else {
+      localStorage.removeItem('indian_rasoi_token');
       localStorage.removeItem('casa_topaz_token');
     }
   }, [token]);
@@ -72,7 +75,7 @@ export const AuthProvider = ({ children }) => {
       if (authToken) {
         setToken(authToken);
       }
-      showToast(`Welcome, ${authenticatedUser.name}!`, 'success');
+      showToast(`Welcome to The Indian Rasoi, ${authenticatedUser.name}!`, 'success');
       return true;
     } catch (err) {
       showToast(err.message || 'Sign in failed. Please verify your credentials.', 'error');
@@ -85,18 +88,20 @@ export const AuthProvider = ({ children }) => {
   const loginDemo = async () => {
     setIsLoading(true);
     try {
-      // Try backend authentication with demo account first
-      const data = await authService.login('elena.rostova@gastronomie.ch', 'Customer2026!');
+      // Try backend authentication with demo account
+      const data = await authService.login('priya.sharma@indianrasoi.com', 'Customer2026!').catch(() =>
+        authService.login('elena.rostova@gastronomie.ch', 'Customer2026!')
+      );
       const authenticatedUser = data.user || data.data;
       setUser(authenticatedUser);
       setToken(data.token || data.data?.token);
-      showToast('Signed in as member Elena Rostova (Grand Cru Club)', 'success');
+      showToast(`Signed in as member ${authenticatedUser.name} (Shahi Club)`, 'success');
       return true;
     } catch {
       // Fallback demo session
       setUser(DEFAULT_DEMO_USER);
       setToken('demo_jwt_token_aura');
-      showToast('Signed in as privilege guest (Elena Rostova)', 'success');
+      showToast('Signed in as privilege guest (Priya Sharma)', 'success');
       return true;
     } finally {
       setIsLoading(false);
@@ -114,7 +119,7 @@ export const AuthProvider = ({ children }) => {
       if (authToken) {
         setToken(authToken);
       }
-      showToast(`Account created successfully! Welcome to CASA TÒPAZ, ${registeredUser.name}.`, 'success');
+      showToast(`Account created successfully! Welcome to The Indian Rasoi, ${registeredUser.name}.`, 'success');
       return true;
     } catch (err) {
       showToast(err.message || 'Failed to create account.', 'error');
@@ -127,6 +132,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken('');
+    localStorage.removeItem('indian_rasoi_user');
+    localStorage.removeItem('indian_rasoi_token');
     localStorage.removeItem('casa_topaz_user');
     localStorage.removeItem('casa_topaz_token');
     showToast('You have been signed out successfully.', 'info');

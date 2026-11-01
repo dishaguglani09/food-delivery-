@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Slide-over Cart Drawer
+// The Indian Rasoi — Slide-over Cart Drawer
 // Real-time basket updates, free delivery progress bar,
 // promo code applicator, and direct checkout CTA.
 // ============================================================================
@@ -95,7 +95,7 @@ export default function CartDrawer() {
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-stone-300 flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                    Add <strong className="text-amber-300">CHF {amountUntilFreeDelivery.toFixed(2)}</strong> for free delivery
+                    Add <strong className="text-amber-300">₹{amountUntilFreeDelivery.toFixed(0)}</strong> for free delivery
                   </span>
                   <span className="text-stone-500 font-mono text-[11px]">
                     {Math.round(freeDeliveryProgress)}%
@@ -126,7 +126,7 @@ export default function CartDrawer() {
                 <div className="space-y-1">
                   <h4 className="font-serif text-lg text-white">Your cart is empty</h4>
                   <p className="text-xs text-stone-400 max-w-xs leading-relaxed">
-                    Explore our golden pinchos, simmering cazuelas, and cellar reserves.
+                    Explore our rich curries, fragrant biryanis, and tandoori breads.
                   </p>
                 </div>
                 <button
@@ -156,9 +156,9 @@ export default function CartDrawer() {
                         <h4 className="text-sm font-semibold text-white truncate leading-snug">
                           {item.food.name}
                         </h4>
-                        {item.food.spanishName && (
+                        {(item.food.hindiName || item.food.spanishName) && (
                           <p className="font-serif italic text-xs text-amber-500/80 truncate">
-                            {item.food.spanishName}
+                            {item.food.hindiName || item.food.spanishName}
                           </p>
                         )}
                         {item.specialInstructions && (
@@ -198,7 +198,7 @@ export default function CartDrawer() {
                       </div>
 
                       <span className="font-serif text-sm font-bold text-amber-300">
-                        CHF {(item.food.price * item.quantity).toFixed(2)}
+                        ₹{(item.food.price * item.quantity).toFixed(0)}
                       </span>
                     </div>
                   </div>
@@ -230,7 +230,7 @@ export default function CartDrawer() {
                     type="text"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
-                    placeholder="Privilege Code (e.g. TOPAZ10)"
+                    placeholder="Promo Code (e.g. RASOI10)"
                     className="flex-1 px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-400 uppercase"
                   />
                   <button
@@ -246,32 +246,32 @@ export default function CartDrawer() {
               <div className="space-y-1.5 text-xs text-stone-400 border-t border-stone-800 pt-3">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-stone-200">CHF {subtotal.toFixed(2)}</span>
+                  <span className="text-stone-200">₹{subtotal.toFixed(0)}</span>
                 </div>
 
                 {totalDiscount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Privilege discount</span>
-                    <span>- CHF {totalDiscount.toFixed(2)}</span>
+                    <span>- ₹{totalDiscount.toFixed(0)}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between">
-                  <span>Thermal courier delivery</span>
-                  <span>{deliveryFee === 0 ? <strong className="text-emerald-400">Complimentary</strong> : `CHF ${deliveryFee.toFixed(2)}`}</span>
+                  <span>Courier delivery</span>
+                  <span>{deliveryFee === 0 ? <strong className="text-emerald-400">Complimentary</strong> : `₹${deliveryFee.toFixed(0)}`}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="flex items-center gap-1">
-                    Reusable thermal cocotte
-                    <span className="text-[10px] text-stone-500">(deposit)</span>
+                    Thermal packaging
+                    <span className="text-[10px] text-stone-500">(spill-proof)</span>
                   </span>
-                  <span>CHF {packagingFee.toFixed(2)}</span>
+                  <span>₹{packagingFee.toFixed(0)}</span>
                 </div>
 
                 <div className="flex justify-between text-sm sm:text-base font-serif font-bold text-white pt-2 border-t border-stone-800">
                   <span>Estimated Total</span>
-                  <span className="text-amber-300 text-lg">CHF {total.toFixed(2)}</span>
+                  <span className="text-amber-300 text-lg">₹{total.toFixed(0)}</span>
                 </div>
               </div>
 

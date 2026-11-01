@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Order Controller
+// The Indian Rasoi — Order Controller
 // Implements order creation with product name & unit-price snapshots,
 // delivery address snapshot, subtotal, delivery fee, total, payment status,
 // and order status lifecycle.
@@ -33,7 +33,7 @@ const generateOrderNumber = () => {
   for (let i = 0; i < 5; i++) {
     randomDigits += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  return `CT-${randomDigits}`;
+  return `IR-${randomDigits}`;
 };
 
 // @desc    Create a new customer order with snapshots
@@ -44,8 +44,8 @@ const createOrder = async (req, res, next) => {
     const {
       items,
       deliveryAddress,
-      paymentMethod = 'twint',
-      deliverySchedule = 'Immédiat (~35 min)',
+      paymentMethod = 'cash',
+      deliverySchedule = 'Immediate (~30-40 min)',
       specialInstructions = '',
       promoCode
     } = req.body;
@@ -128,20 +128,20 @@ const createOrder = async (req, res, next) => {
       });
     }
 
-    // Free delivery over CHF 60.00
-    const deliveryFee = calculatedSubtotal >= 60.00 ? 0 : 6.50;
-    const packagingFee = 2.50;
+    // Free delivery over ₹499
+    const deliveryFee = calculatedSubtotal >= 499.00 ? 0 : 40.00;
+    const packagingFee = 20.00;
 
     // Promo code validation
     let discount = 0;
     if (promoCode) {
       const cleanCode = promoCode.toUpperCase().trim();
-      if (cleanCode === 'TOPAZ10') {
+      if (cleanCode === 'RASOI10' || cleanCode === 'TOPAZ10') {
         discount = Number((calculatedSubtotal * 0.10).toFixed(2));
-      } else if (cleanCode === 'BELLOTA15') {
+      } else if (cleanCode === 'DESI15' || cleanCode === 'BELLOTA15') {
         discount = Number((calculatedSubtotal * 0.15).toFixed(2));
-      } else if (cleanCode === 'TERROIR5') {
-        discount = 5.00;
+      } else if (cleanCode === 'BHOJAN50' || cleanCode === 'TERROIR5') {
+        discount = 50.00;
       }
     }
 
@@ -152,9 +152,9 @@ const createOrder = async (req, res, next) => {
       orderNumber,
       customer: req.user ? req.user._id : null,
       contact: {
-        name: req.body.contact?.name || req.user?.name || 'Elena Rostova',
-        email: req.body.contact?.email || req.user?.email || 'customer@casatopaz.ch',
-        phone: req.body.contact?.phone || req.user?.phone || '+41 79 482 19 88'
+        name: req.body.contact?.name || req.user?.name || 'Priya Sharma',
+        email: req.body.contact?.email || req.user?.email || 'priya.sharma@indianrasoi.com',
+        phone: req.body.contact?.phone || req.user?.phone || '+91 98765 43210'
       },
       items: itemSnapshots,
       deliveryAddress: {
@@ -162,7 +162,7 @@ const createOrder = async (req, res, next) => {
         building: deliveryAddress.building || '',
         city: deliveryAddress.city,
         postalCode: deliveryAddress.postalCode,
-        country: deliveryAddress.country || 'Switzerland',
+        country: deliveryAddress.country || 'India',
         deliveryNotes: deliveryAddress.deliveryNotes || ''
       },
       subtotal: Number(calculatedSubtotal.toFixed(2)),
@@ -176,9 +176,10 @@ const createOrder = async (req, res, next) => {
       orderStatus: 'Confirmed',
       deliverySchedule,
       courier: {
-        name: 'Mateo De La Vega',
-        phone: '+41 78 440 22 19',
-        transport: 'Thermal Sealed Cargo E-Bike (Zero Emission)',
+        name: 'Rahul Sharma',
+        phone: '+91 98111 22334',
+        transport: 'Thermal Insulated Delivery Bike',
+        currentLocation: 'Connaught Place Outer Circle, 500m',
         rating: 4.98
       },
       statusHistory: [

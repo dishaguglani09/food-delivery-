@@ -1,11 +1,9 @@
 // ============================================================================
-// CASA TÒPAZ — Axios API Client
-// Reusable API client powered by VITE_API_URL.
+// CASA TÒPAZ — Native Fetch API Client
+// Standard Fetch-based API client powered by VITE_API_URL.
 // Communicates with Express/MongoDB backend with JWT authorization
-// and centralized error propagation.
+// and centralized error propagation using standard browser JavaScript.
 // ============================================================================
-
-import axios from 'axios';
 
 // Resolve base URL from VITE_API_URL or fallback to relative /api
 const rawBaseUrl = import.meta.env.VITE_API_URL || '';
@@ -13,36 +11,63 @@ const API_BASE_URL = rawBaseUrl
   ? `${rawBaseUrl.replace(/\/+$/, '')}/api`
   : '/api';
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Attach JWT token from localStorage if present
-api.interceptors.request.use((config) => {
+/**
+ * Core HTTP request handler using standard native fetch
+ */
+async function request(endpoint, options = {}) {
   const token = localStorage.getItem('casa_topaz_token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(options.headers || {})
+  };
 
-// Response interceptor to normalize errors
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    const message =
-      error.response?.data?.message ||
-      error.message ||
-      'An unexpected network error occurred';
-    return Promise.reject(new Error(message));
+  let url = `${API_BASE_URL}${endpoint}`;
+  if (options.params) {
+    const searchParams = new URLSearchParams();
+    Object.entries(options.params).forEach(([key, val]) => {
+      if (val !== undefined && val !== null && val !== '') {
+        searchParams.append(key, val);
+      }
+    });
+    const qs = searchParams.toString();
+    if (qs) {
+      url += (url.includes('?') ? '&' : '?') + qs;
+    }
   }
-);
+
+  const response = await fetch(url, {
+    method: options.method || 'GET',
+    headers,
+    body: options.body
+  });
+
+  const contentType = response.headers.get('content-type');
+  let data;
+  if (contentType && contentType.includes('application/json')) {
+    data = await response.json().catch(() => null);
+  } else {
+    data = await response.text().catch(() => null);
+  }
+
+  if (!response.ok) {
+    const errorMsg =
+      data?.message ||
+      (typeof data === 'string' && data ? data : `Request failed with status ${response.status}`);
+    throw new Error(errorMsg);
+  }
+
+  return { data };
+}
+
+const api = {
+  get: (endpoint, options = {}) => request(endpoint, { ...options, method: 'GET' }),
+  post: (endpoint, body, options = {}) =>
+    request(endpoint, { ...options, method: 'POST', body: JSON.stringify(body) }),
+  put: (endpoint, body, options = {}) =>
+    request(endpoint, { ...options, method: 'PUT', body: body ? JSON.stringify(body) : undefined }),
+  delete: (endpoint, options = {}) => request(endpoint, { ...options, method: 'DELETE' })
+};
 
 // Foods Service
 export const foodService = {

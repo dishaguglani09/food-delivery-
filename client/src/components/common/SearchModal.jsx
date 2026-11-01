@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Interactive Search Modal
+// The Indian Rasoi — Interactive Search Modal
 // Real-time keyword filtering across names, ingredients, categories,
 // and dietary preferences with instant quick-add.
 // ============================================================================
@@ -75,11 +75,13 @@ export default function SearchModal({ isOpen, onClose }) {
 
   const categories = [
     'All',
-    'Pinchos & Tapas',
-    'Cazuelas & Plats Chauds',
-    'Charcuterie & Fromages',
-    'Postres & Douceurs',
-    'Vinos & Cocktails'
+    'North Indian',
+    'South Indian',
+    'Street Food',
+    'Breads',
+    'Rice & Biryani',
+    'Desserts',
+    'Beverages'
   ];
 
   // If live backend search results are returned, prioritize them
@@ -89,12 +91,12 @@ export default function SearchModal({ isOpen, onClose }) {
     if (!query) return matchesCategory;
 
     const matchesName = dish.name.toLowerCase().includes(query);
-    const matchesSpanish = dish.spanishName?.toLowerCase().includes(query);
+    const matchesHindi = (dish.hindiName || dish.spanishName)?.toLowerCase().includes(query);
     const matchesDesc = dish.description.toLowerCase().includes(query);
     const matchesIngr = dish.ingredients?.some((ing) => ing.toLowerCase().includes(query));
     const matchesDiet = dish.dietary?.some((d) => d.toLowerCase().includes(query));
 
-    return matchesCategory && (matchesName || matchesSpanish || matchesDesc || matchesIngr || matchesDiet);
+    return matchesCategory && (matchesName || matchesHindi || matchesDesc || matchesIngr || matchesDiet);
   });
 
   const filteredDishes = dbDishes !== null ? dbDishes : sampleFiltered;
@@ -117,7 +119,7 @@ export default function SearchModal({ isOpen, onClose }) {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search for pinchos, Raclette AOP, sangria, Jamón Bellota..."
+            placeholder="Search for Butter Chicken, Biryani, Masala Dosa, Gulab Jamun..."
             className="flex-1 bg-transparent border-none text-white placeholder-stone-500 text-sm sm:text-base focus:outline-none"
           />
           {searchTerm && (
@@ -165,7 +167,7 @@ export default function SearchModal({ isOpen, onClose }) {
                 No dishes matched your search for “{searchTerm}”
               </p>
               <p className="text-xs text-stone-500">
-                Try terms such as “Raclette”, “Prawns”, “Bellota”, or “Sangria”.
+                Try terms such as “Butter Chicken”, “Biryani”, “Dosa”, or “Chai”.
               </p>
             </div>
           ) : (
@@ -204,7 +206,7 @@ export default function SearchModal({ isOpen, onClose }) {
 
                 <div className="flex items-center gap-3 shrink-0">
                   <span className="font-serif text-sm font-bold text-amber-300">
-                    CHF {dish.price.toFixed(2)}
+                    ₹{dish.price}
                   </span>
                   <button
                     onClick={(e) => {

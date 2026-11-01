@@ -24,8 +24,8 @@ const protect = async (req, res, next) => {
       if (!isDbConnected()) {
         req.user = {
           _id: decoded.id,
-          name: decoded.role === 'admin' ? 'Chef Mateo Rossi' : 'Elena Rostova',
-          email: decoded.role === 'admin' ? 'admin@casatopaz.ch' : 'elena.rostova@gastronomie.ch',
+          name: decoded.role === 'admin' ? 'Master Chef Rajesh Kumar' : 'Priya Sharma',
+          email: decoded.role === 'admin' ? 'admin@theindianrasoi.com' : 'priya.sharma@indianrasoi.com',
           role: decoded.role || 'customer'
         };
         return next();
@@ -35,9 +35,9 @@ const protect = async (req, res, next) => {
       if (!user) {
         // Fallback for simulated/demo accounts
         req.user = {
-          _id: decoded.id || 'usr_topaz_elena',
-          name: decoded.role === 'admin' ? 'Chef Mateo Rossi' : 'Elena Rostova',
-          email: decoded.role === 'admin' ? 'admin@casatopaz.ch' : 'elena.rostova@gastronomie.ch',
+          _id: decoded.id || 'usr_rasoi_priya',
+          name: decoded.role === 'admin' ? 'Master Chef Rajesh Kumar' : 'Priya Sharma',
+          email: decoded.role === 'admin' ? 'admin@theindianrasoi.com' : 'priya.sharma@indianrasoi.com',
           role: decoded.role || 'customer'
         };
         return next();
@@ -49,9 +49,9 @@ const protect = async (req, res, next) => {
       // If token expired or simulated demo token
       if (token && (token.startsWith('demo_') || token.includes('demo'))) {
         req.user = {
-          _id: 'usr_topaz_elena',
-          name: 'Elena Rostova',
-          email: 'elena.rostova@gastronomie.ch',
+          _id: 'usr_rasoi_priya',
+          name: 'Priya Sharma',
+          email: 'priya.sharma@indianrasoi.com',
           role: 'customer'
         };
         return next();
@@ -88,8 +88,8 @@ const optionalProtect = async (req, res, next) => {
       if (!isDbConnected()) {
         req.user = {
           _id: decoded.id,
-          name: decoded.role === 'admin' ? 'Chef Mateo Rossi' : 'Elena Rostova',
-          email: decoded.role === 'admin' ? 'admin@casatopaz.ch' : 'customer@casatopaz.ch',
+          name: decoded.role === 'admin' ? 'Master Chef Rajesh Kumar' : 'Priya Sharma',
+          email: decoded.role === 'admin' ? 'admin@theindianrasoi.com' : 'priya.sharma@indianrasoi.com',
           role: decoded.role || 'customer'
         };
         return next();

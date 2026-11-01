@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Categories Showcase Section
+// The Indian Rasoi — Categories Showcase Section
 // Visual cards for all culinary universes with high-res food imagery
 // and quick filtering into the menu page.
 // ============================================================================
@@ -23,7 +23,7 @@ export default function CategoryCarousel() {
               The Palette of Delights
             </h2>
             <p className="text-sm text-stone-400 max-w-xl font-sans leading-relaxed">
-              From delicate artisan pinchos to simmered earthenware cazuelas, explore our menu crafted with seasonal alpine and Iberian treasures.
+              From rich Awadhi gravies and slow-cooked biryanis to crispy South Indian dosas and golden tandoori breads, explore our categories celebrating authentic Indian cuisine.
             </p>
           </div>
 
@@ -79,7 +79,7 @@ export default function CategoryCarousel() {
                 </div>
 
                 <p className="font-serif italic text-xs text-amber-500/80">
-                  « {cat.spanishTitle} »
+                  « {cat.hindiTitle || cat.spanishTitle} »
                 </p>
 
                 <p className="text-xs sm:text-sm text-stone-400 leading-relaxed">

@@ -1,7 +1,7 @@
 // ============================================================================
-// CASA TÒPAZ — Food Item Card Component
+// The Indian Rasoi — Food Item Card Component
 // High-definition presentation with culinary tags, spice meter,
-// sommelier pairing hints, and quick-add interactions.
+// beverage pairing hints, and quick-add interactions.
 // ============================================================================
 
 import { useState } from 'react';
@@ -99,10 +99,10 @@ export default function FoodCard({ food, onOpenDetails }) {
           {food.name}
         </h3>
 
-        {/* Spanish Title */}
-        {food.spanishName && (
+        {/* Authentic Indian/Hindi Subtitle */}
+        {(food.hindiName || food.spanishName) && (
           <p className="font-serif italic text-xs text-amber-500/90 mb-2">
-            {food.spanishName}
+            {food.hindiName || food.spanishName}
           </p>
         )}
 
@@ -111,12 +111,12 @@ export default function FoodCard({ food, onOpenDetails }) {
           {food.description}
         </p>
 
-        {/* Sommelier Wine Hint */}
-        {food.winePairing && (
+        {/* Beverage / Pairing Hint */}
+        {(food.winePairing || food.beveragePairing) && (
           <div className="mb-4 pt-2 border-t border-stone-800/80 flex items-center gap-1.5 text-[11px] text-stone-400 truncate">
             <Wine className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <span className="text-stone-500">Pairing:</span>
-            <span className="text-stone-300 truncate italic">{food.winePairing}</span>
+            <span className="text-stone-300 truncate italic">{food.winePairing || food.beveragePairing}</span>
           </div>
         )}
 
@@ -125,7 +125,7 @@ export default function FoodCard({ food, onOpenDetails }) {
           <div className="flex flex-col">
             <span className="text-[10px] uppercase tracking-wider text-stone-500">Price</span>
             <span className="font-serif text-xl font-bold text-amber-300">
-              CHF {food.price.toFixed(2)}
+              ₹{food.price}
             </span>
           </div>
 

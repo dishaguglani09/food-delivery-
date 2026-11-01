@@ -1,52 +1,70 @@
 // ============================================================================
-// CASA TÒPAZ — Categories Data
-// High quality imagery reflecting the authentic Swiss-Spanish culinary direction
+// THE INDIAN RASOI — Food Categories Data
+// Rich imagery reflecting authentic regional Indian culinary heritage
 // ============================================================================
 
 export const categories = [
   {
-    id: 'pinchos-tapas',
-    name: 'Pinchos & Tapas',
-    spanishTitle: 'Pinchos & Tapas d\'Auteur',
-    description: 'Bite-sized masterpieces, warm toasted brioches, melted Raclette AOP, and crisp Spanish croquetas.',
-    image: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80',
+    id: 'north-indian',
+    name: 'North Indian',
+    hindiTitle: 'उत्तर भारतीय व्यंजन',
+    description: 'Rich slow-simmered curries, creamy makhani gravies, cottage cheese delicacies, and robust Punjabi spices.',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80',
     count: 5,
-    tag: 'Signature'
+    tag: 'Royal Heritage'
   },
   {
-    id: 'cazuelas-plats-chauds',
-    name: 'Cazuelas & Plats Chauds',
-    spanishTitle: 'Cazuelas Hirvientes',
-    description: 'Sizzling terracotta dishes, tender grilled Galician octopus, and Rioja-braised chorizos.',
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    id: 'south-indian',
+    name: 'South Indian',
+    hindiTitle: 'दक्षिण भारतीय स्वाद',
+    description: 'Crisp fermented crepes, steamed fluffy idlis, golden medu vadas, and aromatic piping-hot lentil sambhar.',
+    image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=800&q=80',
     count: 4,
-    tag: 'Warm Delivery'
+    tag: 'Coastal Classics'
   },
   {
-    id: 'charcuterie-fromages',
-    name: 'Charcuterie & Fromages',
-    spanishTitle: 'Tablas de Bellota & Alpage',
-    description: '36-month Jamón Ibérico de Bellota, Cecina de León, and artisanal Swiss Alpine raw milk cheeses.',
-    image: 'https://images.unsplash.com/photo-1631709497146-a239ef373cf1?auto=format&fit=crop&w=800&q=80',
-    count: 3,
-    tag: 'Grand Cru'
+    id: 'street-food',
+    name: 'Street Food',
+    hindiTitle: 'चाट व स्ट्रीट फ़ूड',
+    description: 'Tangy mint water pani puris, buttery spiced pav bhaji, crispy aloo tikkis, and spiced Punjabi samosas.',
+    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
+    count: 5,
+    tag: 'Street Delights'
   },
   {
-    id: 'postres-douceurs',
-    name: 'Postres & Douceurs',
-    spanishTitle: 'Postres Artesanales',
-    description: 'San Sebastián Basque burnt cheesecake, artisanal hot churros with dark chocolate, and crema catalana.',
-    image: 'https://images.unsplash.com/photo-1624371414361-e670edf4898d?auto=format&fit=crop&w=800&q=80',
-    count: 3,
-    tag: 'Sweet Finish'
+    id: 'breads',
+    name: 'Breads',
+    hindiTitle: 'तंदूरी रोटियाँ व नान',
+    description: 'Clay tandoor-baked butter naans, aromatic roasted garlic breads, layered lachha parathas, and whole-wheat rotis.',
+    image: 'https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=800&q=80',
+    count: 4,
+    tag: 'Clay Tandoor'
   },
   {
-    id: 'vinos-cocktails',
-    name: 'Vinos & Cocktails',
-    spanishTitle: 'Bodega & Vins d\'Exception',
-    description: '48h macerated house Sangria, botanical barrel-aged Vermut, and rare Gran Reserva Spanish estates.',
-    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
-    count: 3,
-    tag: 'Cellar Curated'
+    id: 'rice-biryani',
+    name: 'Rice & Biryani',
+    hindiTitle: 'शाही बिरयानी व पुलाव',
+    description: 'Fragrant aged long-grain basmati rice slow-dum cooked with whole spices, saffron, and choice cuts.',
+    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80',
+    count: 4,
+    tag: 'Dum Pukht'
+  },
+  {
+    id: 'desserts',
+    name: 'Desserts',
+    hindiTitle: 'शाही मिष्ठान्न',
+    description: 'Warm cardamom-soaked gulab jamuns, saffron-infused rasmalai, hot crispy jalebi, and rich desi ghee halwa.',
+    image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80',
+    count: 5,
+    tag: 'Sweet Indulgence'
+  },
+  {
+    id: 'beverages',
+    name: 'Beverages',
+    hindiTitle: 'पारंपरिक पेय',
+    description: 'Thick hand-churned mango and sweet lassis, spiced kullad masala chai, and refreshing cold coffee.',
+    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+    count: 4,
+    tag: 'Coolers & Brews'
   }
 ];

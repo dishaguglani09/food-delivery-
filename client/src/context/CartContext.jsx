@@ -1,7 +1,7 @@
 // ============================================================================
-// CASA TÒPAZ — Shopping Cart Context
+// THE INDIAN RASOI — Shopping Cart Context
 // Shared basket state with input sanitization, anti-manipulation guards,
-// free delivery threshold progress, and persistence.
+// free delivery threshold progress, and persistence in INR (₹).
 // ============================================================================
 
 import { createContext, useContext, useState, useEffect } from 'react';
@@ -9,15 +9,15 @@ import { useToast } from './ToastContext';
 
 const CartContext = createContext(null);
 
-const FREE_DELIVERY_THRESHOLD = 60.00;
-const STANDARD_DELIVERY_FEE = 6.50;
-const THERMAL_PACKAGING_FEE = 2.50;
+const FREE_DELIVERY_THRESHOLD = 499.00;
+const STANDARD_DELIVERY_FEE = 40.00;
+const THERMAL_PACKAGING_FEE = 20.00;
 
 export const CartProvider = ({ children }) => {
   const { showToast } = useToast();
   const [items, setItems] = useState(() => {
     try {
-      const stored = localStorage.getItem('casa_topaz_cart');
+      const stored = localStorage.getItem('indian_rasoi_cart') || localStorage.getItem('casa_topaz_cart');
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed)) {
@@ -44,7 +44,7 @@ export const CartProvider = ({ children }) => {
   const [activeModalDish, setActiveModalDish] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem('casa_topaz_cart', JSON.stringify(items));
+    localStorage.setItem('indian_rasoi_cart', JSON.stringify(items));
   }, [items]);
 
   const addToCart = (food, quantity = 1, specialInstructions = '') => {
@@ -105,6 +105,7 @@ export const CartProvider = ({ children }) => {
     setAppliedPromo(null);
     setDiscountPercent(0);
     setFixedDiscount(0);
+    localStorage.removeItem('indian_rasoi_cart');
     localStorage.removeItem('casa_topaz_cart');
   };
 
@@ -119,26 +120,26 @@ export const CartProvider = ({ children }) => {
 
   const applyPromo = (code) => {
     const cleanCode = (code || '').trim().toUpperCase();
-    if (cleanCode === 'TOPAZ10') {
+    if (cleanCode === 'RASOI10' || cleanCode === 'TOPAZ10') {
       setDiscountPercent(10);
       setFixedDiscount(0);
-      setAppliedPromo({ code: 'TOPAZ10', label: '10% Gourmand Privilege' });
-      showToast('Privilege code TOPAZ10 applied: 10% off your entire order!', 'success');
+      setAppliedPromo({ code: cleanCode, label: '10% Royal Dining Privilege' });
+      showToast('Privilege code RASOI10 applied: 10% off your entire order!', 'success');
       return true;
-    } else if (cleanCode === 'BELLOTA15') {
+    } else if (cleanCode === 'DESI15' || cleanCode === 'BELLOTA15') {
       setDiscountPercent(15);
       setFixedDiscount(0);
-      setAppliedPromo({ code: 'BELLOTA15', label: '15% Bellota Selection Privilege' });
-      showToast('Privilege code BELLOTA15 applied: 15% off!', 'success');
+      setAppliedPromo({ code: cleanCode, label: '15% Desi Feast Privilege' });
+      showToast('Privilege code DESI15 applied: 15% off!', 'success');
       return true;
-    } else if (cleanCode === 'TERROIR5') {
+    } else if (cleanCode === 'BHOJAN50' || cleanCode === 'TERROIR5') {
       setDiscountPercent(0);
-      setFixedDiscount(5);
-      setAppliedPromo({ code: 'TERROIR5', label: 'CHF 5 Terroir Courtesy' });
-      showToast('Privilege code TERROIR5 applied: CHF 5.00 off!', 'success');
+      setFixedDiscount(50);
+      setAppliedPromo({ code: cleanCode, label: '₹50 Shahi Courtesy' });
+      showToast('Privilege code BHOJAN50 applied: ₹50.00 off!', 'success');
       return true;
     } else {
-      showToast('Invalid privilege code. Try TOPAZ10 or BELLOTA15', 'error');
+      showToast('Invalid privilege code. Try RASOI10, DESI15 or BHOJAN50', 'error');
       return false;
     }
   };

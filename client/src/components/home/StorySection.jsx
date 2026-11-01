@@ -1,6 +1,6 @@
 // ============================================================================
-// CASA TÒPAZ — Restaurant Story & Heritage Section
-// The narrative fusion of Andalusian bodegas with Swiss alpine refinement.
+// The Indian Rasoi — Restaurant Story & Heritage Section
+// The narrative of royal Awadhi and Punjabi culinary heritage.
 // ============================================================================
 
 import { Sparkles, Quote, Award, Heart, CheckCircle2 } from 'lucide-react';
@@ -41,8 +41,8 @@ export default function StorySection() {
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5 text-amber-400" />
                   <div>
-                    <p className="font-serif text-sm font-bold text-white">Founded in 2021</p>
-                    <p className="text-[10px] text-stone-400">Biel/Bienne · Switzerland</p>
+                    <p className="font-serif text-sm font-bold text-white">Founded in 1998</p>
+                    <p className="text-[10px] text-stone-400">Delhi & Connaught Place</p>
                   </div>
                 </div>
               </div>
@@ -96,25 +96,25 @@ export default function StorySection() {
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span className="text-xs text-stone-300">
-                  100% Acorn-fed Ibérico ham (Jabugo Bellota)
+                  100% Pure Desi Cow Ghee & hand-ground garam masala
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span className="text-xs text-stone-300">
-                  AOP-certified alpine cheeses cave-aged in Valais
+                  Charcoal-fired clay tandoor & slow dum handi cooking
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span className="text-xs text-stone-300">
-                  Cooked to order in sealed earthenware cocottes
+                  Farm-fresh dairy paneer and premium long-grain Basmati
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span className="text-xs text-stone-300">
-                  Zero-emission electric courier fleet
+                  Insulated spill-proof thermal delivery fleet
                 </span>
               </div>
             </div>

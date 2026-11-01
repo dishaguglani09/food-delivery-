@@ -1,6 +1,6 @@
 // ============================================================================
-// CASA TÒPAZ — Checkout Page View
-// Address entry, delivery scheduling, Swiss Twint/card payments,
+// The Indian Rasoi — Checkout Page View
+// Address entry, delivery scheduling, UPI/card payments,
 // and order review leading into live courier tracking.
 // ============================================================================
 
@@ -39,19 +39,19 @@ export default function CheckoutPage() {
 
   const [deliveryType, setDeliveryType] = useState('asap'); // 'asap' | 'scheduled'
   const [scheduledTime, setScheduledTime] = useState('19:30');
-  const [paymentMethod, setPaymentMethod] = useState('twint'); // 'twint' | 'card' | 'apple_pay' | 'cash'
+  const [paymentMethod, setPaymentMethod] = useState('upi'); // 'upi' | 'card' | 'net_banking' | 'cash'
 
   // Pre-fill from authenticated user or fallback
   const defaultAddress = user?.addresses?.find((a) => a.isDefault) || user?.addresses?.[0];
   const [formData, setFormData] = useState({
-    name: user?.name || 'Elena Rostova',
-    email: user?.email || 'elena.rostova@gastronomie.ch',
-    phone: user?.phone || '+41 79 482 19 88',
-    street: defaultAddress?.street || 'Rue du Lac 24',
-    building: defaultAddress?.building || 'Résidence Belle-Vue, Apt 4B',
-    city: defaultAddress?.city || 'Biel/Bienne',
-    postalCode: defaultAddress?.postalCode || '2502',
-    deliveryNotes: defaultAddress?.deliveryNotes || 'Code porte: 4421. Laisser avec concierge si absent.'
+    name: user?.name || 'Priya Sharma',
+    email: user?.email || 'priya.sharma@indianrasoi.com',
+    phone: user?.phone || '+91 98765 43210',
+    street: defaultAddress?.street || 'Flat 402, Royal Residency, Connaught Place',
+    building: defaultAddress?.building || 'Tower B, Near Rajiv Chowk Metro',
+    city: defaultAddress?.city || 'New Delhi',
+    postalCode: defaultAddress?.postalCode || '110001',
+    deliveryNotes: defaultAddress?.deliveryNotes || 'Please ring bell. Keep gravy containers upright.'
   });
 
   const cardDetails = {
@@ -68,7 +68,7 @@ export default function CheckoutPage() {
         <ShoppingBag className="w-12 h-12 text-stone-600 mb-4" />
         <h2 className="font-serif text-2xl text-white">Your Cart is Empty</h2>
         <p className="text-xs text-stone-400 max-w-sm mt-1 mb-6">
-          Please select tapas or cazuelas from our menu before proceeding to checkout.
+          Please select authentic curries, breads, or biryanis from our menu before proceeding to checkout.
         </p>
         <Link
           to="/menu"
@@ -107,7 +107,7 @@ export default function CheckoutPage() {
           email: formData.email.trim(),
           phone: formData.phone.trim()
         },
-        deliverySchedule: deliveryType === 'asap' ? 'Immediate (~35 min)' : `Tonight at ${scheduledTime}`,
+        deliverySchedule: deliveryType === 'asap' ? 'Immediate (~30-40 min)' : `Tonight at ${scheduledTime}`,
         paymentMethod,
         promoCode: appliedPromo?.code || undefined
       };
@@ -194,31 +194,31 @@ export default function CheckoutPage() {
                   required
                   value={formData.street}
                   onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                  placeholder="e.g. Rue du Lac 24"
+                  placeholder="e.g. Flat 402, Royal Residency, Connaught Place"
                   className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="sm:col-span-2 space-y-1.5">
-                  <label className="text-xs font-medium text-stone-300 block">Apartment, suite, gate code</label>
+                  <label className="text-xs font-medium text-stone-300 block">Apartment, suite, landmark</label>
                   <input
                     type="text"
                     value={formData.building}
                     onChange={(e) => setFormData({ ...formData, building: e.target.value })}
-                    placeholder="e.g. Apt 4B, Intercom Rostova"
+                    placeholder="e.g. Tower B, Near Rajiv Chowk Metro"
                     className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-stone-300 block">Postal Code *</label>
+                  <label className="text-xs font-medium text-stone-300 block">Postal Pincode *</label>
                   <input
                     type="text"
                     required
                     value={formData.postalCode}
                     onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                    placeholder="2502"
+                    placeholder="110001"
                     className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>
@@ -232,7 +232,7 @@ export default function CheckoutPage() {
                     required
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    placeholder="Biel/Bienne"
+                    placeholder="New Delhi"
                     className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>
@@ -244,6 +244,7 @@ export default function CheckoutPage() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="priya.sharma@example.com"
                     className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>
@@ -340,24 +341,24 @@ export default function CheckoutPage() {
                     Secure Payment Method
                   </h2>
                   <p className="text-xs text-stone-400">
-                    Transactions protected with Swiss SSL bank-grade encryption.
+                    Encrypted transactions via UPI, Cards, Net Banking, or Cash on Delivery.
                   </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {/* Twint */}
+                {/* UPI */}
                 <button
                   type="button"
-                  onClick={() => setPaymentMethod('twint')}
+                  onClick={() => setPaymentMethod('upi')}
                   className={`p-3.5 rounded-2xl border text-center transition-all cursor-pointer ${
-                    paymentMethod === 'twint'
+                    paymentMethod === 'upi'
                       ? 'bg-amber-950/40 border-amber-500 text-white shadow-lg'
                       : 'bg-stone-900/60 border-stone-800 text-stone-400 hover:text-white'
                   }`}
                 >
-                  <span className="block font-bold text-sm text-emerald-400">TWINT</span>
-                  <span className="text-[10px] text-stone-400">Swiss Mobile</span>
+                  <span className="block font-bold text-sm text-emerald-400">UPI / QR</span>
+                  <span className="text-[10px] text-stone-400">GPay / PhonePe / Paytm</span>
                 </button>
 
                 {/* Card */}
@@ -370,22 +371,22 @@ export default function CheckoutPage() {
                       : 'bg-stone-900/60 border-stone-800 text-stone-400 hover:text-white'
                   }`}
                 >
-                  <span className="block font-bold text-sm text-amber-300">Card</span>
-                  <span className="text-[10px] text-stone-400">Visa / Mastercard</span>
+                  <span className="block font-bold text-sm text-amber-300">Cards</span>
+                  <span className="text-[10px] text-stone-400">Visa / Mastercard / RuPay</span>
                 </button>
 
-                {/* Apple Pay */}
+                {/* Net Banking */}
                 <button
                   type="button"
-                  onClick={() => setPaymentMethod('apple_pay')}
+                  onClick={() => setPaymentMethod('net_banking')}
                   className={`p-3.5 rounded-2xl border text-center transition-all cursor-pointer ${
-                    paymentMethod === 'apple_pay'
+                    paymentMethod === 'net_banking'
                       ? 'bg-amber-950/40 border-amber-500 text-white shadow-lg'
                       : 'bg-stone-900/60 border-stone-800 text-stone-400 hover:text-white'
                   }`}
                 >
-                  <span className="block font-bold text-sm text-stone-200">Apple Pay</span>
-                  <span className="text-[10px] text-stone-400">Contactless</span>
+                  <span className="block font-bold text-sm text-stone-200">Net Banking</span>
+                  <span className="text-[10px] text-stone-400">All Major Banks</span>
                 </button>
 
                 {/* Cash */}
@@ -399,7 +400,7 @@ export default function CheckoutPage() {
                   }`}
                 >
                   <span className="block font-bold text-sm text-stone-200">Cash on Delivery</span>
-                  <span className="text-[10px] text-stone-400">Cash / Mobile Terminal</span>
+                  <span className="text-[10px] text-stone-400">Cash / Pay at Door</span>
                 </button>
               </div>
 
@@ -460,7 +461,7 @@ export default function CheckoutPage() {
                       </span>
                     </div>
                     <span className="font-serif font-bold text-stone-300 shrink-0">
-                      CHF {(item.food.price * item.quantity).toFixed(2)}
+                      ₹{(item.food.price * item.quantity).toFixed(0)}
                     </span>
                   </div>
                 ))}
@@ -470,29 +471,29 @@ export default function CheckoutPage() {
               <div className="space-y-2 text-xs text-stone-400 border-t border-stone-850 pt-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-stone-200">CHF {subtotal.toFixed(2)}</span>
+                  <span className="text-stone-200">₹{subtotal.toFixed(0)}</span>
                 </div>
 
                 {totalDiscount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Privilege discount</span>
-                    <span>- CHF {totalDiscount.toFixed(2)}</span>
+                    <span>- ₹{totalDiscount.toFixed(0)}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between">
-                  <span>Artisanal thermal delivery</span>
-                  <span>{deliveryFee === 0 ? <strong className="text-emerald-400">Complimentary</strong> : `CHF ${deliveryFee.toFixed(2)}`}</span>
+                  <span>Courier delivery</span>
+                  <span>{deliveryFee === 0 ? <strong className="text-emerald-400">Complimentary</strong> : `₹${deliveryFee.toFixed(0)}`}</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span>Eco-earthenware cazuela deposit</span>
-                  <span>CHF {packagingFee.toFixed(2)}</span>
+                  <span>Thermal packaging fee</span>
+                  <span>₹{packagingFee.toFixed(0)}</span>
                 </div>
 
                 <div className="flex justify-between text-base font-serif font-bold text-white pt-3 border-t border-stone-800">
                   <span>Total Due</span>
-                  <span className="text-amber-300 text-xl font-mono">CHF {total.toFixed(2)}</span>
+                  <span className="text-amber-300 text-xl font-mono">₹{total.toFixed(0)}</span>
                 </div>
               </div>
 
@@ -510,7 +511,7 @@ export default function CheckoutPage() {
                 ) : (
                   <>
                     <Lock className="w-4 h-4" />
-                    <span>Confirm & Place Order · CHF {total.toFixed(2)}</span>
+                    <span>Confirm & Place Order · ₹{total.toFixed(0)}</span>
                   </>
                 )}
               </button>

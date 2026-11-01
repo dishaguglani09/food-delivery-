@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Dynamic Menu Page
+// The Indian Rasoi — Dynamic Menu Page
 // Fetches real dish catalog from Express/MongoDB via foodService.
 // Supports dynamic search, category filtering, vegetarian toggles,
 // price sorting, and responsive loading skeletons.
@@ -61,7 +61,7 @@ export default function MenuPage() {
       setTotalCount(response.total || items.length);
     } catch (err) {
       console.error('Failed to load menu items:', err);
-      setFetchError(err.message || 'Impossible de charger la carte en ce moment.');
+      setFetchError(err.message || 'Unable to load menu at this moment.');
     } finally {
       setIsLoading(false);
     }
@@ -116,15 +116,15 @@ export default function MenuPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center sm:text-left">
         <div className="inline-flex items-center gap-2 text-xs font-serif tracking-widest uppercase text-amber-400 mb-2">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Haute Bistronomy & Artisan Tapas</span>
+          <span>Authentic Indian Cuisine & Royal Rasoi</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">
-              Gastronomic Menu
+              The Indian Rasoi Menu
             </h1>
             <p className="text-sm text-stone-400 mt-1 max-w-xl">
-              Every dish is prepared to order by our kitchen brigade using noble alpine and Iberian ingredients.
+              Every dish is prepared fresh to order using heirloom Indian spice blends, slow-simmered handis, and authentic clay tandoor techniques.
             </p>
           </div>
           <span className="text-xs font-mono text-stone-500 self-center sm:self-end">

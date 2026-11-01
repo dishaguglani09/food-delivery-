@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Responsive Navigation Bar
+// The Indian Rasoi — Responsive Navigation Bar
 // Logo, navigation, live search trigger, account status dropdown,
 // and shopping cart drawer trigger with animated count.
 // ============================================================================
@@ -75,23 +75,23 @@ export default function Navbar({ onOpenSearch }) {
           <div className="hidden sm:flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span className="tracking-wider uppercase text-[11px] font-medium text-amber-200/90">
-              Kitchen Open · Live Service & Thermal Delivery
+              Kitchen Open · Live Service & Fresh Tandoori Dispatch
             </span>
           </div>
           <div className="mx-auto sm:mx-0 flex items-center gap-4 text-center">
             <span className="flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Complimentary delivery on orders over CHF 60</span>
+              <span>Complimentary delivery on orders over ₹499</span>
             </span>
             <span className="hidden md:inline text-stone-600">|</span>
             <span className="hidden md:flex items-center gap-1 text-stone-400">
               <Clock className="w-3.5 h-3.5 text-stone-400" />
-              <span>Average delivery: 35–45 min</span>
+              <span>Average delivery: 30–40 min</span>
             </span>
           </div>
           <div className="hidden md:flex items-center gap-3 text-stone-400 text-[11px]">
-            <span>Biel/Bienne & Surrounds</span>
-            <span className="text-amber-500/80 font-serif italic text-sm">Haute Bistronomy</span>
+            <span>New Delhi & Surrounds</span>
+            <span className="text-amber-500/80 font-serif italic text-sm">Royal Indian Rasoi</span>
           </div>
         </div>
       </div>
@@ -108,17 +108,17 @@ export default function Navbar({ onOpenSearch }) {
           {/* Brand Logo */}
           <Link to="/" className="flex items-center gap-3 group focus:outline-none">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-amber-600/30 via-[#2a1719] to-amber-950/40 border border-amber-500/30 flex items-center justify-center shadow-lg group-hover:border-amber-400/60 transition-all">
-              {/* Gemstone / Monogram Icon */}
+              {/* Monogram Icon */}
               <span className="font-serif text-amber-300 text-lg sm:text-xl font-bold tracking-tight">
-                T
+                IR
               </span>
             </div>
             <div className="flex flex-col">
               <span className="font-serif text-xl sm:text-2xl font-bold tracking-[0.2em] text-[#fbf9f5] uppercase group-hover:text-amber-200 transition-colors">
-                Casa Tòpaz
+                The Indian Rasoi
               </span>
               <span className="text-[9px] uppercase tracking-[0.28em] text-amber-500/80 font-medium">
-                Gourmet Tapas & Fine Wines
+                Authentic Indian Flavors & Royal Biryanis
               </span>
             </div>
           </Link>
@@ -153,7 +153,7 @@ export default function Navbar({ onOpenSearch }) {
               onClick={onOpenSearch}
               className="p-2 sm:p-2.5 rounded-full text-stone-300 hover:text-white hover:bg-stone-800/80 border border-transparent hover:border-amber-500/20 transition-all focus:outline-none"
               title="Search dishes (Ctrl+K)"
-              aria-label="Search tapas and dishes"
+              aria-label="Search dishes and biryanis"
             >
               <Search className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
@@ -181,7 +181,7 @@ export default function Navbar({ onOpenSearch }) {
                       <div className="px-4 py-2 border-b border-stone-800">
                         <p className="text-xs text-stone-400">Signed in as</p>
                         <p className="text-sm font-semibold text-white truncate">{user.name}</p>
-                        <p className="text-[11px] text-amber-400 font-serif mt-0.5">{user.memberTier || 'Club Tòpaz Member'}</p>
+                        <p className="text-[11px] text-amber-400 font-serif mt-0.5">{user.memberTier || 'Rasoi Club Member'}</p>
                       </div>
                       <Link
                         to="/orders"
@@ -192,7 +192,7 @@ export default function Navbar({ onOpenSearch }) {
                         <span>My Orders & Receipts</span>
                       </Link>
                       <Link
-                        to="/track/CT-84920"
+                        to="/track/IR-84920"
                         onClick={() => setUserDropdownOpen(false)}
                         className="flex items-center gap-2.5 px-4 py-2.5 text-xs text-amber-300 hover:bg-amber-950/30 transition-colors"
                       >

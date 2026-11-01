@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Main Express Server
+// The Indian Rasoi — Main Express Server
 // JSON parsing, CORS configuration, MongoDB Atlas connection,
 // centralized error handling, and health monitoring.
 // ============================================================================
@@ -59,7 +59,7 @@ app.get('/api', (req, res) => {
   const db = getDbStatus();
   res.json({
     status: 'online',
-    restaurant: 'CASA TÒPAZ — Haute Gastronomie, Tapas & Vins d\'Auteur',
+    restaurant: 'The Indian Rasoi — Authentic Indian Cuisine & Royal Biryanis',
     version: '1.0.0',
     database: {
       connected: db.isConnected,

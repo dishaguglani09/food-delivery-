@@ -1,5 +1,5 @@
 // ============================================================================
-// CASA TÒPAZ — Featured Dishes & Bestsellers
+// The Indian Rasoi — Featured Dishes & Bestsellers
 // Interactive showcase of signature creations with instant cart integration.
 // ============================================================================
 
@@ -43,18 +43,15 @@ export default function FeaturedDishes({ onOpenFoodDetails }) {
   };
 
   const tabs = [
-    { id: 'All', label: 'All Creations' },
-    { id: 'Pinchos & Tapas', label: 'Pinchos & Croquetas' },
-    { id: 'Cazuelas & Plats Chauds', label: 'Hot Cazuelas' },
-    { id: 'Charcuterie & Fromages', label: 'Bellota & Alpine Cheeses' },
-    { id: 'Douceurs & Vins', label: 'Desserts & Fine Wines' },
+    { id: 'All', label: 'All Signatures' },
+    { id: 'North Indian', label: 'North Indian' },
+    { id: 'Rice & Biryani', label: 'Biryani & Rice' },
+    { id: 'Street Food', label: 'Street Food' },
+    { id: 'South Indian', label: 'South Indian' },
   ];
 
   const displayedDishes = dishes.filter((dish) => {
     if (activeTab === 'All') return true;
-    if (activeTab === 'Douceurs & Vins') {
-      return dish.category === 'Postres & Douceurs' || dish.category === 'Vinos & Cocktails';
-    }
     return dish.category === activeTab;
   });
 
@@ -68,7 +65,7 @@ export default function FeaturedDishes({ onOpenFoodDetails }) {
             <span>Chef's Selection & Bestsellers</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-            Casa Tòpaz Signatures
+            The Indian Rasoi Signatures
           </h2>
           <p className="text-sm text-stone-400 font-sans leading-relaxed">
             Our most celebrated dishes, freshly cooked to order and delivered ready to enjoy.

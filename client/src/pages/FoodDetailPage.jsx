@@ -1,6 +1,6 @@
 // ============================================================================
-// CASA TÒPAZ — Dedicated Food Detail Page (/dish/:id)
-// In-depth culinary profile with sommelier pairings, noble ingredients,
+// The Indian Rasoi — Dedicated Food Detail Page (/dish/:id)
+// In-depth culinary profile with beverage pairings, heirloom spices,
 // allergen disclosures, and related creations.
 // ============================================================================
 
@@ -160,9 +160,9 @@ export default function FoodDetailPage() {
               <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                 {food.name}
               </h1>
-              {food.spanishName && (
+              {(food.hindiName || food.spanishName) && (
                 <p className="font-serif italic text-amber-400 text-base sm:text-lg mt-1">
-                  « {food.spanishName} »
+                  « {food.hindiName || food.spanishName} »
                 </p>
               )}
             </div>
@@ -172,7 +172,7 @@ export default function FoodDetailPage() {
               <div>
                 <span className="text-xs uppercase text-stone-500 block">Order Price</span>
                 <span className="font-serif text-3xl font-bold text-amber-300">
-                  CHF {food.price.toFixed(2)}
+                  ₹{food.price}
                 </span>
               </div>
 
@@ -202,18 +202,18 @@ export default function FoodDetailPage() {
               {food.description}
             </p>
 
-            {/* Sommelier Pairing */}
-            {food.winePairing && (
+            {/* Beverage / Accompaniment Pairing */}
+            {(food.winePairing || food.beveragePairing) && (
               <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/20 flex items-start gap-3.5">
                 <div className="w-10 h-10 rounded-xl bg-amber-900/40 border border-amber-500/30 flex items-center justify-center text-amber-300 shrink-0 mt-0.5">
                   <Wine className="w-5 h-5" />
                 </div>
                 <div>
                   <h4 className="font-serif text-xs uppercase tracking-wider text-amber-300 font-semibold">
-                    Sommelier Wine Recommendation
+                    Chef's Pairing Recommendation
                   </h4>
                   <p className="text-xs sm:text-sm text-stone-300 italic mt-0.5">
-                    {food.winePairing}
+                    {food.winePairing || food.beveragePairing}
                   </p>
                 </div>
               </div>
@@ -245,7 +245,7 @@ export default function FoodDetailPage() {
                 rows={2}
                 value={specialInstructions}
                 onChange={(e) => setSpecialInstructions(e.target.value)}
-                placeholder="e.g. Extra golden toasted bread, dressing on the side..."
+                placeholder="e.g. Extra butter, less spicy, mint chutney on the side..."
                 className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 resize-none"
               />
             </div>
@@ -286,7 +286,7 @@ export default function FoodDetailPage() {
                 ) : (
                   <>
                     <ShoppingBag className="w-5 h-5" />
-                    <span>Add to Order · CHF {(food.price * quantity).toFixed(2)}</span>
+                    <span>Add to Order · ₹{food.price * quantity}</span>
                   </>
                 )}
               </button>

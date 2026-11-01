@@ -72,12 +72,13 @@ const loginUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!isDbConnected()) {
-      if (email.toLowerCase() === 'admin@casatopaz.ch' && password === 'AdminPassword2026!') {
-        const adminId = 'usr_admin_mateo';
+      const lower = email.toLowerCase();
+      if ((lower === 'admin@theindianrasoi.com' || lower === 'admin@casatopaz.ch') && password === 'AdminPassword2026!') {
+        const adminId = 'usr_admin_rajesh';
         const userObj = {
           _id: adminId,
-          name: 'Chef Mateo Rossi',
-          email: 'admin@casatopaz.ch',
+          name: 'Master Chef Rajesh Kumar',
+          email: 'admin@theindianrasoi.com',
           role: 'admin',
           addresses: []
         };
@@ -91,21 +92,21 @@ const loginUser = async (req, res, next) => {
           user: userObj
         });
       }
-      if (email.toLowerCase() === 'elena.rostova@gastronomie.ch' && password === 'Customer2026!') {
-        const custId = 'usr_topaz_elena';
+      if ((lower === 'priya.sharma@indianrasoi.com' || lower === 'elena.rostova@gastronomie.ch') && (password === 'Customer2026!' || password === 'Priya2026!')) {
+        const custId = 'usr_rasoi_priya';
         const userObj = {
           _id: custId,
-          name: 'Elena Rostova',
-          email: 'elena.rostova@gastronomie.ch',
-          phone: '+41 79 482 19 88',
+          name: 'Priya Sharma',
+          email: 'priya.sharma@indianrasoi.com',
+          phone: '+91 98765 43210',
           role: 'customer',
           addresses: [
             {
               _id: 'addr-1',
               label: 'Home Penthouse',
-              street: 'Rue du Lac 24',
-              city: 'Biel/Bienne',
-              postalCode: '2502',
+              street: 'Flat 402, Royal Residency, Connaught Place',
+              city: 'New Delhi',
+              postalCode: '110001',
               isDefault: true
             }
           ]

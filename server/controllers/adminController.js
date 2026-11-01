@@ -12,7 +12,7 @@ const getAdminStats = async (req, res, next) => {
       return res.json({
         success: true,
         data: {
-          totalRevenue: 2840.50,
+          totalRevenue: 48650.00,
           totalOrders: 42,
           totalUsers: 18,
           totalFoods: 18,
