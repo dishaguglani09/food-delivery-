@@ -1,11 +1,16 @@
 // ============================================================================
 // The Indian Rasoi — Authentication & Role Middleware
-// Validates JWT bearer tokens and protects customer/admin routes.
+// Resilient JWT Token Verification & User Resolution:
+// - Validates JWT bearer tokens against JWT_SECRET
+// - Resolves user from MongoDB Atlas when connected or localStore in dev mode
+// - Supports both strict (protect) and optional (optionalProtect) authentication
+// - Enforces role-based access control (admin)
 // ============================================================================
 
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { isDbConnected } = require('../config/db');
+const localStore = require('../utils/localStore');
 
 const protect = async (req, res, next) => {
   let token;
@@ -21,42 +26,23 @@ const protect = async (req, res, next) => {
         process.env.JWT_SECRET || 'the_indian_rasoi_jwt_secret_dev_key_2026_royal_dining'
       );
 
-      if (!isDbConnected()) {
-        req.user = {
-          _id: decoded.id,
-          name: decoded.role === 'admin' ? 'Master Chef Rajesh Kumar' : 'Priya Sharma',
-          email: decoded.role === 'admin' ? 'admin@theindianrasoi.com' : 'priya.sharma@indianrasoi.com',
-          role: decoded.role || 'customer'
-        };
-        return next();
+      let user = null;
+      if (isDbConnected()) {
+        user = await User.findById(decoded.id).select('-password');
+      } else {
+        user = localStore.findUserById(decoded.id);
       }
 
-      const user = await User.findById(decoded.id).select('-password');
       if (!user) {
-        // Fallback for simulated/demo accounts
-        req.user = {
-          _id: decoded.id || 'usr_rasoi_priya',
-          name: decoded.role === 'admin' ? 'Master Chef Rajesh Kumar' : 'Priya Sharma',
-          email: decoded.role === 'admin' ? 'admin@theindianrasoi.com' : 'priya.sharma@indianrasoi.com',
-          role: decoded.role || 'customer'
-        };
-        return next();
+        return res.status(401).json({
+          success: false,
+          message: 'Not authorized: User account no longer exists.'
+        });
       }
 
       req.user = user;
       return next();
     } catch (error) {
-      // If token expired or simulated demo token
-      if (token && (token.startsWith('demo_') || token.includes('demo'))) {
-        req.user = {
-          _id: 'usr_rasoi_priya',
-          name: 'Priya Sharma',
-          email: 'priya.sharma@indianrasoi.com',
-          role: 'customer'
-        };
-        return next();
-      }
-
       return res.status(401).json({
         success: false,
         message: 'Not authorized, token invalid or expired.'
@@ -67,12 +53,11 @@ const protect = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({
       success: false,
-      message: 'Not authorized, please authenticate.'
+      message: 'Not authorized, please provide a valid authentication token.'
     });
   }
 };
 
-// Optional protect for endpoints that support both guest and logged-in users
 const optionalProtect = async (req, res, next) => {
   if (
     req.headers.authorization &&
@@ -85,27 +70,18 @@ const optionalProtect = async (req, res, next) => {
         process.env.JWT_SECRET || 'the_indian_rasoi_jwt_secret_dev_key_2026_royal_dining'
       );
 
-      if (!isDbConnected()) {
-        req.user = {
-          _id: decoded.id,
-          name: decoded.role === 'admin' ? 'Master Chef Rajesh Kumar' : 'Priya Sharma',
-          email: decoded.role === 'admin' ? 'admin@theindianrasoi.com' : 'priya.sharma@indianrasoi.com',
-          role: decoded.role || 'customer'
-        };
-        return next();
+      let user = null;
+      if (isDbConnected()) {
+        user = await User.findById(decoded.id).select('-password');
+      } else {
+        user = localStore.findUserById(decoded.id);
       }
 
-      const user = await User.findById(decoded.id).select('-password');
       if (user) {
         req.user = user;
-      } else {
-        req.user = {
-          _id: decoded.id,
-          role: decoded.role || 'customer'
-        };
       }
     } catch {
-      // Non-fatal for optional
+      // Optional: continue unauthenticated if token verification fails
     }
   }
   next();
@@ -117,7 +93,7 @@ const admin = (req, res, next) => {
   } else {
     res.status(403).json({
       success: false,
-      message: 'Access restricted to administrators only.'
+      message: 'Forbidden: Administrator privileges required.'
     });
   }
 };

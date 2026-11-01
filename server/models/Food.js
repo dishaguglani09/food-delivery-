@@ -61,6 +61,12 @@ const foodSchema = new mongoose.Schema({
     required: true,
     default: true
   },
+  stock: {
+    type: Number,
+    required: [true, 'Stock quantity is required'],
+    default: 50,
+    min: [0, 'Stock cannot be negative']
+  },
   isFeatured: {
     type: Boolean,
     default: false

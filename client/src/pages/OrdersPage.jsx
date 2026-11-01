@@ -91,8 +91,8 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen w-full bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 space-y-8">
         {/* Page Header */}
         <div className="border-b border-stone-850 pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-1">

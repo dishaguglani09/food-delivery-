@@ -4,7 +4,8 @@
 // free delivery threshold progress, and persistence in INR (₹).
 // ============================================================================
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { foodService } from '../services/api';
 import { useToast } from './ToastContext';
 
 const CartContext = createContext(null);
@@ -43,20 +44,71 @@ export const CartProvider = ({ children }) => {
   // Quick view / detail modal state
   const [activeModalDish, setActiveModalDish] = useState(null);
 
+  // Sync cart items with localStorage
   useEffect(() => {
     localStorage.setItem('indian_rasoi_cart', JSON.stringify(items));
   }, [items]);
 
+  // Revalidate and migrate cart items against active backend food documents
+  const revalidateCart = useCallback(async () => {
+    try {
+      const stored = localStorage.getItem('indian_rasoi_cart');
+      const currentList = stored ? JSON.parse(stored) : items;
+      if (!Array.isArray(currentList) || currentList.length === 0) return true;
+
+      const payload = currentList.map((item) => ({
+        food: item.food?._id || item.food?.id,
+        name: item.food?.name,
+        quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
+        specialInstructions: item.specialInstructions || ''
+      }));
+
+      const res = await foodService.validateCart(payload);
+      if (res && res.success) {
+        if (res.removedItems && res.removedItems.length > 0) {
+          res.removedItems.forEach((rem) => {
+            showToast(rem.message, 'info');
+          });
+        }
+        if (res.hasChanges && Array.isArray(res.validItems)) {
+          setItems(res.validItems);
+          console.log('[Cart] Stale food references successfully migrated to active database records.');
+        }
+      }
+      return res;
+    } catch (err) {
+      console.warn('[Cart] Cart synchronization notice:', err.message);
+      return null;
+    }
+  }, [items, showToast]);
+
+  // Automatic cart integrity revalidation on initial load
+  useEffect(() => {
+    revalidateCart();
+  }, []);
+
   const addToCart = (food, quantity = 1, specialInstructions = '') => {
     if (!food) return;
 
+    const foodId = food._id || food.id;
+    if (!foodId) {
+      showToast('Cannot add item: Missing valid menu reference.', 'error');
+      return;
+    }
+
+    if (food.isAvailable === false) {
+      showToast(`We apologize: "${food.name}" is currently sold out.`, 'error');
+      return;
+    }
+
     // Strict positive integer quantity validation
     const safeQty = Math.max(1, Math.floor(Number(quantity) || 1));
-    const foodId = food._id || food.id;
 
     setItems((prev) => {
       const existingIndex = prev.findIndex(
-        (item) => (item.food._id || item.food.id) === foodId
+        (item) =>
+          (item.food?._id || item.food?.id) === foodId ||
+          (item.food?.name && item.food.name === food.name)
       );
 
       if (existingIndex > -1) {
@@ -64,6 +116,7 @@ export const CartProvider = ({ children }) => {
         const updatedQty = next[existingIndex].quantity + safeQty;
         next[existingIndex] = {
           ...next[existingIndex],
+          food, // Refresh with latest verified dish document
           quantity: updatedQty,
           specialInstructions: specialInstructions || next[existingIndex].specialInstructions
         };
@@ -80,7 +133,7 @@ export const CartProvider = ({ children }) => {
     setItems((prev) => {
       return prev
         .map((item) => {
-          const currentId = item.food._id || item.food.id;
+          const currentId = item.food?._id || item.food?.id;
           if (currentId === foodId) {
             const nextQty = item.quantity + safeDelta;
             // Prevent non-positive quantities
@@ -93,9 +146,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (foodId) => {
-    const item = items.find((i) => (i.food._id || i.food.id) === foodId);
-    setItems((prev) => prev.filter((i) => (i.food._id || i.food.id) !== foodId));
-    if (item) {
+    const item = items.find((i) => (i.food?._id || i.food?.id) === foodId);
+    setItems((prev) => prev.filter((i) => (i.food?._id || i.food?.id) !== foodId));
+    if (item && item.food) {
       showToast(`Removed ${item.food.name} from your selection.`, 'info');
     }
   };
@@ -108,10 +161,11 @@ export const CartProvider = ({ children }) => {
     localStorage.removeItem('indian_rasoi_cart');
   };
 
-  // Prepares safe checkout payload containing only product IDs and sanitized quantities
+  // Prepares safe checkout payload containing valid product IDs, names, and sanitized quantities
   const getCheckoutItems = () => {
     return items.map((item) => ({
-      food: item.food._id || item.food.id,
+      food: item.food?._id || item.food?.id,
+      name: item.food?.name,
       quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
       specialInstructions: item.specialInstructions || ''
     }));
@@ -191,6 +245,7 @@ export const CartProvider = ({ children }) => {
         updateQuantity,
         removeFromCart,
         clearCart,
+        revalidateCart,
         getCheckoutItems,
         isCartOpen,
         openCart: () => setIsCartOpen(true),

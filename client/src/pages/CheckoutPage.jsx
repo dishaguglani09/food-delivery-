@@ -30,6 +30,7 @@ export default function CheckoutPage() {
     packagingFee, 
     total, 
     clearCart,
+    revalidateCart,
     getCheckoutItems,
     appliedPromo
   } = useCart();
@@ -40,18 +41,19 @@ export default function CheckoutPage() {
   const [deliveryType, setDeliveryType] = useState('asap'); // 'asap' | 'scheduled'
   const [scheduledTime, setScheduledTime] = useState('19:30');
   const [paymentMethod, setPaymentMethod] = useState('upi'); // 'upi' | 'card' | 'net_banking' | 'cash'
+  const [idempotencyKey] = useState(() => `idemp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`);
 
-  // Pre-fill from authenticated user or fallback
+  // Pre-fill from authenticated user if signed in
   const defaultAddress = user?.addresses?.find((a) => a.isDefault) || user?.addresses?.[0];
   const [formData, setFormData] = useState({
-    name: user?.name || 'Priya Sharma',
-    email: user?.email || 'priya.sharma@indianrasoi.com',
-    phone: user?.phone || '+91 98765 43210',
-    street: defaultAddress?.street || 'Flat 402, Royal Residency, Connaught Place',
-    building: defaultAddress?.building || 'Tower B, Near Rajiv Chowk Metro',
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    street: defaultAddress?.street || '',
+    building: defaultAddress?.building || '',
     city: defaultAddress?.city || 'New Delhi',
-    postalCode: defaultAddress?.postalCode || '110001',
-    deliveryNotes: defaultAddress?.deliveryNotes || 'Please ring bell. Keep gravy containers upright.'
+    postalCode: defaultAddress?.postalCode || '',
+    deliveryNotes: defaultAddress?.deliveryNotes || ''
   });
 
   const cardDetails = {
@@ -109,7 +111,8 @@ export default function CheckoutPage() {
         },
         deliverySchedule: deliveryType === 'asap' ? 'Immediate (~30-40 min)' : `Tonight at ${scheduledTime}`,
         paymentMethod,
-        promoCode: appliedPromo?.code || undefined
+        promoCode: appliedPromo?.code || undefined,
+        idempotencyKey
       };
 
       const created = await createOrder(orderPayload);
@@ -118,15 +121,18 @@ export default function CheckoutPage() {
     } catch (err) {
       console.error('Order submission failed:', err);
       showToast(err.message || 'The order could not be validated by the restaurant.', 'error');
-      // Never clear the cart or show fake confirmation on failure!
+      // If error was related to item availability, revalidate and heal cart
+      if (revalidateCart) {
+        revalidateCart();
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen w-full bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 space-y-8">
         {/* Navigation Breadcrumb */}
         <div className="border-b border-stone-850 pb-4">
           <Link
@@ -136,10 +142,10 @@ export default function CheckoutPage() {
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to cart</span>
           </Link>
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-white tracking-tight">
             Complete Your Order
           </h1>
-          <p className="text-xs sm:text-sm text-stone-400">
+          <p className="text-xs sm:text-sm text-stone-300 font-normal">
             Secure checkout and real-time preparation by our kitchen brigade.
           </p>
         </div>
@@ -444,7 +450,7 @@ export default function CheckoutPage() {
           {/* Right Column: Order Review Summary & Place Order */}
           <div className="lg:col-span-5 space-y-6">
             <div className="p-6 sm:p-8 rounded-3xl bg-[#141211] border border-amber-950/40 shadow-xl space-y-6 sticky top-28">
-              <h2 className="font-serif text-xl font-bold text-white border-b border-stone-850 pb-4">
+              <h2 className="font-serif text-lg font-semibold text-white border-b border-stone-850 pb-4">
                 Order Summary ({itemCount} items)
               </h2>
 
@@ -453,14 +459,14 @@ export default function CheckoutPage() {
                 {items.map((item) => (
                   <div key={item.food._id} className="pt-2 first:pt-0 flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2.5 min-w-0 pr-2">
-                      <span className="font-semibold text-amber-400 font-mono">
+                      <span className="font-medium text-amber-400">
                         {item.quantity}×
                       </span>
-                      <span className="text-stone-200 truncate">
+                      <span className="text-stone-200 truncate font-normal">
                         {item.food.name}
                       </span>
                     </div>
-                    <span className="font-serif font-bold text-stone-300 shrink-0">
+                    <span className="font-semibold text-stone-200 shrink-0">
                       ₹{(item.food.price * item.quantity).toFixed(0)}
                     </span>
                   </div>
@@ -468,14 +474,14 @@ export default function CheckoutPage() {
               </div>
 
               {/* Cost Calculations */}
-              <div className="space-y-2 text-xs text-stone-400 border-t border-stone-850 pt-4">
+              <div className="space-y-2 text-xs text-stone-300 border-t border-stone-850 pt-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-stone-200">₹{subtotal.toFixed(0)}</span>
+                  <span className="text-stone-200 font-medium">₹{subtotal.toFixed(0)}</span>
                 </div>
 
                 {totalDiscount > 0 && (
-                  <div className="flex justify-between text-emerald-400">
+                  <div className="flex justify-between text-emerald-400 font-medium">
                     <span>Privilege discount</span>
                     <span>- ₹{totalDiscount.toFixed(0)}</span>
                   </div>
@@ -483,17 +489,17 @@ export default function CheckoutPage() {
 
                 <div className="flex justify-between">
                   <span>Courier delivery</span>
-                  <span>{deliveryFee === 0 ? <strong className="text-emerald-400">Complimentary</strong> : `₹${deliveryFee.toFixed(0)}`}</span>
+                  <span>{deliveryFee === 0 ? <strong className="text-emerald-400 font-medium">Complimentary</strong> : `₹${deliveryFee.toFixed(0)}`}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span>Thermal packaging fee</span>
-                  <span>₹{packagingFee.toFixed(0)}</span>
+                  <span className="text-stone-200 font-medium">₹{packagingFee.toFixed(0)}</span>
                 </div>
 
-                <div className="flex justify-between text-base font-serif font-bold text-white pt-3 border-t border-stone-800">
+                <div className="flex justify-between text-base font-medium text-white pt-3 border-t border-stone-800">
                   <span>Total Due</span>
-                  <span className="text-amber-300 text-xl font-mono">₹{total.toFixed(0)}</span>
+                  <span className="text-amber-300 text-xl font-semibold">₹{total.toFixed(0)}</span>
                 </div>
               </div>
 

@@ -64,8 +64,8 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen w-full bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 space-y-8">
         {/* Header Breadcrumb & Title */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-850 pb-6">
           <div className="space-y-1">
@@ -76,10 +76,10 @@ export default function CartPage() {
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Continue exploring the menu</span>
             </Link>
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-white tracking-tight">
               My Tasting Basket
             </h1>
-            <p className="text-xs sm:text-sm text-stone-400">
+            <p className="text-xs sm:text-sm text-stone-300 font-normal">
               Review your selected dishes and prepare for exceptional home dining.
             </p>
           </div>
@@ -291,9 +291,9 @@ export default function CartPage() {
                   <span>₹{packagingFee.toFixed(0)}</span>
                 </div>
 
-                <div className="flex justify-between text-base sm:text-lg font-serif font-bold text-white pt-4 border-t border-stone-800">
+                <div className="flex justify-between text-base sm:text-lg font-medium text-white pt-4 border-t border-stone-800">
                   <span>Total Amount</span>
-                  <span className="text-amber-300 text-xl">₹{total.toFixed(0)}</span>
+                  <span className="text-amber-300 text-xl font-semibold">₹{total.toFixed(0)}</span>
                 </div>
               </div>
 

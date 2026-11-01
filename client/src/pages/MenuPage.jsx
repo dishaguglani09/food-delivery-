@@ -1,8 +1,9 @@
 // ============================================================================
 // The Indian Rasoi — Dynamic Menu Page
-// Fetches real dish catalog from Express/MongoDB via foodService.
+// Fetches real dish catalog and categories dynamically from Express/MongoDB.
 // Supports dynamic search, category filtering, vegetarian toggles,
 // price sorting, and responsive loading skeletons.
+// Zero hardcoded mock data.
 // ============================================================================
 
 import { useState, useEffect, useCallback } from 'react';
@@ -21,7 +22,6 @@ import FoodCard from '../components/common/FoodCard';
 import EmptyState from '../components/common/EmptyState';
 import { MenuGridSkeleton } from '../components/common/LoadingSkeleton';
 import { foodService } from '../services/api';
-import { categories as categoryList } from '../data/categories';
 import { useCart } from '../context/CartContext';
 
 export default function MenuPage() {
@@ -34,11 +34,31 @@ export default function MenuPage() {
   const [selectedDietary, setSelectedDietary] = useState([]);
   const [sortBy, setSortBy] = useState('recommended');
 
-  // Real data state from MongoDB
+  // Real data state from MongoDB Atlas
   const [dishes, setDishes] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
+
+  // Fetch dynamic categories
+  useEffect(() => {
+    let active = true;
+    async function loadCategories() {
+      try {
+        const data = await foodService.getCategories();
+        if (active && Array.isArray(data)) {
+          setCategories(data);
+        }
+      } catch (err) {
+        console.warn('Failed to load menu categories:', err);
+      }
+    }
+    loadCategories();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const fetchMenuDishes = useCallback(async () => {
     setIsLoading(true);
@@ -100,8 +120,8 @@ export default function MenuPage() {
   const dietaryOptions = [
     { id: 'Vegetarian', label: 'Vegetarian' },
     { id: 'Gluten-Free', label: 'Gluten-Free' },
-    { id: 'AOP Certified', label: 'AOP Certified' },
     { id: 'Chef Special', label: 'Chef Specials' },
+    { id: 'Spicy', label: 'Spicy' }
   ];
 
   const hasActiveFilters =
@@ -111,29 +131,29 @@ export default function MenuPage() {
     sortBy !== 'recommended';
 
   return (
-    <div className="min-h-screen bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
+    <div className="min-h-screen w-full bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
       {/* Menu Header Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center sm:text-left">
-        <div className="inline-flex items-center gap-2 text-xs font-serif tracking-widest uppercase text-amber-400 mb-2">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mb-10 text-center sm:text-left">
+        <div className="inline-flex items-center gap-2 text-xs font-medium text-amber-400 mb-2">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Authentic Indian Cuisine & Royal Rasoi</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h1 className="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">
+            <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-white tracking-tight leading-snug">
               The Indian Rasoi Menu
             </h1>
-            <p className="text-sm text-stone-400 mt-1 max-w-xl">
+            <p className="text-sm text-stone-300 mt-1 max-w-xl font-normal leading-relaxed">
               Every dish is prepared fresh to order using heirloom Indian spice blends, slow-simmered handis, and authentic clay tandoor techniques.
             </p>
           </div>
-          <span className="text-xs font-mono text-stone-500 self-center sm:self-end">
+          <span className="text-xs text-stone-400 font-normal self-center sm:self-end">
             {isLoading ? 'Loading menu...' : `Showing ${dishes.length} of ${totalCount} dishes`}
           </span>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 space-y-8">
         {/* Search & Sort Controls Bar */}
         <div className="p-4 sm:p-5 rounded-2xl bg-[#141211] border border-amber-950/40 shadow-xl flex flex-col md:flex-row gap-4 items-center justify-between">
           {/* Search Input */}
@@ -175,7 +195,7 @@ export default function MenuPage() {
           </div>
         </div>
 
-        {/* Category Pills Bar */}
+        {/* Dynamic Category Pills Bar */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
           <button
             onClick={() => handleCategorySelect('All')}
@@ -188,9 +208,9 @@ export default function MenuPage() {
             All Dishes
           </button>
 
-          {categoryList.map((cat) => (
+          {categories.map((cat) => (
             <button
-              key={cat.id}
+              key={cat.id || cat.name}
               onClick={() => handleCategorySelect(cat.name)}
               className={`px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${
                 selectedCategory === cat.name
@@ -198,7 +218,7 @@ export default function MenuPage() {
                   : 'bg-stone-900 text-stone-400 hover:text-white hover:bg-stone-850 border border-stone-800'
               }`}
             >
-              {cat.name}
+              {cat.name} {cat.count ? `(${cat.count})` : ''}
             </button>
           ))}
         </div>
@@ -208,7 +228,7 @@ export default function MenuPage() {
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs text-stone-400 mr-1 flex items-center gap-1">
               <Leaf className="w-3.5 h-3.5 text-emerald-400" />
-              Dietary & Certifications:
+              Dietary Preferences:
             </span>
             {dietaryOptions.map((opt) => {
               const active = selectedDietary.includes(opt.id);
@@ -232,43 +252,35 @@ export default function MenuPage() {
           {hasActiveFilters && (
             <button
               onClick={clearAllFilters}
-              className="text-xs text-amber-400 hover:text-amber-300 underline underline-offset-4 flex items-center gap-1 cursor-pointer"
+              className="text-xs text-amber-400 hover:text-amber-300 underline cursor-pointer"
             >
-              <X className="w-3.5 h-3.5" />
-              <span>Reset filters</span>
+              Reset all filters
             </button>
           )}
         </div>
 
-        {/* Dynamic Content Grid / Skeletons / Error */}
+        {/* Menu Grid Content */}
         {isLoading ? (
-          <MenuGridSkeleton count={6} />
+          <MenuGridSkeleton count={8} />
         ) : fetchError ? (
-          <div className="p-8 rounded-3xl bg-rose-950/20 border border-rose-800/40 text-center space-y-4 max-w-lg mx-auto">
-            <AlertCircle className="w-10 h-10 text-rose-400 mx-auto" />
-            <h3 className="font-serif text-xl font-bold text-white">
-              Menu Service Temporarily Unavailable
+          <div className="p-8 rounded-2xl bg-[#161413] border border-amber-900/40 text-center space-y-4 max-w-lg mx-auto my-12">
+            <AlertCircle className="w-10 h-10 text-amber-500 mx-auto" />
+            <h3 className="font-serif text-lg font-bold text-white">
+              Notice Loading Dishes
             </h3>
-            <p className="text-xs text-stone-300 leading-relaxed">
+            <p className="text-xs text-stone-400 leading-relaxed">
               {fetchError}
             </p>
             <button
               onClick={fetchMenuDishes}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-800 text-xs text-amber-300 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-colors"
             >
               <RotateCw className="w-3.5 h-3.5" />
-              <span>Retry</span>
+              <span>Retry Request</span>
             </button>
           </div>
-        ) : dishes.length === 0 ? (
-          <EmptyState
-            title="No dishes matched your filters"
-            description="Try adjusting your search keywords, category filters, or dietary toggles."
-            actionLabel="Reset all filters"
-            onActionClick={clearAllFilters}
-          />
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        ) : dishes.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {dishes.map((dish) => (
               <FoodCard
                 key={dish._id || dish.id}
@@ -277,6 +289,13 @@ export default function MenuPage() {
               />
             ))}
           </div>
+        ) : (
+          <EmptyState
+            title="No dishes found"
+            message="No culinary creations match your current filters. Try selecting a different category or clearing your search."
+            actionLabel="View All Dishes"
+            onAction={clearAllFilters}
+          />
         )}
       </div>
     </div>

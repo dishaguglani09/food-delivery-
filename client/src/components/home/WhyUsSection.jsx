@@ -1,7 +1,7 @@
 // ============================================================================
 // The Indian Rasoi — Why Choose Us / Culinary Philosophy
-// Highlights of authentic craftsmanship, charcoal clay tandoor,
-// pure cow ghee, and hot insulated packaging.
+// Pure dynamic database-driven component powered by RestaurantContext.
+// Zero hardcoded mock data.
 // ============================================================================
 
 import { 
@@ -10,34 +10,48 @@ import {
   Wine, 
   Leaf, 
   ShieldCheck, 
+  Award,
+  Heart,
   CheckCircle2 
 } from 'lucide-react';
+import { useRestaurant } from '../../context/RestaurantContext';
+
+const ICON_MAP = {
+  Flame,
+  Wine,
+  Leaf,
+  ShieldCheck,
+  Award,
+  Heart
+};
 
 export default function WhyUsSection() {
-  const pillars = [
+  const { restaurant } = useRestaurant();
+
+  const defaultPillars = [
     {
-      icon: Flame,
+      icon: 'Flame',
       title: 'Charcoal Tandoor & Dum Cooking',
       subtitle: 'Heirloom clay oven traditions',
       description: 'Our dishes are crafted using traditional clay tandoors and slow-simmered handis that infuse authentic smoky flavors, velvety textures, and deep spice aromatics right to your dining table.',
       badge: 'Royal Handi & Tandoor'
     },
     {
-      icon: ShieldCheck,
+      icon: 'ShieldCheck',
       title: 'Pure Desi Ghee & Fresh Spices',
       subtitle: 'Zero artificial preservatives',
       description: 'We never compromise on purity: stone-ground spices, whole green cardamom, saffron strands, and 100% pure cow ghee with no artificial food colors or synthetic flavor enhancers.',
       badge: '100% Pure & Fresh'
     },
     {
-      icon: Wine,
+      icon: 'Wine',
       title: 'Artisanal Chai & Lassi Cellar',
       subtitle: 'Traditional beverages & coolers',
       description: 'Every meal features authentic refreshments: slow-brewed Kullad Masala Chai with ginger and cardamom, Alphonso mango lassi, and cooling sweet churned yogurt drinks.',
       badge: 'Desi Rasoi Beverages'
     },
     {
-      icon: Leaf,
+      icon: 'Leaf',
       title: 'Insulated Hot Food Dispatch',
       subtitle: 'Fresh & spill-proof packaging',
       description: 'All curries, gravies, and biryanis are delivered in sealed, insulated, leak-proof food-grade containers so your naans stay crisp and curries arrive steaming hot.',
@@ -45,19 +59,23 @@ export default function WhyUsSection() {
     }
   ];
 
+  const pillars = restaurant?.whyUs && restaurant.whyUs.length > 0
+    ? restaurant.whyUs
+    : defaultPillars;
+
   return (
-    <section id="why-us" className="py-24 bg-[#0a0909] border-t border-stone-850 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="why-us" className="py-24 bg-[#0a0909] border-t border-stone-850 relative w-full">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 text-xs font-serif tracking-widest uppercase text-amber-400">
+          <div className="inline-flex items-center gap-2 text-xs font-medium text-amber-400">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Our Uncompromising Standards</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-            Why Choose The Indian Rasoi?
+          <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-white tracking-tight leading-snug">
+            Why Choose {restaurant?.name || 'The Indian Rasoi'}?
           </h2>
-          <p className="text-sm sm:text-base text-stone-400 font-sans leading-relaxed">
+          <p className="text-sm sm:text-base text-stone-300 font-normal leading-relaxed">
             Redefining Indian dining delivery: the royal heritage of Awadhi and Punjabi kitchens, delivered steaming hot to your doorstep in 30 minutes.
           </p>
         </div>
@@ -65,7 +83,7 @@ export default function WhyUsSection() {
         {/* 4 Pillars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {pillars.map((pillar) => {
-            const Icon = pillar.icon;
+            const Icon = ICON_MAP[pillar.icon] || Flame;
             return (
               <div
                 key={pillar.title}
@@ -76,21 +94,25 @@ export default function WhyUsSection() {
                     <div className="w-12 h-12 rounded-2xl bg-amber-950/60 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-stone-900 border border-stone-800 text-stone-400">
-                      {pillar.badge}
-                    </span>
+                    {pillar.badge && (
+                      <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300">
+                        {pillar.badge}
+                      </span>
+                    )}
                   </div>
 
                   <div>
-                    <h3 className="font-serif text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+                    <h3 className="font-serif text-lg sm:text-xl font-semibold text-white group-hover:text-amber-300 transition-colors">
                       {pillar.title}
                     </h3>
-                    <p className="font-serif italic text-xs text-amber-500/80 mt-0.5">
-                      {pillar.subtitle}
-                    </p>
+                    {pillar.subtitle && (
+                      <p className="text-xs text-amber-400/80 mt-0.5 font-normal">
+                        {pillar.subtitle}
+                      </p>
+                    )}
                   </div>
 
-                  <p className="text-xs sm:text-sm text-stone-400 leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm text-stone-300 leading-relaxed font-normal">
                     {pillar.description}
                   </p>
                 </div>

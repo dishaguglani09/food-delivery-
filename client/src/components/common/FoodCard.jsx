@@ -95,19 +95,19 @@ export default function FoodCard({ food, onOpenDetails }) {
         </div>
 
         {/* Dish Title */}
-        <h3 className="font-serif text-lg font-semibold text-white group-hover:text-amber-300 transition-colors leading-snug">
+        <h3 className="font-serif text-base sm:text-lg font-semibold text-white group-hover:text-amber-300 transition-colors leading-snug">
           {food.name}
         </h3>
 
         {/* Authentic Indian/Hindi Subtitle */}
         {(food.hindiName || food.spanishName) && (
-          <p className="font-serif italic text-xs text-amber-500/90 mb-2">
+          <p className="text-xs text-amber-400/90 font-normal mb-2">
             {food.hindiName || food.spanishName}
           </p>
         )}
 
         {/* Description */}
-        <p className="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4 flex-1">
+        <p className="text-xs text-stone-300 line-clamp-2 leading-relaxed mb-4 flex-1 font-normal">
           {food.description}
         </p>
 
@@ -115,16 +115,16 @@ export default function FoodCard({ food, onOpenDetails }) {
         {(food.winePairing || food.beveragePairing) && (
           <div className="mb-4 pt-2 border-t border-stone-800/80 flex items-center gap-1.5 text-[11px] text-stone-400 truncate">
             <Wine className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span className="text-stone-500">Pairing:</span>
-            <span className="text-stone-300 truncate italic">{food.winePairing || food.beveragePairing}</span>
+            <span className="text-stone-400">Pairing:</span>
+            <span className="text-stone-200 truncate font-normal">{food.winePairing || food.beveragePairing}</span>
           </div>
         )}
 
         {/* Price & Add to Cart Action */}
         <div className="flex items-center justify-between pt-2">
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase tracking-wider text-stone-500">Price</span>
-            <span className="font-serif text-xl font-bold text-amber-300">
+            <span className="text-[10px] text-stone-400 font-normal">Price</span>
+            <span className="text-lg font-semibold text-amber-300 font-sans tracking-tight">
               ₹{food.price}
             </span>
           </div>

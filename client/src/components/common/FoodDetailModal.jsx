@@ -78,13 +78,13 @@ export default function FoodDetailModal({ food, onClose }) {
             <div className="space-y-4">
               {/* Category & Certifications */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 rounded-full text-xs font-serif tracking-wider bg-amber-500/10 border border-amber-500/30 text-amber-300">
+                <span className="px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 border border-amber-500/30 text-amber-300">
                   {food.category}
                 </span>
                 {food.dietary && food.dietary.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2.5 py-0.5 rounded-full text-[11px] bg-stone-900 border border-stone-800 text-stone-300"
+                    className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-stone-900 border border-stone-800 text-stone-300"
                   >
                     {tag}
                   </span>
@@ -93,11 +93,11 @@ export default function FoodDetailModal({ food, onClose }) {
 
               {/* Title & Authentic Hindi Subtitle */}
               <div>
-                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-tight">
+                <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-white leading-tight">
                   {food.name}
                 </h2>
                 {(food.hindiName || food.spanishName) && (
-                  <p className="font-serif italic text-amber-400/90 text-sm mt-1">
+                  <p className="text-amber-400/90 text-sm mt-1 font-normal">
                     « {food.hindiName || food.spanishName} »
                   </p>
                 )}
@@ -130,7 +130,7 @@ export default function FoodDetailModal({ food, onClose }) {
               </div>
 
               {/* Description */}
-              <p className="text-sm text-stone-300 leading-relaxed font-sans">
+              <p className="text-sm text-stone-300 leading-relaxed font-normal">
                 {food.description}
               </p>
 
@@ -187,8 +187,8 @@ export default function FoodDetailModal({ food, onClose }) {
             <div className="pt-6 mt-6 border-t border-stone-800 flex items-center justify-between gap-4">
               {/* Desktop Price */}
               <div className="hidden md:flex flex-col">
-                <span className="text-[10px] uppercase tracking-wider text-stone-500">Total</span>
-                <span className="font-serif text-2xl font-bold text-amber-300">
+                <span className="text-[10px] text-stone-400 font-normal">Total</span>
+                <span className="text-2xl font-semibold text-amber-300 font-sans tracking-tight">
                   ₹{food.price * quantity}
                 </span>
               </div>

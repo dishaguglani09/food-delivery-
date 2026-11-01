@@ -4,10 +4,12 @@ const {
   getFoods,
   getFeaturedFoods,
   getFoodById,
-  getCategories
+  getCategories,
+  validateCartItems
 } = require('../controllers/foodController');
 
 router.get('/', getFoods);
+router.post('/validate-cart', validateCartItems);
 router.get('/featured', getFeaturedFoods);
 router.get('/categories', getCategories);
 router.get('/:id', getFoodById);

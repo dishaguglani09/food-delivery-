@@ -12,12 +12,20 @@ export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
   const showToast = useCallback((message, type = 'success', duration = 3500) => {
-    const id = Date.now() + Math.random().toString(36).substring(2, 5);
-    setToasts((prev) => [...prev, { id, message, type }]);
+    if (!message) return;
 
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, duration);
+    setToasts((prev) => {
+      // Prevent duplicate notification if identical message is already active
+      const exists = prev.some((t) => t.message === message && t.type === type);
+      if (exists) return prev;
+
+      const id = Date.now() + Math.random().toString(36).substring(2, 5);
+      setTimeout(() => {
+        setToasts((curr) => curr.filter((t) => t.id !== id));
+      }, duration);
+
+      return [...prev, { id, message, type }];
+    });
   }, []);
 
   const removeToast = useCallback((id) => {

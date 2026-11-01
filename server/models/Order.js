@@ -91,6 +91,11 @@ const orderSchema = new mongoose.Schema({
     unique: true,
     index: true
   },
+  idempotencyKey: {
+    type: String,
+    sparse: true,
+    index: true
+  },
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

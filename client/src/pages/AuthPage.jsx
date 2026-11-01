@@ -40,31 +40,47 @@ export default function AuthPage() {
 
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
 
     if (isRegister) {
-      if (!formData.name || !formData.email || !formData.password) {
-        showToast('Please fill in all required fields', 'error');
+      const trimmedName = formData.name.trim();
+      const trimmedEmail = formData.email.trim();
+
+      if (!trimmedName || !trimmedEmail || !formData.password || !formData.confirmPassword) {
+        showToast('Please fill in all required fields.', 'error');
+        return;
+      }
+      const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
+      if (!emailRegex.test(trimmedEmail)) {
+        showToast('Please provide a valid email address.', 'error');
+        return;
+      }
+      if (formData.password.length < 6) {
+        showToast('Password must be at least 6 characters long.', 'error');
         return;
       }
       if (formData.password !== formData.confirmPassword) {
-        showToast('Passwords do not match', 'error');
+        showToast('Passwords do not match. Please verify your password confirmation.', 'error');
         return;
       }
+
       const success = await register({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password
+        name: trimmedName,
+        email: trimmedEmail,
+        phone: formData.phone.trim() || undefined,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword
       });
       if (success) {
         navigate('/menu');
       }
     } else {
-      if (!formData.email || !formData.password) {
-        showToast('Please enter your email and password', 'error');
+      const trimmedEmail = formData.email.trim();
+      if (!trimmedEmail || !formData.password) {
+        showToast('Please enter your email and password.', 'error');
         return;
       }
-      const success = await login(formData.email, formData.password);
+      const success = await login(trimmedEmail, formData.password);
       if (success) {
         navigate('/menu');
       }
@@ -267,10 +283,19 @@ export default function AuthPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-white font-medium text-sm transition-all shadow-xl shadow-amber-950/50 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-6"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-white font-medium text-sm transition-all shadow-xl shadow-amber-950/50 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed mt-6"
             >
-              <span>{isRegister ? 'Join Rasoi Club' : 'Sign In to My Account'}</span>
-              <ArrowRight className="w-4 h-4" />
+              {isLoading ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>{isRegister ? 'Joining Rasoi Club...' : 'Signing In...'}</span>
+                </>
+              ) : (
+                <>
+                  <span>{isRegister ? 'Join Rasoi Club' : 'Sign In to My Account'}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </form>
 

@@ -25,6 +25,7 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 // Contexts
 import { ToastProvider } from './context/ToastContext';
+import { RestaurantProvider } from './context/RestaurantContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider, useCart } from './context/CartContext';
 import { OrderProvider } from './context/OrderContext';
@@ -70,14 +71,14 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0d0c0c] text-stone-200">
+    <div className="flex flex-col min-h-screen w-full bg-[#0d0c0c] text-stone-200 overflow-x-hidden">
       <ScrollToTop />
 
       {/* Global Navigation */}
       <Navbar onOpenSearch={() => setIsSearchOpen(true)} />
 
       {/* Main Routed Page Content */}
-      <main className="flex-1">
+      <main className="flex-1 w-full">
         <Suspense fallback={<PageLoading />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -117,13 +118,15 @@ export default function App() {
   return (
     <BrowserRouter>
       <ToastProvider>
-        <AuthProvider>
-          <CartProvider>
-            <OrderProvider>
-              <AppContent />
-            </OrderProvider>
-          </CartProvider>
-        </AuthProvider>
+        <RestaurantProvider>
+          <AuthProvider>
+            <CartProvider>
+              <OrderProvider>
+                <AppContent />
+              </OrderProvider>
+            </CartProvider>
+          </AuthProvider>
+        </RestaurantProvider>
       </ToastProvider>
     </BrowserRouter>
   );

@@ -1,7 +1,8 @@
 // ============================================================================
 // THE INDIAN RASOI — Authentication Context
-// Integrates with Express /api/auth endpoints for login and registration.
-// Stores JWT in localStorage and handles session persistence.
+// Pure database-driven JWT authentication integrating with Express /api/auth.
+// Stores JWT in localStorage and validates session against MongoDB on mount.
+// Zero hardcoded demo users or mock tokens.
 // ============================================================================
 
 import { createContext, useContext, useState, useEffect } from 'react';
@@ -10,42 +11,22 @@ import { useToast } from './ToastContext';
 
 const AuthContext = createContext(null);
 
-const DEFAULT_DEMO_USER = {
-  _id: 'usr_rasoi_priya',
-  name: 'Priya Sharma',
-  email: 'priya.sharma@indianrasoi.com',
-  phone: '+91 98765 43210',
-  role: 'customer',
-  memberTier: 'The Indian Rasoi Shahi Club',
-  addresses: [
-    {
-      _id: 'addr-1',
-      label: 'Home Residency',
-      street: 'Flat 402, Royal Palms Apartments',
-      building: 'Tower B, Connaught Place',
-      city: 'New Delhi',
-      postalCode: '110001',
-      country: 'India',
-      isDefault: true,
-      deliveryNotes: 'Ring bell 402 or leave with security at main gate.'
-    }
-  ]
-};
-
 export const AuthProvider = ({ children }) => {
   const { showToast } = useToast();
+
   const [user, setUser] = useState(() => {
     try {
       const stored = localStorage.getItem('indian_rasoi_user');
-      return stored ? JSON.parse(stored) : DEFAULT_DEMO_USER;
+      return stored ? JSON.parse(stored) : null;
     } catch {
-      return DEFAULT_DEMO_USER;
+      return null;
     }
   });
 
-  const [token, setToken] = useState(() => localStorage.getItem('indian_rasoi_token') || 'demo_jwt_token_aura');
+  const [token, setToken] = useState(() => localStorage.getItem('indian_rasoi_token') || null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Sync user state with localStorage
   useEffect(() => {
     if (user) {
       localStorage.setItem('indian_rasoi_user', JSON.stringify(user));
@@ -54,12 +35,48 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
+  // Sync token with localStorage
   useEffect(() => {
     if (token) {
       localStorage.setItem('indian_rasoi_token', token);
     } else {
       localStorage.removeItem('indian_rasoi_token');
     }
+  }, [token]);
+
+  // Verify and fetch fresh user profile directly from MongoDB Atlas when authenticated
+  useEffect(() => {
+    let active = true;
+    if (!token) {
+      return () => {
+        active = false;
+      };
+    }
+
+    authService
+      .getProfile()
+      .then((data) => {
+        if (active && data) {
+          const profile = data.data || data.user || data;
+          setUser(profile);
+        }
+      })
+      .catch((err) => {
+        console.warn('Profile synchronization notice:', err.message);
+        const errMsg = err.message ? err.message.toLowerCase() : '';
+        if (errMsg.includes('authorized') || errMsg.includes('token') || errMsg.includes('jwt')) {
+          if (active) {
+            setUser(null);
+            setToken(null);
+            localStorage.removeItem('indian_rasoi_user');
+            localStorage.removeItem('indian_rasoi_token');
+          }
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, [token]);
 
   const login = async (email, password) => {
@@ -73,7 +90,7 @@ export const AuthProvider = ({ children }) => {
       if (authToken) {
         setToken(authToken);
       }
-      showToast(`Welcome to The Indian Rasoi, ${authenticatedUser.name}!`, 'success');
+      showToast(`Welcome back, ${authenticatedUser.email}!`, 'success');
       return true;
     } catch (err) {
       showToast(err.message || 'Sign in failed. Please verify your credentials.', 'error');
@@ -86,41 +103,56 @@ export const AuthProvider = ({ children }) => {
   const loginDemo = async () => {
     setIsLoading(true);
     try {
-      // Try backend authentication with demo account
-      const data = await authService.login('priya.sharma@indianrasoi.com', 'Priya2026!').catch(() =>
-        authService.login('priya.sharma@indianrasoi.com', 'Customer2026!')
-      );
+      // Connects to real seeded account in MongoDB Atlas
+      const data = await authService.login('priya.sharma@indianrasoi.com', 'Priya2026!');
       const authenticatedUser = data.user || data.data;
+      const authToken = data.token || data.data?.token;
+
       setUser(authenticatedUser);
-      setToken(data.token || data.data?.token);
-      showToast(`Signed in as member ${authenticatedUser.name} (Shahi Club)`, 'success');
+      if (authToken) {
+        setToken(authToken);
+      }
+      showToast(`Signed in as ${authenticatedUser.email}`, 'success');
       return true;
-    } catch {
-      // Fallback demo session
-      setUser(DEFAULT_DEMO_USER);
-      setToken('demo_jwt_token_aura');
-      showToast('Signed in as privilege guest (Priya Sharma)', 'success');
-      return true;
+    } catch (err) {
+      showToast(err.message || 'Unable to connect to demo account.', 'error');
+      return false;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const register = async (userData) => {
+  const register = async (userDataOrName, email, password, phone) => {
     setIsLoading(true);
     try {
-      const data = await authService.register(userData);
-      const registeredUser = data.user || data.data;
+      const payload =
+        typeof userDataOrName === 'object' && userDataOrName !== null
+          ? userDataOrName
+          : { name: userDataOrName, email, password, phone };
+
+      const data = await authService.register(payload);
+      const newUser = data.user || data.data;
       const authToken = data.token || data.data?.token;
 
-      setUser(registeredUser);
+      setUser(newUser);
       if (authToken) {
         setToken(authToken);
       }
-      showToast(`Account created successfully! Welcome to The Indian Rasoi, ${registeredUser.name}.`, 'success');
+      showToast(`Welcome to Rasoi Club, ${newUser.email}!`, 'success');
       return true;
     } catch (err) {
-      showToast(err.message || 'Failed to create account.', 'error');
+      const rawMsg = err.message || '';
+      let displayMsg = rawMsg;
+      if (
+        rawMsg.includes('buffering timed out') ||
+        rawMsg.includes('timed out after') ||
+        rawMsg.includes('ECONNREFUSED') ||
+        rawMsg.includes('failed to fetch') ||
+        rawMsg.includes('DATABASE_UNAVAILABLE')
+      ) {
+        displayMsg = 'Unable to connect to the server. Please try again later.';
+      }
+      showToast(displayMsg || 'Registration failed. Please check your information.', 'error');
       return false;
     } finally {
       setIsLoading(false);
@@ -129,10 +161,34 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
-    setToken('');
+    setToken(null);
     localStorage.removeItem('indian_rasoi_user');
     localStorage.removeItem('indian_rasoi_token');
     showToast('You have been signed out successfully.', 'info');
+  };
+
+  const addAddress = async (newAddress) => {
+    try {
+      const updatedAddresses = await authService.addAddress(newAddress);
+      setUser((prev) => (prev ? { ...prev, addresses: updatedAddresses } : null));
+      showToast('Delivery address saved successfully.', 'success');
+      return true;
+    } catch (err) {
+      showToast(err.message || 'Failed to save address.', 'error');
+      return false;
+    }
+  };
+
+  const deleteAddress = async (addressId) => {
+    try {
+      const updatedAddresses = await authService.deleteAddress(addressId);
+      setUser((prev) => (prev ? { ...prev, addresses: updatedAddresses } : null));
+      showToast('Delivery address removed.', 'info');
+      return true;
+    } catch (err) {
+      showToast(err.message || 'Failed to remove address.', 'error');
+      return false;
+    }
   };
 
   return (
@@ -140,12 +196,15 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         token,
-        isAuthenticated: !!user,
+        isAuthenticated: !!user && !!token,
+        isAdmin: user?.role === 'admin',
         isLoading,
         login,
         loginDemo,
         register,
-        logout
+        logout,
+        addAddress,
+        deleteAddress
       }}
     >
       {children}
@@ -160,3 +219,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export default AuthContext;

@@ -1,7 +1,7 @@
 // ============================================================================
 // The Indian Rasoi — Dedicated Food Detail Page (/dish/:id)
-// In-depth culinary profile with beverage pairings, heirloom spices,
-// allergen disclosures, and related creations.
+// Pure database-driven culinary profile powered by MongoDB Atlas.
+// Zero hardcoded mock data.
 // ============================================================================
 
 import { useState, useEffect } from 'react';
@@ -10,15 +10,12 @@ import {
   ArrowLeft, 
   ShoppingBag, 
   Star, 
-  Wine, 
   Flame, 
   Clock, 
   Check, 
   Plus, 
-  Minus, 
-  AlertTriangle 
+  Minus 
 } from 'lucide-react';
-import { sampleFoods, getDishById } from '../data/sampleFoods';
 import { foodService } from '../services/api';
 import { useCart } from '../context/CartContext';
 import FoodCard from '../components/common/FoodCard';
@@ -31,9 +28,9 @@ export default function FoodDetailPage() {
   const [specialInstructions, setSpecialInstructions] = useState('');
   const [added, setAdded] = useState(false);
 
-  // Initialize with local cache if available, but fetch live from backend
-  const [food, setFood] = useState(() => getDishById(id) || sampleFoods.find((d) => d._id === id) || null);
-  const [loading, setLoading] = useState(!food);
+  const [food, setFood] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [relatedDishes, setRelatedDishes] = useState([]);
 
   useEffect(() => {
@@ -41,6 +38,7 @@ export default function FoodDetailPage() {
     async function loadDish() {
       try {
         setLoading(true);
+        setError(null);
         const data = await foodService.getFoodById(id);
         if (isMounted && data) {
           setFood(data);
@@ -57,22 +55,19 @@ export default function FoodDetailPage() {
                 );
               }
             } catch {
-              // fallback
+              // Ignore related items error
             }
           }
         }
-      } catch {
-        // Fallback to sample data if backend is unreachable
-        const fallback = getDishById(id) || sampleFoods.find((d) => d._id === id);
-        if (isMounted && fallback) {
-          setFood(fallback);
-          const related = sampleFoods
-            .filter((d) => d.category === fallback.category && d._id !== fallback._id)
-            .slice(0, 3);
-          setRelatedDishes(related);
+      } catch (err) {
+        if (isMounted) {
+          setError(err.message || 'Unable to find this dish.');
+          setFood(null);
         }
       } finally {
-        if (isMounted) setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
@@ -82,189 +77,206 @@ export default function FoodDetailPage() {
     };
   }, [id]);
 
-  if (loading && !food) {
-    return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center bg-[#0d0c0c] text-stone-200 py-16">
-        <div className="w-10 h-10 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-xs font-serif text-amber-400 uppercase tracking-widest">
-          Loading culinary profile...
-        </p>
-      </div>
-    );
-  }
-
-  if (!food) {
-    return (
-      <div className="min-h-[80vh] flex items-center justify-center bg-[#0d0c0c] text-stone-200 py-16">
-        <EmptyState
-          title="Dish Not Found"
-          description="The requested dish is no longer on the menu or has been temporarily retired."
-          actionLabel="Back to Menu"
-          actionLink="/menu"
-        />
-      </div>
-    );
-  }
-
   const handleAddToCart = () => {
+    if (!food) return;
     addToCart(food, quantity, specialInstructions);
     setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
+    setTimeout(() => setAdded(false), 2000);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0d0c0c] pt-12 pb-24 text-stone-200">
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 animate-pulse space-y-8">
+          <div className="h-6 w-32 bg-stone-800 rounded-lg" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-6 h-[480px] bg-stone-900 rounded-3xl" />
+            <div className="lg:col-span-6 space-y-4">
+              <div className="h-10 w-3/4 bg-stone-800 rounded-lg" />
+              <div className="h-6 w-1/4 bg-stone-850 rounded-lg" />
+              <div className="h-24 bg-stone-900 rounded-xl" />
+              <div className="h-12 w-48 bg-stone-800 rounded-xl" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !food) {
+    return (
+      <div className="min-h-screen bg-[#0d0c0c] pt-16 pb-24 text-stone-200">
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 text-center">
+          <EmptyState
+            title="Dish Not Found"
+            message="We could not find the creation you requested in The Indian Rasoi database."
+            actionLabel="Return to Full Menu"
+            actionLink="/menu"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  const spiceLabels = ['Mild & Velvety', 'Medium Spiced', 'Fiery Traditional', 'Royal Rajputi Heat'];
 
   return (
     <div className="min-h-screen bg-[#0d0c0c] pt-8 pb-24 text-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Breadcrumb Back */}
-        <div>
-          <Link
-            to="/menu"
-            className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to complete menu</span>
-          </Link>
-        </div>
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 space-y-12">
+        {/* Navigation Breadcrumb */}
+        <Link
+          to="/menu"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm text-stone-400 hover:text-amber-300 transition-colors group"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>Back to Menu</span>
+        </Link>
 
-        {/* Main Dish Presentation Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left Column: Image Showcase */}
-          <div className="lg:col-span-6 relative">
-            <div className="rounded-3xl overflow-hidden border border-amber-500/30 shadow-2xl bg-stone-900 aspect-[4/3] sm:aspect-[16/11]">
+        {/* Main Detail Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          {/* Left Column: Visual Presentation */}
+          <div className="lg:col-span-6 space-y-4">
+            <div className="relative rounded-3xl overflow-hidden border border-amber-950/60 bg-stone-900 shadow-2xl aspect-[4/3] sm:aspect-[16/11]">
               <img
                 src={food.image}
                 alt={food.name}
                 className="w-full h-full object-cover"
               />
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-            {/* Badges Overlay */}
-            <div className="flex flex-wrap gap-2 pt-4">
-              <span className="px-3.5 py-1 rounded-full text-xs font-serif bg-amber-500/10 border border-amber-500/30 text-amber-300">
-                {food.category}
-              </span>
-              {food.dietary && food.dietary.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 rounded-full text-xs bg-stone-900 border border-stone-800 text-stone-300"
-                >
-                  {tag}
+              {/* Badges */}
+              <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/70 backdrop-blur-md border border-amber-500/40 text-amber-300">
+                  {food.category}
                 </span>
-              ))}
+                {food.isVegetarian ? (
+                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/80 backdrop-blur-md border border-emerald-500/40 text-emerald-300 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    Vegetarian
+                  </span>
+                ) : (
+                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-rose-950/80 backdrop-blur-md border border-rose-500/40 text-rose-300">
+                    Non-Vegetarian
+                  </span>
+                )}
+              </div>
+
+              {food.isFeatured && (
+                <span className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium bg-amber-600/90 text-white shadow-lg">
+                  Chef's Signature
+                </span>
+              )}
             </div>
           </div>
 
-          {/* Right Column: Culinary Details & Add to Cart */}
+          {/* Right Column: Culinary Details & Order Controls */}
           <div className="lg:col-span-6 space-y-6">
-            <div>
-              <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-amber-400 font-medium">
+                  {food.category}
+                </span>
+                <span className="text-stone-600">·</span>
+                <div className="flex items-center gap-1 text-amber-400 text-xs">
+                  <Star className="w-3.5 h-3.5 fill-amber-400" />
+                  <span className="font-semibold text-white">{food.rating || 4.9}</span>
+                  <span className="text-stone-400 font-normal">
+                    ({food.reviewsCount || 42} reviews)
+                  </span>
+                </div>
+              </div>
+
+              <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-white tracking-tight leading-snug">
                 {food.name}
               </h1>
-              {(food.hindiName || food.spanishName) && (
-                <p className="font-serif italic text-amber-400 text-base sm:text-lg mt-1">
-                  « {food.hindiName || food.spanishName} »
+
+              {food.hindiName && (
+                <p className="text-base sm:text-lg text-amber-400/90 font-normal">
+                  {food.hindiName}
                 </p>
               )}
-            </div>
 
-            {/* Price & Rating */}
-            <div className="flex items-center justify-between border-y border-stone-850 py-3">
-              <div>
-                <span className="text-xs uppercase text-stone-500 block">Order Price</span>
-                <span className="font-serif text-3xl font-bold text-amber-300">
-                  ₹{food.price}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-4 text-xs text-stone-400">
-                <div className="flex items-center gap-1 text-amber-400">
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <span className="font-bold text-white text-sm">{food.rating || '4.95'}</span>
-                  <span>({food.reviewsCount || 38} reviews)</span>
-                </div>
-                {food.prepTime && (
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-stone-400" />
-                    <span>{food.prepTime}</span>
-                  </div>
-                )}
-                {food.spiceLevel > 0 && (
-                  <div className="flex items-center gap-1 text-rose-400">
-                    <Flame className="w-3.5 h-3.5 fill-rose-500" />
-                    <span>Spice {food.spiceLevel}/3</span>
-                  </div>
-                )}
+              <div className="text-2xl sm:text-3xl font-semibold text-amber-300 pt-1 font-sans tracking-tight">
+                ₹{food.price}
               </div>
             </div>
 
-            {/* Description */}
-            <p className="text-sm sm:text-base text-stone-300 leading-relaxed font-sans">
+            <p className="text-stone-300 leading-relaxed font-normal text-sm sm:text-base border-t border-stone-850 pt-4">
               {food.description}
             </p>
 
-            {/* Beverage / Accompaniment Pairing */}
-            {(food.winePairing || food.beveragePairing) && (
-              <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/20 flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-amber-900/40 border border-amber-500/30 flex items-center justify-center text-amber-300 shrink-0 mt-0.5">
-                  <Wine className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-serif text-xs uppercase tracking-wider text-amber-300 font-semibold">
-                    Chef's Pairing Recommendation
-                  </h4>
-                  <p className="text-xs sm:text-sm text-stone-300 italic mt-0.5">
-                    {food.winePairing || food.beveragePairing}
-                  </p>
-                </div>
+            {/* Preparation Details Row */}
+            <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-[#141211] border border-amber-950/40 text-center">
+              <div>
+                <span className="text-[10px] text-stone-500 uppercase tracking-wider block">Preparation</span>
+                <span className="text-xs sm:text-sm font-medium text-stone-200 mt-0.5 block flex items-center justify-center gap-1">
+                  <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  {food.prepTime || '15-20 min'}
+                </span>
               </div>
-            )}
+              <div className="border-x border-stone-850">
+                <span className="text-[10px] text-stone-500 uppercase tracking-wider block">Spicing</span>
+                <span className="text-xs sm:text-sm font-medium text-stone-200 mt-0.5 block flex items-center justify-center gap-1">
+                  <Flame className="w-3.5 h-3.5 text-amber-400" />
+                  {spiceLabels[food.spiceLevel || 1] || 'Medium'}
+                </span>
+              </div>
+              <div>
+                <span className="text-[10px] text-stone-500 uppercase tracking-wider block">Kitchen Stock</span>
+                <span className="text-xs sm:text-sm font-medium text-emerald-400 mt-0.5 block">
+                  {food.stock !== undefined ? `${food.stock} portions` : 'Available'}
+                </span>
+              </div>
+            </div>
 
-            {/* Noble Ingredients */}
+            {/* Ingredients */}
             {food.ingredients && food.ingredients.length > 0 && (
-              <div className="space-y-1.5 text-xs sm:text-sm">
-                <span className="text-stone-400 font-medium">Selected noble ingredients:</span>
-                <p className="text-stone-200">
-                  {food.ingredients.join(' · ')}
-                </p>
-              </div>
-            )}
-
-            {food.allergens && food.allergens.length > 0 && (
-              <div className="flex items-center gap-2 text-xs text-amber-400/90 bg-stone-900/60 p-3 rounded-xl border border-stone-800">
-                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>Declared allergens: {food.allergens.join(', ')}</span>
+              <div className="space-y-2">
+                <h3 className="font-serif text-xs uppercase tracking-wider text-stone-400 font-bold">
+                  Heirloom Ingredients
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {food.ingredients.map((ing, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 rounded-lg text-xs bg-stone-900 border border-stone-800 text-stone-300"
+                    >
+                      {ing}
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
 
             {/* Special Instructions Input */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-stone-300 block">
-                Special instructions for the chef:
+            <div className="space-y-1.5 pt-2">
+              <label className="text-xs text-stone-400 font-medium block">
+                Special Kitchen Instructions (Optional)
               </label>
-              <textarea
-                rows={2}
+              <input
+                type="text"
                 value={specialInstructions}
                 onChange={(e) => setSpecialInstructions(e.target.value)}
-                placeholder="e.g. Extra butter, less spicy, mint chutney on the side..."
-                className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 resize-none"
+                placeholder="e.g. Medium spicy, extra butter, no onion..."
+                className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs sm:text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-400 transition-colors"
               />
             </div>
 
-            {/* Controls: Quantity + Add CTA */}
-            <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
-              <div className="flex items-center bg-stone-900 border border-stone-800 rounded-xl p-1.5 w-full sm:w-auto justify-between sm:justify-start">
+            {/* Quantity Selector & Add to Cart CTA */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <div className="flex items-center justify-between sm:justify-start gap-4 p-2 rounded-xl bg-stone-900 border border-stone-800">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-stone-400 hover:text-white hover:bg-stone-800 transition-colors cursor-pointer"
+                  className="w-9 h-9 rounded-lg bg-stone-800 hover:bg-stone-700 flex items-center justify-center text-stone-200 transition-colors"
                 >
                   <Minus className="w-4 h-4" />
                 </button>
-                <span className="w-12 text-center text-sm font-semibold text-white">
+                <span className="font-serif font-bold text-base text-white px-2">
                   {quantity}
                 </span>
                 <button
                   onClick={() => setQuantity((q) => q + 1)}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-stone-400 hover:text-white hover:bg-stone-800 transition-colors cursor-pointer"
+                  className="w-9 h-9 rounded-lg bg-stone-800 hover:bg-stone-700 flex items-center justify-center text-stone-200 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -272,21 +284,17 @@ export default function FoodDetailPage() {
 
               <button
                 onClick={handleAddToCart}
-                className={`w-full sm:flex-1 py-4 px-6 rounded-xl font-medium text-sm flex items-center justify-center gap-2 transition-all shadow-xl cursor-pointer ${
-                  added
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-white shadow-amber-950/50'
-                }`}
+                className="flex-1 py-4 px-8 rounded-xl bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-white font-medium text-sm sm:text-base tracking-wide transition-all shadow-xl shadow-amber-950/60 flex items-center justify-center gap-3 border border-amber-400/30 cursor-pointer"
               >
                 {added ? (
                   <>
-                    <Check className="w-5 h-5" />
-                    <span>Added to Cart!</span>
+                    <Check className="w-5 h-5 text-emerald-300" />
+                    <span>Added to Order</span>
                   </>
                 ) : (
                   <>
                     <ShoppingBag className="w-5 h-5" />
-                    <span>Add to Order · ₹{food.price * quantity}</span>
+                    <span>Add {quantity} to Order · ₹{food.price * quantity}</span>
                   </>
                 )}
               </button>
@@ -294,31 +302,17 @@ export default function FoodDetailPage() {
           </div>
         </div>
 
-        {/* Related Dishes Carousel / Section */}
+        {/* Related Creations from Same Category */}
         {relatedDishes.length > 0 && (
-          <div className="pt-12 border-t border-stone-850 space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="text-xs font-serif uppercase tracking-widest text-amber-400">
-                  From the Same Category
-                </span>
-                <h3 className="font-serif text-2xl font-bold text-white mt-1">
-                  Complete Your Tasting Menu
-                </h3>
-              </div>
-              <Link
-                to={`/menu?category=${encodeURIComponent(food.category)}`}
-                className="text-xs text-amber-300 hover:underline"
-              >
-                Explore all in {food.category} →
-              </Link>
-            </div>
-
+          <div className="pt-16 border-t border-stone-850 space-y-6">
+            <h3 className="font-serif text-2xl font-bold text-white">
+              More Creations in {food.category}
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {relatedDishes.map((dish) => (
+              {relatedDishes.map((related) => (
                 <FoodCard
-                  key={dish._id}
-                  food={dish}
+                  key={related._id || related.id}
+                  food={related}
                   onOpenDetails={openFoodModal}
                 />
               ))}

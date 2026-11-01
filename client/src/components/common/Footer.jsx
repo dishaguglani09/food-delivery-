@@ -16,11 +16,24 @@ import {
   Check
 } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
+import { useRestaurant } from '../../context/RestaurantContext';
 
 export default function Footer() {
   const { showToast } = useToast();
+  const { restaurant } = useRestaurant();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+
+  const contact = restaurant?.contact || {
+    address: 'Block B, Connaught Place, New Delhi, Delhi 110001, India',
+    phone: '+91 98765 43210',
+    email: 'contact@theindianrasoi.com',
+    hours: {
+      delivery: '12:00 PM – 11:30 PM (Daily)',
+      lunch: '12:00 PM – 3:30 PM',
+      dinner: '7:00 PM – 11:30 PM'
+    }
+  };
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -34,11 +47,11 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0a0909] text-stone-300 border-t border-amber-900/30 pt-16 pb-12 relative overflow-hidden">
+    <footer className="bg-[#0a0909] text-stone-300 border-t border-amber-900/30 pt-16 pb-12 relative overflow-hidden w-full">
       {/* Decorative ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-amber-600/5 blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 relative z-10">
         {/* Top Newsletter & Club Privilège Banner */}
         <div className="rounded-3xl bg-gradient-to-r from-[#171513] via-[#211a18] to-[#171513] border border-amber-500/20 p-8 sm:p-10 mb-16 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -91,14 +104,14 @@ export default function Footer() {
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-amber-950/60 border border-amber-500/40 flex items-center justify-center text-amber-300 font-serif font-bold text-xl">
-                IR
+                {restaurant?.monogram || 'IR'}
               </div>
               <div>
                 <span className="font-serif text-2xl font-bold tracking-widest text-[#fbf9f5] uppercase">
-                  The Indian Rasoi
+                  {restaurant?.name || 'The Indian Rasoi'}
                 </span>
                 <span className="block text-[9px] uppercase tracking-[0.25em] text-amber-500/90 font-medium">
-                  Authentic Indian Flavors & Royal Biryanis
+                  {restaurant?.tagline || 'Authentic Indian Flavors & Royal Biryanis'}
                 </span>
               </div>
             </Link>
@@ -208,24 +221,24 @@ export default function Footer() {
             <div className="space-y-2.5 text-xs sm:text-sm text-stone-400">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                <span>Block B, Connaught Place, New Delhi, Delhi 110001, India</span>
+                <span>{contact.address}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>+91 98765 43210</span>
+                <span>{contact.phone}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>contact@theindianrasoi.com</span>
+                <span>{contact.email}</span>
               </div>
               <div className="pt-2 border-t border-stone-800/60 text-stone-400 text-xs space-y-1">
                 <div className="flex justify-between">
-                  <span className="text-stone-300 font-medium">Monday — Friday:</span>
-                  <span>11:30 - 23:00</span>
+                  <span className="text-stone-300 font-medium">Delivery Hours:</span>
+                  <span>{contact.hours?.delivery || '12:00 PM – 11:30 PM'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-stone-300 font-medium">Saturday — Sunday:</span>
-                  <span>11:30 - 23:30</span>
+                  <span className="text-stone-300 font-medium">Lunch Service:</span>
+                  <span>{contact.hours?.lunch || '12:00 PM – 3:30 PM'}</span>
                 </div>
               </div>
             </div>

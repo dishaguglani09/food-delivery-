@@ -69,7 +69,25 @@ const api = {
   delete: (endpoint, options = {}) => request(endpoint, { ...options, method: 'DELETE' })
 };
 
-// Foods Service
+// Restaurant Profile & Story Service
+export const restaurantService = {
+  async getRestaurantInfo() {
+    const response = await api.get('/restaurant');
+    return response.data.data || response.data;
+  },
+
+  async getTestimonials() {
+    const response = await api.get('/restaurant/testimonials');
+    return response.data.data || response.data;
+  },
+
+  async updateRestaurantInfo(updateData) {
+    const response = await api.put('/restaurant', updateData);
+    return response.data.data || response.data;
+  }
+};
+
+// Foods Catalog Service
 export const foodService = {
   async getAllFoods(params = {}) {
     const queryParams = {};
@@ -98,10 +116,15 @@ export const foodService = {
   async getCategories() {
     const response = await api.get('/foods/categories');
     return response.data.data || response.data;
+  },
+
+  async validateCart(items) {
+    const response = await api.post('/foods/validate-cart', { items });
+    return response.data;
   }
 };
 
-// Auth Service
+// Authentication & Profile Service
 export const authService = {
   async login(email, password) {
     const response = await api.post('/auth/login', { email, password });
@@ -116,12 +139,26 @@ export const authService = {
   async getProfile() {
     const response = await api.get('/auth/profile');
     return response.data.data || response.data;
+  },
+
+  async updateProfile(userData) {
+    const response = await api.put('/auth/profile', userData);
+    return response.data.data || response.data;
+  },
+
+  async addAddress(addressData) {
+    const response = await api.post('/auth/addresses', addressData);
+    return response.data.data || response.data;
+  },
+
+  async deleteAddress(addressId) {
+    const response = await api.delete(`/auth/addresses/${addressId}`);
+    return response.data.data || response.data;
   }
 };
 
 // Orders Service
 export const orderService = {
-  // Payload sends product IDs and quantities, deliveryAddress, contact, paymentMethod
   async createOrder(orderPayload) {
     const response = await api.post('/orders', orderPayload);
     return response.data;
@@ -139,6 +176,39 @@ export const orderService = {
 
   async cancelOrder(id) {
     const response = await api.put(`/orders/${id}/cancel`);
+    return response.data;
+  }
+};
+
+// Admin Service
+export const adminService = {
+  async getStats() {
+    const response = await api.get('/admin/stats');
+    return response.data.data || response.data;
+  },
+
+  async getOrders(params = {}) {
+    const response = await api.get('/admin/orders', { params });
+    return response.data;
+  },
+
+  async updateOrderStatus(id, status) {
+    const response = await api.put(`/admin/orders/${id}/status`, { status });
+    return response.data;
+  },
+
+  async createFood(foodData) {
+    const response = await api.post('/admin/foods', foodData);
+    return response.data;
+  },
+
+  async updateFood(id, foodData) {
+    const response = await api.put(`/admin/foods/${id}`, foodData);
+    return response.data;
+  },
+
+  async deleteFood(id) {
+    const response = await api.delete(`/admin/foods/${id}`);
     return response.data;
   }
 };

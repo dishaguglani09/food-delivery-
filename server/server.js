@@ -1,7 +1,7 @@
 // ============================================================================
 // The Indian Rasoi — Main Express Server
-// JSON parsing, CORS configuration, MongoDB Atlas connection,
-// centralized error handling, and health monitoring.
+// JSON parsing, CORS configuration, MongoDB Atlas connection architecture,
+// resilient controllers, and centralized error handling.
 // ============================================================================
 
 const express = require('express');
@@ -18,13 +18,11 @@ const authRoutes = require('./routes/authRoutes');
 const foodRoutes = require('./routes/foodRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const restaurantRoutes = require('./routes/restaurantRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-// Connect to MongoDB Atlas via Mongoose
-connectDB();
 
 // CORS configuration (supporting Vite customer frontend and local development)
 const allowedOrigins = [
@@ -43,7 +41,7 @@ app.use(cors({
     if (process.env.NODE_ENV === 'production') {
       return callback(new Error('Blocked by CORS policy: Origin not allowed.'));
     }
-    return callback(null, true); // Permissive for pairing during development
+    return callback(null, true); // Permissive for development
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -54,7 +52,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Root Documentation Endpoint
+// Root Documentation Endpoint (Accessible regardless of DB status)
 app.get('/api', (req, res) => {
   const db = getDbStatus();
   res.json({
@@ -67,6 +65,11 @@ app.get('/api', (req, res) => {
     },
     documentation: {
       health: 'GET /api/health',
+      restaurant: {
+        profile: 'GET /api/restaurant',
+        testimonials: 'GET /api/restaurant/testimonials',
+        update: 'PUT /api/restaurant (Admin)'
+      },
       auth: {
         register: 'POST /api/auth/register',
         login: 'POST /api/auth/login',
@@ -97,7 +100,7 @@ app.get('/api', (req, res) => {
 app.get('/api/health', (req, res) => {
   const db = getDbStatus();
   res.json({
-    status: 'ok',
+    status: db.isConnected ? 'ok' : 'degraded',
     timestamp: new Date().toISOString(),
     uptime: Math.floor(process.uptime()),
     server: 'The Indian Rasoi Gourmet API',
@@ -108,13 +111,15 @@ app.get('/api/health', (req, res) => {
       name: db.name || 'the_indian_rasoi',
       instructions: db.isConnected
         ? 'MongoDB Atlas is active and operational.'
-        : 'MongoDB is not connected. Configure MONGODB_URI in server/.env with your MongoDB Atlas connection string.'
+        : 'MongoDB is not connected. Configure MONGO_URI in server/.env with your MongoDB Atlas connection string.'
     }
   });
 });
 
 // Mount Resource Routes
+app.use('/api/restaurant', restaurantRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/users', authRoutes);
 app.use('/api/foods', foodRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
@@ -123,9 +128,23 @@ app.use('/api/admin', adminRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const server = app.listen(PORT, () => {
-  console.log(`[The Indian Rasoi Server] Running on http://localhost:${PORT}`);
-  console.log(`[The Indian Rasoi Server] Healthcheck available at http://localhost:${PORT}/api/health`);
-});
+// Await database connection before opening HTTP server port
+const startServer = async () => {
+  try {
+    await connectDB();
+  } catch (error) {
+    console.error(`[Startup Error] Database connection error: ${error.message}`);
+  }
+
+  const server = app.listen(PORT, () => {
+    console.log(`[The Indian Rasoi Server] Running on http://localhost:${PORT}`);
+    console.log(`[The Indian Rasoi Server] Healthcheck available at http://localhost:${PORT}/api/health`);
+  });
+
+  return server;
+};
+
+// Auto-start when executed directly
+startServer();
 
 module.exports = app;
