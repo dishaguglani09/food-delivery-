@@ -2,6 +2,8 @@
 
 A full-stack **MERN** (MongoDB, Express, React, Node.js) authentic Indian culinary food delivery platform celebrating royal Awadhi, Punjabi, and South Indian culinary traditions.
 
+> 🎓 **Viva Examination & Architecture Guide:** For a detailed breakdown of the system architecture, component data flows, database entity relationships, and 15 model viva interview questions with answers, refer to [VIVA_GUIDE.md](./VIVA_GUIDE.md).
+
 ### 🛠️ Approved Technology Stack (Strictly Followed)
 - **Frontend**: React.js (React 19 + Vite)
 - **Backend**: Node.js and Express.js (Express 5)
@@ -16,7 +18,7 @@ The Indian Rasoi features a customer-facing frontend built with React, Vite, and
 
 ## 🌟 Highlights & Key Features
 
-- **Royal Indian Restaurant Branding**: Authentic Indian culinary experience, warm gold & rich crimson aesthetics, elegant serif typography (Cormorant Garamond & Plus Jakarta Sans), and responsive layout.
+- **Royal Indian Restaurant Branding**: Authentic Indian culinary experience, warm gold & rich crimson aesthetics, bespoke typography pairing (**Playfair Display** for royal editorial titles and **Inter** for UI clarity), and responsive layout.
 - **Authentic 7-Category Indian Menu**:
   1. **North Indian**: Butter Chicken, Shahi Paneer, Dal Makhani, Chole Bhature, Rajma Chawal, Rogan Josh, Malai Kofta, Palak Paneer.
   2. **South Indian**: Masala Dosa, Idli Sambhar, Uttapam, Medu Vada.
